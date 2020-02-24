@@ -37,24 +37,34 @@ class _MainScreenState extends State<MainScreen> {
         onWillPop: () => Future.sync(() {
           // When back button is pressed return to initial page or close the app
           if (_isCurrentPageInitial()) return true;
-          _pageController.jumpToPage(_pageController.initialPage);
+          _pageController.animateToPage(
+            _pageController.initialPage,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeInOut
+          );
           setState(() => _currentIndex = 0);
           return false;
         }),
         child: PageView(
           physics: NeverScrollableScrollPhysics(),
           controller: _pageController,
-          children: _pages)),
+          children: _pages
+        )
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         selectedItemColor: BColors.colorPrimary,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        onTap: (newIdx) {
+        onTap: (newIdx) => setState(() {
           // Set the current page to the selected and update the current index
-          _pageController.jumpToPage(newIdx);
-          setState(() => _currentIndex = newIdx);
-        },
+          _pageController.animateToPage(
+            newIdx,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeInOut
+          );
+          _currentIndex = newIdx;
+        }),
         items: [
           BottomNavigationBarItem(title: Text("Home"), icon: Icon(Icons.home)),
           BottomNavigationBarItem(title: Text("Measurements"), icon: Icon(Icons.near_me)),

@@ -1,7 +1,10 @@
+import 'dart:async';
+import 'package:balance_app/sensors/sensors.dart';
 import 'package:balance_app/string.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:quiver/async.dart';
 
 class CalibrateDeviceScreen extends StatelessWidget {
   @override
@@ -24,6 +27,19 @@ class CalibrationWidget extends StatefulWidget {
 
 class _CalibrationWidgetState extends State<CalibrationWidget> {
   CalibrationState _state;
+  CountdownTimer _timer;
+  Sensors _sensors;
+  bool _isTimerCancelled;
+
+  StreamSubscription _accStream;
+
+  @override
+  void initState() {
+    _isTimerCancelled = false;
+    _state = CalibrationState.IDLE;
+    _sensors = Sensors();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,28 +52,39 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
             flex: 4,
             child: Align(
               alignment: Alignment.bottomCenter,
+              // TODO: 24/02/20 Animate the Picture douring the calibration
               child: SvgPicture.asset("assets/icons/calibration_phone.svg", height: 200)
             )
           ),
           Expanded(child: SizedBox(height: 24)),
           Expanded(
             flex: 2,
-            child: _getTextElements()
+            child: textElements
           ),
           Flexible(
             flex: 1,
             child: Align(
               alignment: Alignment.bottomRight,
               child: RaisedButton(
-                onPressed: () => setState(() {
-                  if (_state == CalibrationState.IDLE)
-                    _state = CalibrationState.CALIBRATING;
-                  else if (_state == CalibrationState.CALIBRATING)
-                    _state = CalibrationState.DONE;
-                  else
-                    _state = CalibrationState.IDLE;
-                }),
-                child: _getCalibrateButtonText(),
+                onPressed: (_state == CalibrationState.CALIBRATING)? null: () {
+                  setState(() => _state = CalibrationState.CALIBRATING);
+                  _accStream = _sensors.accelerometerEvents.listen((event) => null);
+                  _timer = CountdownTimer(Duration(milliseconds: 10000), Duration(milliseconds: 1000))
+                    ..listen(
+                        (event) => print("Calibrating... ${event.elapsed.inSeconds} - ${event.remaining.inSeconds}"),
+                        onDone: () {
+                          _accStream?.cancel();
+                          _accStream = null;
+                          if (mounted && !_isTimerCancelled) {
+                            setState(() => _state = CalibrationState.DONE);
+                            print("Dalibration Done... Calculating biases...");
+                          }
+                        },
+                        onError: (e) => print("Calibration Error: $e"),
+                        cancelOnError: true
+                      );
+                },
+                child: calibrateButtonText,
               ),
             )
           )
@@ -66,8 +93,19 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
     );
   }
 
-  /// Return the correct text for the calibrate button
-  Text _getCalibrateButtonText() {
+
+  @override
+  void dispose() {
+    print("_CalibrationWidgetState.dispose: Disposing...");
+    _isTimerCancelled = true;
+    _timer?.cancel();
+    _timer = null;
+    super.dispose();
+  }
+
+  /// Returns the correct Text for the calibrate button
+  /// based on the current state of the calibration
+  Text get calibrateButtonText {
     switch(_state) {
       case CalibrationState.DONE:
         return Text("Calibrate Again");
@@ -76,16 +114,12 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
     }
   }
 
-  /// Returns the correct Widget to put in the center of
-  /// the screen and display the current state
-  ///
-  /// return a different Widget for every state:
-  ///     IDLE -> warning text
-  ///     CALIBRATING -> progressbar and calibrating text
-  ///     DONE -> calibration completed text
-  Widget _getTextElements() {
+  /// Returns the correct block of widgets based
+  /// on the current state of the calibration
+  Widget get textElements {
     Widget element;
     switch (_state) {
+      // Display the calibration guide text
       case CalibrationState.IDLE:
         element = Text(
           BStrings.calibration_message_txt,
@@ -93,6 +127,7 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
           textAlign: TextAlign.center,
         );
         break;
+      // Display the progress bar and the calibrating texts
       case CalibrationState.CALIBRATING:
         element = Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -112,6 +147,7 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
           ],
         );
         break;
+      // Display the calibration complete text
       case CalibrationState.DONE:
         element = Text(
           BStrings.calibration_completed_txt,
