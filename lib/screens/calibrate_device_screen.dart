@@ -1,7 +1,6 @@
-import 'dart:async';
+import 'package:balance_app/screens/calibration_helper.dart';
 import 'package:balance_app/sensors/sensors.dart';
 import 'package:balance_app/string.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:quiver/async.dart';
@@ -28,16 +27,12 @@ class CalibrationWidget extends StatefulWidget {
 class _CalibrationWidgetState extends State<CalibrationWidget> {
   CalibrationState _state;
   CountdownTimer _timer;
-  Sensors _sensors;
   bool _isTimerCancelled;
-
-  StreamSubscription _accStream;
 
   @override
   void initState() {
     _isTimerCancelled = false;
     _state = CalibrationState.IDLE;
-    _sensors = Sensors();
     super.initState();
   }
 
@@ -52,7 +47,7 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
             flex: 4,
             child: Align(
               alignment: Alignment.bottomCenter,
-              // TODO: 24/02/20 Animate the Picture douring the calibration
+              // TODO: 24/02/20 Animate the Picture during the calibration
               child: SvgPicture.asset("assets/icons/calibration_phone.svg", height: 200)
             )
           ),
@@ -68,16 +63,23 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
               child: RaisedButton(
                 onPressed: (_state == CalibrationState.CALIBRATING)? null: () {
                   setState(() => _state = CalibrationState.CALIBRATING);
-                  _accStream = _sensors.accelerometerEvents.listen((event) => null);
+                  CalibrationHelper.startCalibration();
+
                   _timer = CountdownTimer(Duration(milliseconds: 10000), Duration(milliseconds: 1000))
                     ..listen(
                         (event) => print("Calibrating... ${event.elapsed.inSeconds} - ${event.remaining.inSeconds}"),
-                        onDone: () {
-                          _accStream?.cancel();
-                          _accStream = null;
+                        onDone: () async {
+                          CalibrationHelper.stopCalibration();
                           if (mounted && !_isTimerCancelled) {
                             setState(() => _state = CalibrationState.DONE);
                             print("Dalibration Done... Calculating biases...");
+                            final accBias = CalibrationHelper.accelerationBias;
+                            final gyroBias = CalibrationHelper.gyroscopeBias;
+                            bool hasAcc = await Sensors.isAccelerometerPresent;
+                            bool hasGyro = await Sensors.isGyroscopePresent;
+                            print("Acc: $hasAcc, Gyro: $hasGyro");
+                            print("Accelerometer Bias $accBias");
+                            print("Gyroscope Bias $gyroBias");
                           }
                         },
                         onError: (e) => print("Calibration Error: $e"),

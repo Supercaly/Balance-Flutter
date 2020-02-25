@@ -20,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
   List<Widget> _pages = [HomeScreen(), MeasurementsScreen(), CalibrateDeviceScreen()];
 
   // Page View controller
-  final PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +37,7 @@ class _MainScreenState extends State<MainScreen> {
         onWillPop: () => Future.sync(() {
           // When back button is pressed return to initial page or close the app
           if (_isCurrentPageInitial()) return true;
-          _pageController.animateToPage(
-            _pageController.initialPage,
-            duration: Duration(milliseconds: 200),
-            curve: Curves.easeInOut
-          );
+          _pageController.jumpToPage(_pageController.initialPage);
           setState(() => _currentIndex = 0);
           return false;
         }),
@@ -58,11 +54,7 @@ class _MainScreenState extends State<MainScreen> {
         showUnselectedLabels: false,
         onTap: (newIdx) => setState(() {
           // Set the current page to the selected and update the current index
-          _pageController.animateToPage(
-            newIdx,
-            duration: Duration(milliseconds: 200),
-            curve: Curves.easeInOut
-          );
+          _pageController.jumpToPage(newIdx);
           _currentIndex = newIdx;
         }),
         items: [
