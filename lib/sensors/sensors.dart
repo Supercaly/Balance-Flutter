@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:balance_app/sensors/sensor_event.dart';
 import 'package:flutter/services.dart';
 

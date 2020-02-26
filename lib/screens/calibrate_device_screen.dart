@@ -1,10 +1,15 @@
-import 'package:balance_app/screens/calibration_helper.dart';
-import 'package:balance_app/sensors/sensors.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/string.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:quiver/async.dart';
+import 'package:flutter_svg/svg.dart';
 
+import '../helper/calibration_helper.dart';
+
+/// This Widget represent the Calibrate Device Screen
+///
+/// His purpose is to display all the calibration related
+/// UI and let the user calibrate his phone before any
+/// test. The calibration is achieved through [CalibrationHelper].
 class CalibrateDeviceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -15,7 +20,7 @@ class CalibrateDeviceScreen extends StatelessWidget {
 }
 
 /// Enum class used to represent the state of the calibration
-enum CalibrationState { IDLE, CALIBRATING, DONE }
+enum CalibrationState { idle, calibrating, done }
 
 class CalibrationWidget extends StatefulWidget {
   @override
@@ -26,13 +31,12 @@ class CalibrationWidget extends StatefulWidget {
 
 class _CalibrationWidgetState extends State<CalibrationWidget> {
   CalibrationState _state;
-  CountdownTimer _timer;
-  bool _isTimerCancelled;
+  CalibrationHelper _calibrationHelper;
 
   @override
   void initState() {
-    _isTimerCancelled = false;
-    _state = CalibrationState.IDLE;
+    _state = CalibrationState.idle;
+    _calibrationHelper = CalibrationHelper(() => setState(() => _state = CalibrationState.done));
     super.initState();
   }
 
@@ -52,39 +56,15 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
             )
           ),
           Expanded(child: SizedBox(height: 24)),
-          Expanded(
-            flex: 2,
-            child: textElements
-          ),
+          Expanded(flex: 2, child: textElements),
           Flexible(
             flex: 1,
             child: Align(
               alignment: Alignment.bottomRight,
               child: RaisedButton(
-                onPressed: (_state == CalibrationState.CALIBRATING)? null: () {
-                  setState(() => _state = CalibrationState.CALIBRATING);
-                  CalibrationHelper.startCalibration();
-
-                  _timer = CountdownTimer(Duration(milliseconds: 10000), Duration(milliseconds: 1000))
-                    ..listen(
-                        (event) => print("Calibrating... ${event.elapsed.inSeconds} - ${event.remaining.inSeconds}"),
-                        onDone: () async {
-                          CalibrationHelper.stopCalibration();
-                          if (mounted && !_isTimerCancelled) {
-                            setState(() => _state = CalibrationState.DONE);
-                            print("Dalibration Done... Calculating biases...");
-                            final accBias = CalibrationHelper.accelerationBias;
-                            final gyroBias = CalibrationHelper.gyroscopeBias;
-                            bool hasAcc = await Sensors.isAccelerometerPresent;
-                            bool hasGyro = await Sensors.isGyroscopePresent;
-                            print("Acc: $hasAcc, Gyro: $hasGyro");
-                            print("Accelerometer Bias $accBias");
-                            print("Gyroscope Bias $gyroBias");
-                          }
-                        },
-                        onError: (e) => print("Calibration Error: $e"),
-                        cancelOnError: true
-                      );
+                onPressed: (_state == CalibrationState.calibrating)? null: () {
+                  setState(() => _state = CalibrationState.calibrating);
+                  _calibrationHelper.startCalibration();
                 },
                 child: calibrateButtonText,
               ),
@@ -99,9 +79,7 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
   @override
   void dispose() {
     print("_CalibrationWidgetState.dispose: Disposing...");
-    _isTimerCancelled = true;
-    _timer?.cancel();
-    _timer = null;
+    _calibrationHelper.dispose();
     super.dispose();
   }
 
@@ -109,7 +87,7 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
   /// based on the current state of the calibration
   Text get calibrateButtonText {
     switch(_state) {
-      case CalibrationState.DONE:
+      case CalibrationState.done:
         return Text("Calibrate Again");
       default:
         return Text("Start Calibration");
@@ -122,7 +100,7 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
     Widget element;
     switch (_state) {
       // Display the calibration guide text
-      case CalibrationState.IDLE:
+      case CalibrationState.idle:
         element = Text(
           BStrings.calibration_message_txt,
           style: Theme.of(context).textTheme.subtitle1,
@@ -130,7 +108,7 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
         );
         break;
       // Display the progress bar and the calibrating texts
-      case CalibrationState.CALIBRATING:
+      case CalibrationState.calibrating:
         element = Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -150,7 +128,7 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
         );
         break;
       // Display the calibration complete text
-      case CalibrationState.DONE:
+      case CalibrationState.done:
         element = Text(
           BStrings.calibration_completed_txt,
           style: Theme.of(context).textTheme.headline5,
