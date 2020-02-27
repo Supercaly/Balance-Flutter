@@ -1,4 +1,3 @@
-
 /// Class representing a sensor bias
 ///
 /// A sensor bias is a tuple of values (x,y,z)

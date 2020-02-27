@@ -1,4 +1,3 @@
-
 /// Class representing the single raw data captured from sensors
 class SensorData {
   final int timestamp, 

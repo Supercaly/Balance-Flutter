@@ -1,4 +1,5 @@
 import 'package:balance_app/colors.dart';
+import 'package:balance_app/string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -12,23 +13,25 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final _initialPage = 0;
   // Index of the current page open
-  int _currentIndex = 0;
-  // List of pages titles
-  List<String> _pageTitles = ["Home", "Measurements", "Calibrate Device"];
-  // List of pages to display
-  List<Widget> _pages = [HomeScreen(), MeasurementsScreen(), CalibrateDeviceScreen()];
+  int _currentIndex;
+  List<Widget> _pages;
 
-  // Page View controller
-  final PageController _pageController = PageController(initialPage: 2);
+  @override
+  void initState() {
+    _currentIndex = _initialPage;
+    _pages = [HomeScreen(), MeasurementsScreen(), CalibrateDeviceScreen()];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_pageTitles[_currentIndex]),
+        title: Text(BStrings.navigation_titles[_currentIndex]),
         // Show the settings action if the current page is HomeScreen
-        actions: _currentIndex == 0 ? [IconButton(
+        actions: _currentIndex == _initialPage ? [IconButton(
           icon: Icon(Icons.settings),
           onPressed: () => Navigator.pushNamed(context, "/settings_route")
         )] : null,
@@ -36,16 +39,11 @@ class _MainScreenState extends State<MainScreen> {
       body: WillPopScope(
         onWillPop: () => Future.sync(() {
           // When back button is pressed return to initial page or close the app
-          if (_isCurrentPageInitial()) return true;
-          _pageController.jumpToPage(_pageController.initialPage);
-          setState(() => _currentIndex = 0);
+          if (_currentIndex == _initialPage) return true;
+          setState(() => _currentIndex = _initialPage);
           return false;
         }),
-        child: PageView(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          children: _pages
-        )
+        child: _pages[_currentIndex]
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -54,8 +52,8 @@ class _MainScreenState extends State<MainScreen> {
         showUnselectedLabels: false,
         onTap: (newIdx) => setState(() {
           // Set the current page to the selected and update the current index
-          _pageController.jumpToPage(newIdx);
-          _currentIndex = newIdx;
+          //_pageController.jumpToPage(newIdx);
+          setState(() => _currentIndex = newIdx);
         }),
         items: [
           BottomNavigationBarItem(title: Text("Home"), icon: Icon(Icons.home)),
@@ -65,7 +63,4 @@ class _MainScreenState extends State<MainScreen> {
       ),
     );
   }
-
-  // Return [true] if the current page is the initial page, [false] otherwise
-  bool _isCurrentPageInitial() => _pageController.page.round() == _pageController.initialPage;
 }
