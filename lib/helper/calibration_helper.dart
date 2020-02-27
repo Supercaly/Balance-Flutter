@@ -16,49 +16,54 @@ class CalibrationHelper {
   StreamSubscription<SensorEvent> _accelerometerSub;
   CountdownTimer _countdownTimer;
   bool _timerCanceled;
-  /// Callback called when the calibration is done
-  Function onCalibrationDone;
+  bool _calibrating;
+  final Function _onDone;
 
-  CalibrationHelper(this.onCalibrationDone):
-      _timerCanceled = false;
+  CalibrationHelper(this._onDone):
+      _timerCanceled = false, _calibrating = false;
 
   /// Start the calibration process
   void startCalibration() {
-    // Start listening to sensors events
-    _accelerometerSub = Sensors.accelerometerStream.listen((event) => _accEvents.add(event));
-    _gyroscopeSub = Sensors.gyroscopeStream.listen((event) => _gyroEvents.add(event));
-    // Start the CountdownTimer
-    _countdownTimer = CountdownTimer(Duration(milliseconds: 10000), Duration(milliseconds: 1000))
-      ..listen(
-        (event) => print("CalibrationHelper.startCalibration: On Tick: ${event.remaining}"),
-        onError: (e) => print("CalibrationHelper.startCalibration: Error douring calibration: $e"),
-        onDone: () {
-          // Stop listening to sensors events
-          _accelerometerSub?.cancel();
-          _gyroscopeSub?.cancel();
-          _accelerometerSub = null;
-          _gyroscopeSub = null;
-          // If the calibration was not cancelled
-          if (!_timerCanceled) {
-            print("CalibrationHelper.startCalibration: Calibration Done");
-            // Save the biases into Shared Preferences
-            PreferenceManager.updateSensorBiases(_accelerationBias, _gyroscopeBias);
-            // Notify that the calibration is done
-            onCalibrationDone();
-          }
-        },
-      );
+    if (!_calibrating) {
+      _calibrating = true;
+      _timerCanceled = false;
+      // Start listening to sensors events
+      _accelerometerSub = Sensors.accelerometerStream.listen((event) => _accEvents.add(event));
+      _gyroscopeSub = Sensors.gyroscopeStream.listen((event) => _gyroEvents.add(event));
+      // Start the CountdownTimer
+      _countdownTimer = CountdownTimer(Duration(milliseconds: 10000), Duration(milliseconds: 1000))
+        ..listen((event) => null,
+          onError: (e) => print("CalibrationHelper.startCalibration: Error during calibration: $e"),
+          onDone: () {
+            _calibrating = false;
+            // Stop listening to sensors events
+            _accelerometerSub?.cancel();
+            _gyroscopeSub?.cancel();
+            _accelerometerSub = null;
+            _gyroscopeSub = null;
+            // If the calibration was not cancelled
+            if (!_timerCanceled) {
+              print("CalibrationHelper.startCalibration: Calibration done!");
+              // Save the biases into Shared Preferences
+              PreferenceManager.updateSensorBiases(_accelerationBias, _gyroscopeBias);
+              _onDone();
+            }
+          },
+        );
+    }
   }
 
-  /// Called when the parent Widget is disposed
+  /// Cancel the calibration process
   ///
-  /// Note: This method must be called before
-  /// super.dispose(), otherwise bad things
-  /// will happen!
-  void dispose() {
-    _timerCanceled = true;
-    _countdownTimer?.cancel();
-    _countdownTimer = null;
+  /// Note: This method must be called in the parent
+  /// widget dispose method before super.dispose.
+  void cancelCalibration() {
+    if (_calibrating) {
+      print("CalibrationHelper.cancelCalibration: Calibration Cancelled!");
+      _timerCanceled = true;
+      _countdownTimer?.cancel();
+      _countdownTimer = null;
+    }
   }
 
   /// Returns the [SensorBias] for accelerometer values
@@ -77,6 +82,7 @@ class CalibrationHelper {
       zSum / _accEvents.length,
     );
   }
+
   /// Returns the [SensorBias] for gyroscope values
   SensorBias get _gyroscopeBias {
     if (_gyroEvents.length == 0) return null;

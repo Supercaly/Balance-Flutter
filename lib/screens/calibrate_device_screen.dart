@@ -1,4 +1,3 @@
-import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -29,15 +28,32 @@ class CalibrationWidget extends StatefulWidget {
   }
 }
 
-class _CalibrationWidgetState extends State<CalibrationWidget> {
+class _CalibrationWidgetState extends State<CalibrationWidget> with WidgetsBindingObserver {
   CalibrationState _state;
   CalibrationHelper _calibrationHelper;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     _state = CalibrationState.idle;
     _calibrationHelper = CalibrationHelper(() => setState(() => _state = CalibrationState.done));
     super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused)
+      _calibrationHelper.cancelCalibration();
+    else if (state == AppLifecycleState.resumed && _state == CalibrationState.calibrating)
+      setState(() => _state = CalibrationState.idle);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _calibrationHelper?.cancelCalibration();
+    _calibrationHelper = null;
+    super.dispose();
   }
 
   @override
@@ -73,14 +89,6 @@ class _CalibrationWidgetState extends State<CalibrationWidget> {
         ],
       ),
     );
-  }
-
-
-  @override
-  void dispose() {
-    print("_CalibrationWidgetState.dispose: Disposing...");
-    _calibrationHelper.dispose();
-    super.dispose();
   }
 
   /// Returns the correct Text for the calibrate button
