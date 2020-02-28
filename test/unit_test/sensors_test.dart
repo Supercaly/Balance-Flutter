@@ -26,6 +26,14 @@ void main() {
       expect(Sensors.eventToSensorEvent(goodData), isNotNull);
       expect(Sensors.eventToSensorEvent(goodData), SensorEvent(1,2,3.0,4.0,5.0));
     });
+
+    test("convert bad data", () {
+      var badData = ["wrong",2,3.0,4.0,5.0];
+      expect(Sensors.eventToSensorEvent(badData), isNull);
+
+      var badData2 = [1,2,0.0];
+      expect(Sensors.eventToSensorEvent(badData2), isNull);
+    });
   });
 
   group("sensor presence", () {

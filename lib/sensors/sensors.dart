@@ -71,7 +71,7 @@ class Sensors {
       double z = event[4] as double;
       return SensorEvent(timestamp, accuracy, x, y, z);
     } catch(e) {
-      print("Sensors._eventToSensorEvent: Error parsing event: $e");
+      print("Sensors.eventToSensorEvent: Error parsing event: $e");
       return null;
     }
   }
