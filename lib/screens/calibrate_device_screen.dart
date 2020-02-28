@@ -1,8 +1,7 @@
+import 'package:balance_app/helper/calibration_helper.dart';
 import 'package:balance_app/string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../helper/calibration_helper.dart';
 
 /// This Widget represent the Calibrate Device Screen
 ///

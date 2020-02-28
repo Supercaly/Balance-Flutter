@@ -28,8 +28,8 @@ class CalibrationHelper {
       _calibrating = true;
       _timerCanceled = false;
       // Start listening to sensors events
-      _accelerometerSub = Sensors.accelerometerStream.listen((event) => _accEvents.add(event));
-      _gyroscopeSub = Sensors.gyroscopeStream.listen((event) => _gyroEvents.add(event));
+      _accelerometerSub = Sensors().accelerometerStream.listen((event) => _accEvents.add(event));
+      _gyroscopeSub = Sensors().gyroscopeStream.listen((event) => _gyroEvents.add(event));
       // Start the CountdownTimer
       _countdownTimer = CountdownTimer(Duration(milliseconds: 10000), Duration(milliseconds: 1000))
         ..listen((event) => null,
