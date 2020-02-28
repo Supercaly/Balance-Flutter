@@ -19,9 +19,12 @@ dependencies:
 
 dev_dependencies:
   # Test dependencies
+  # Unit test dependency
+  test: any
+  mockito: ^4.1.1
+  # Widget test dependency
   flutter_test:
     sdk: flutter
-  mockito: ^4.1.1
 
 flutter:
   uses-material-design: true
