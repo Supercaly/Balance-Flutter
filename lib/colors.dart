@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 class BColors {
   static const MaterialColor colorPrimary = _malibu;
   static const MaterialColor colorPrimaryDark = _scampi;
+  static const MaterialColor colorPrimaryLight = _periwinkle;
   static const MaterialColor colorAccent = _dodger_blue;
-
+  static const Color textColor = _dove_gray;
 
   static const MaterialColor _malibu = MaterialColor(0xFF8C88FF, {
     50: Color.fromRGBO(140, 136, 255, .1),
@@ -32,6 +33,18 @@ class BColors {
     700: Color.fromRGBO(104, 101, 172, .8),
     800: Color.fromRGBO(104, 101, 172, .9),
     900: Color.fromRGBO(104, 101, 172, 1),
+  });
+  static const MaterialColor _periwinkle = MaterialColor(0xFFCECCFF, {
+    50: Color.fromRGBO(206, 204, 255, .1),
+    100: Color.fromRGBO(206, 204, 255, .2),
+    200: Color.fromRGBO(206, 204, 255, .3),
+    300: Color.fromRGBO(206, 204, 255, .4),
+    400: Color.fromRGBO(206, 204, 255, .5),
+    500: Color.fromRGBO(206, 204, 255, .6),
+    600: Color.fromRGBO(206, 204, 255, .7),
+    700: Color.fromRGBO(206, 204, 255, .8),
+    800: Color.fromRGBO(206, 204, 255, .9),
+    900: Color.fromRGBO(206, 204, 255, 1),
   });
   static const MaterialColor _dodger_blue = MaterialColor(0xFF34C6F9, {
     50: Color.fromRGBO(52, 198, 249, .1),
@@ -69,4 +82,6 @@ class BColors {
     800: Color.fromRGBO(228, 245, 255, .9),
     900: Color.fromRGBO(228, 245, 255, 1),
   });
+
+  static const Color _dove_gray = Color.fromARGB(255, 102, 102, 102);
 }
