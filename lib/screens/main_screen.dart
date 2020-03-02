@@ -1,7 +1,6 @@
 import 'package:balance_app/colors.dart';
 import 'package:balance_app/string.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'calibrate_device_screen.dart';
 import 'home_screen.dart';
