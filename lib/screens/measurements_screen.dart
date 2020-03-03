@@ -22,7 +22,10 @@ class MeasurementsScreen extends StatelessWidget {
         // Check if there are some errors
         if (snapshot.hasError) {
           print("MeasurementsScreen.build: Error retrieving measurements: ${snapshot.error}");
-          return Text("Errore!");
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("Errore!"),
+          ));
+          return null;
         }
         // Check if there are some data
         if (snapshot.hasData) {
