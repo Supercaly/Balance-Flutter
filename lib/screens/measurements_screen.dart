@@ -1,36 +1,18 @@
+import 'package:balance_app/measurements-bloc.dart';
+import 'package:balance_app/measurements-state.dart';
 import 'package:balance_app/model/measurement.dart';
 import 'package:balance_app/text_appearance.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MeasurementsScreen extends StatelessWidget {
-
-  // TODO: 03/03/20 Replace this fake data with the good ones from database
-  Stream<List<Measurement>> get _fakeMeasurements {
-    return Stream.fromFuture(Future.delayed(Duration(seconds: 5), () => [
-      Measurement(1, "02-03-2020 20:20:20", true),
-      Measurement(2, "02-03-1919 20:20:20", false),
-      Measurement(3, "02-03-2020 20:20:20", true),
-      Measurement(4, "02-05-2019 20:20:20", false),
-    ]));
-  }
-
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<Measurement>>(
-      stream: _fakeMeasurements,
-      builder: (context, snapshot) {
-        // Check if there are some errors
-        if (snapshot.hasError) {
-          print("MeasurementsScreen.build: Error retrieving measurements: ${snapshot.error}");
-          Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text("Errore!"),
-          ));
-          return null;
-        }
-        // Check if there are some data
-        if (snapshot.hasData) {
-          // The snapshot contains an empty list
-          if (snapshot.data.isEmpty)
+    return BlocProvider(
+      create: (context) => MeasurementsBloc.create(),
+      child: BlocBuilder<MeasurementsBloc, MeasurementsState>(
+        builder: (context, state) {
+          if (state is MeasurementsEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -42,33 +24,35 @@ class MeasurementsScreen extends StatelessWidget {
                   SizedBox(height: 38),
                   Text(
                     "Nothing to show here!",
-                    style: Theme
-                      .of(context)
-                      .textTheme
-                      .headline6,
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ],
               ),
             );
-          // Build a list with the data from the snapshot
-          return ListView.builder(
-            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-            itemBuilder: (context, index) => _measurementItemTemplate(context, snapshot.data[index]),
-            itemCount: snapshot.data.length,
+          }
+          if (state is MeasurementsError) {
+            return Text("Error!!");
+          }
+          if (state is MeasurementsSuccess) {
+            return ListView.builder(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              itemBuilder: (context, index) =>
+                _measurementItemTemplate(context, state.measurements[index]),
+              itemCount: state.measurements.length,
+            );
+          }
+          return Center(
+            child: SizedBox(
+              // TODO: 03/03/20 Customize the progress bar
+              child: CircularProgressIndicator(
+                strokeWidth: 6,
+              ),
+              height: 100,
+              width: 100,
+            ),
           );
         }
-        // No data or error present, display the loading screen
-        return Center(
-          child: SizedBox(
-            // TODO: 03/03/20 Customize the progress bar
-            child: CircularProgressIndicator(
-              strokeWidth: 6,
-            ),
-            height: 100,
-            width: 100,
-          ),
-        );
-      }
+      ),
     );
   }
 

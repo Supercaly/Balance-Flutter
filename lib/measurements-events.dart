@@ -1,0 +1,4 @@
+
+enum MeasurementsEvents {
+  fetch
+}
