@@ -1,4 +1,5 @@
 import 'package:balance_app/bloc/events/measurements-events.dart';
+import 'package:balance_app/model/measurement.dart';
 import 'package:balance_app/repository/measurements-repository.dart';
 import 'package:balance_app/bloc/states/measurements-state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class MeasurementsBloc extends Bloc<MeasurementsEvents, MeasurementsState> {
           if (measurements.isEmpty)
             yield MeasurementsEmpty();
           else
-            yield MeasurementsSuccess(measurements);
+            yield MeasurementsSuccess(measurements.map((e) => Measurement(e.id, e.creationDate.toString(), e.eyesOpen)).toList());
         } catch(e) {
           yield MeasurementsError(e);
         }

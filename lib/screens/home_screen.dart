@@ -1,3 +1,4 @@
+import 'package:balance_app/moor/moor-database.dart';
 import 'package:balance_app/widgets/cicular_counter.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,9 @@ class _HomeState extends State<Home> {
         ),
         SizedBox(height: 30),
         RaisedButton(
-          onPressed: () {},
+          onPressed: () {
+            MoorDatabase().insertTask(Task(creationDate: DateTime.now(), eyesOpen: false));
+          },
           child: Text("Boh"),
         ),
       ]);
