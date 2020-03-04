@@ -1,7 +1,7 @@
 import 'package:balance_app/screens/main_screen.dart';
 import 'package:balance_app/screens/result_screen.dart';
 import 'package:balance_app/screens/settings_screen.dart';
-import 'package:balance_app/theme.dart';
+import 'package:balance_app/res/theme.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(BalanceApp());

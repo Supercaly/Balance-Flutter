@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:balance_app/colors.dart';
+import 'package:balance_app/res/colors.dart';
 
 /// Light Theme for the app
 final ThemeData lightTheme = ThemeData.light().copyWith(

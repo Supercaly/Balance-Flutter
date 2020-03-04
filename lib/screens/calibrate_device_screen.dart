@@ -1,5 +1,5 @@
 import 'package:balance_app/helper/calibration_helper.dart';
-import 'package:balance_app/string.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 

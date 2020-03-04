@@ -1,5 +1,5 @@
-import 'package:balance_app/colors.dart';
-import 'package:balance_app/string.dart';
+import 'package:balance_app/res/colors.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 
 import 'calibrate_device_screen.dart';

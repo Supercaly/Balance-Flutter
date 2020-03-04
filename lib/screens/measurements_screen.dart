@@ -1,7 +1,7 @@
-import 'package:balance_app/measurements-bloc.dart';
-import 'package:balance_app/measurements-state.dart';
+import 'package:balance_app/bloc/measurements-bloc.dart';
+import 'package:balance_app/bloc/states/measurements-state.dart';
 import 'package:balance_app/model/measurement.dart';
-import 'package:balance_app/text_appearance.dart';
+import 'package:balance_app/res/text_appearance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

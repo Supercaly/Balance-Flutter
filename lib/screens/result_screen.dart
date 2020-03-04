@@ -1,4 +1,4 @@
-import 'package:balance_app/text_appearance.dart';
+import 'package:balance_app/res/text_appearance.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
