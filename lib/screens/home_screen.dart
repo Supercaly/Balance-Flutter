@@ -1,6 +1,7 @@
 import 'package:balance_app/moor/moor-database.dart';
 import 'package:balance_app/widgets/cicular_counter.dart';
 import 'package:flutter/material.dart';
+import 'package:moor_flutter/moor_flutter.dart' hide Column;
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -29,9 +30,11 @@ class _HomeState extends State<Home> {
         ),
         SizedBox(height: 30),
         RaisedButton(
-          onPressed: () {
-            MoorDatabase().insertTask(Task(creationDate: DateTime.now(), eyesOpen: false));
-          },
+          onPressed: () => MoorDatabase().measurementDao
+            .insertMeasurement(MeasurementsCompanion(
+              creationDate: Value(DateTime.now()),
+              eyesOpen: Value(true)
+            )),
           child: Text("Boh"),
         ),
       ]);

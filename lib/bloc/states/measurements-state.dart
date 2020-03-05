@@ -1,4 +1,4 @@
-import 'package:balance_app/model/measurement.dart';
+import 'package:balance_app/moor/moor-database.dart';
 
 /// Base State of the measurements page
 abstract class MeasurementsState {
