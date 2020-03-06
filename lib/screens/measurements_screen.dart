@@ -1,15 +1,17 @@
 import 'package:balance_app/bloc/measurements-bloc.dart';
 import 'package:balance_app/bloc/states/measurements-state.dart';
+import 'package:balance_app/model/measurement.dart';
 import 'package:balance_app/moor/moor-database.dart';
 import 'package:balance_app/res/text_appearance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class MeasurementsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => MeasurementsBloc.create(MoorDatabase()),
+      create: (context) => MeasurementsBloc.create(Provider.of<MoorDatabase>(context, listen: false)),
       child: BlocBuilder<MeasurementsBloc, MeasurementsState>(
         builder: (context, state) {
           if (state is MeasurementsEmpty) {

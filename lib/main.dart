@@ -6,15 +6,23 @@ import 'package:balance_app/res/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(BalanceApp());
+Future<void> main() async {
+	WidgetsFlutterBinding.ensureInitialized();
+	final dbInstance = await MoorDatabase.getDatabase();
+	runApp(BalanceApp(dbInstance));
+}
 
 class BalanceApp extends StatelessWidget {
+	final MoorDatabase dbInstance;
+
+	const BalanceApp(this.dbInstance);
+
 	@override
   Widget build(BuildContext context) {
 		return Builder(
 			builder: (context) => MultiProvider(
 				providers: [
-					Provider<MoorDatabase>(create: (_) => MoorDatabase()),
+					Provider<MoorDatabase>(create: (context) => dbInstance),
 				],
 			  child: MaterialApp(
 		  	title: "Balance",

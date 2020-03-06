@@ -1,3 +1,4 @@
+import 'package:balance_app/model/measurement.dart';
 import 'package:balance_app/moor/moor-database.dart';
 
 /// Repository class for retrieving all the old measurements

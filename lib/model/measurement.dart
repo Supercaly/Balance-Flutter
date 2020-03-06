@@ -1,10 +1,13 @@
-import 'package:moor_flutter/moor_flutter.dart';
+import 'package:floor/floor.dart';
 
-class Measurements extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  DateTimeColumn get creationDate => dateTime().named("creation_date")();
-  BoolColumn get eyesOpen => boolean().named("eyes_open").withDefault(Constant(true))();
+@Entity(tableName: "measurements")
+class Measurement {
+  @PrimaryKey(autoGenerate: true)
+  final int id;
+  @ColumnInfo(name: "creation_date", nullable: false)
+  final int creationDate;
+  @ColumnInfo(name: "eyes_open", nullable: false)
+  final bool eyesOpen;
 
-  @override
-  Set<Column> get primaryKey => {id};
+  Measurement({this.id, this.creationDate, this.eyesOpen});
 }

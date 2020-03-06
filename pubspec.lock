@@ -197,6 +197,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.11"
+  floor:
+    dependency: "direct main"
+    description:
+      name: floor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.0"
+  floor_annotation:
+    dependency: transitive
+    description:
+      name: floor_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0"
+  floor_generator:
+    dependency: "direct dev"
+    description:
+      name: floor_generator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.11.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -444,7 +465,7 @@ packages:
     source: hosted
     version: "1.4.0"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
