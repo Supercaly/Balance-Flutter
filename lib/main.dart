@@ -1,4 +1,4 @@
-import 'package:balance_app/moor/moor-database.dart';
+import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/screens/main_screen.dart';
 import 'package:balance_app/screens/result_screen.dart';
 import 'package:balance_app/screens/settings_screen.dart';
@@ -8,12 +8,13 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
 	WidgetsFlutterBinding.ensureInitialized();
-	final dbInstance = await MoorDatabase.getDatabase();
+	// Create an app-wide instance of the database
+	final dbInstance = await MeasurementDatabase.getDatabase();
 	runApp(BalanceApp(dbInstance));
 }
 
 class BalanceApp extends StatelessWidget {
-	final MoorDatabase dbInstance;
+	final MeasurementDatabase dbInstance;
 
 	const BalanceApp(this.dbInstance);
 
@@ -22,7 +23,7 @@ class BalanceApp extends StatelessWidget {
 		return Builder(
 			builder: (context) => MultiProvider(
 				providers: [
-					Provider<MoorDatabase>(create: (context) => dbInstance),
+					Provider<MeasurementDatabase>(create: (context) => dbInstance),
 				],
 			  child: MaterialApp(
 		  	title: "Balance",

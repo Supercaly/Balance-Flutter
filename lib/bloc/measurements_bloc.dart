@@ -1,8 +1,9 @@
-import 'package:balance_app/bloc/events/measurements-events.dart';
-import 'package:balance_app/moor/moor-database.dart';
-import 'package:balance_app/repository/measurements-repository.dart';
-import 'package:balance_app/bloc/states/measurements-state.dart';
+import 'package:balance_app/bloc/states/measurements_state.dart';
+import 'package:balance_app/floor/measurement_database.dart';
+import 'package:balance_app/repository/measurements_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'events/measurements_events.dart';
 
 /// Class representing the Bloc for Measurements page
 ///
@@ -11,8 +12,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MeasurementsBloc extends Bloc<MeasurementsEvents, MeasurementsState> {
   final MeasurementsRepository repository;
 
-  MeasurementsBloc._(MoorDatabase db): repository = MeasurementsRepository(db);
-  factory MeasurementsBloc.create(MoorDatabase db) => MeasurementsBloc._(db)..add(MeasurementsEvents.fetch);
+  MeasurementsBloc._(MeasurementDatabase db): repository = MeasurementsRepository(db);
+  factory MeasurementsBloc.create(MeasurementDatabase db) => MeasurementsBloc._(db)..add(MeasurementsEvents.fetch);
 
   @override
   MeasurementsState get initialState => MeasurementsLoading();

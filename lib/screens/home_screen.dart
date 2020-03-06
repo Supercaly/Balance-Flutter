@@ -1,5 +1,5 @@
+import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/model/measurement.dart';
-import 'package:balance_app/moor/moor-database.dart';
 import 'package:balance_app/widgets/cicular_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,8 +31,11 @@ class _HomeState extends State<Home> {
         ),
         SizedBox(height: 30),
         RaisedButton(
-          onPressed: () => Provider.of<MoorDatabase>(context, listen: false).measurementDao
-            .insertMeasurement(Measurement(creationDate: DateTime.now().millisecondsSinceEpoch, eyesOpen: true)),
+          onPressed: () async {
+            int a = await Provider.of<MeasurementDatabase>(context, listen: false).measurementDao
+              .insertMeasurement(Measurement.create(eyesOpen: true));
+            print(a);
+          },
           child: Text("Boh"),
         ),
       ]);

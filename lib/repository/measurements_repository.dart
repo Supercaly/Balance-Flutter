@@ -1,5 +1,5 @@
+import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/model/measurement.dart';
-import 'package:balance_app/moor/moor-database.dart';
 
 /// Repository class for retrieving all the old measurements
 ///
@@ -7,7 +7,7 @@ import 'package:balance_app/moor/moor-database.dart';
 /// and has the purpose of returning all the [Measurement] objects
 /// wherever they are needed
 class MeasurementsRepository {
-  final MoorDatabase database;
+  final MeasurementDatabase database;
 
   MeasurementsRepository(this.database);
 

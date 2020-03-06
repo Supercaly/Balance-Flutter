@@ -13,10 +13,6 @@ abstract class MeasurementDao {
   @Query("SELECT * FROM measurements")
   Future<List<Measurement>> getAllMeasurements();
 
-//  @Query("SELECT * FROM measurements")
-//  /// Returns a [Stream] with a [List] of all the [Measurement]s inside the database
-//  Stream<List<Measurement>> watchAllMeasurements();
-
   /// Returns a specific [Measurement] based on the given [id]
   @Query("SELECT * FROM measurements WHERE id = :id")
   Future<Measurement> findMeasurementById(int id);
