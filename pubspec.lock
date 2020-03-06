@@ -176,6 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.3"
+  ffi:
+    dependency: transitive
+    description:
+      name: ffi
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   fixnum:
     dependency: transitive
     description:
@@ -338,6 +345,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.1"
+  moor:
+    dependency: transitive
+    description:
+      name: moor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.4.1"
+  moor_ffi:
+    dependency: transitive
+    description:
+      name: moor_ffi
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0"
   multi_server_socket:
     dependency: transitive
     description:
@@ -560,6 +581,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
+  sqflite_ffi_test:
+    dependency: "direct dev"
+    description:
+      path: sqflite_ffi_test
+      ref: dart2
+      resolved-ref: "6293a55f1f8af91e7daa644056dc24636eff110b"
+      url: "git://github.com/tekartik/sqflite_more"
+    source: git
+    version: "0.2.4"
   stack_trace:
     dependency: transitive
     description:

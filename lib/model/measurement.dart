@@ -23,4 +23,16 @@ class Measurement {
       creationDate: DateTime.now().millisecondsSinceEpoch,
       eyesOpen: eyesOpen
     );
+
+  @override
+  bool operator ==(other) => other is Measurement && 
+    other.id == this.id && 
+    other.creationDate == this.creationDate && 
+    other.eyesOpen == this.eyesOpen;
+
+  @override
+  int get hashCode => id.hashCode^creationDate.hashCode^eyesOpen.hashCode;
+
+  @override
+  String toString() => "Measurement(id=$id, creationDate=$creationDate, eyesOpen=$eyesOpen)";
 }
