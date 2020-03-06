@@ -3,6 +3,7 @@ import 'package:balance_app/bloc/states/measurements_state.dart';
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/model/measurement.dart';
 import 'package:balance_app/res/text_appearance.dart';
+import 'package:balance_app/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -61,7 +62,7 @@ class MeasurementsScreen extends StatelessWidget {
   /// Returns a [Widget] with a measurement item
   Widget _measurementItemTemplate(BuildContext context, Measurement measurement) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, "/result_route", arguments: measurement.id),
+      onTap: () => Navigator.pushNamed(context, Routes.result, arguments: measurement.id),
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(16),

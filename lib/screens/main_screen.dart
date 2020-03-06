@@ -2,6 +2,7 @@ import 'package:balance_app/res/colors.dart';
 import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 
+import '../routes.dart';
 import 'calibrate_device_screen.dart';
 import 'home_screen.dart';
 import 'measurements_screen.dart';
@@ -32,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
         // Show the settings action if the current page is HomeScreen
         actions: _currentIndex == _initialPage ? [IconButton(
           icon: Icon(Icons.settings),
-          onPressed: () => Navigator.pushNamed(context, "/settings_route")
+          onPressed: () => Navigator.pushNamed(context, Routes.settings)
         )] : null,
       ),
       body: WillPopScope(

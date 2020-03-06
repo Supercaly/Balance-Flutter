@@ -1,5 +1,6 @@
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/manager/preference_manager.dart';
+import 'package:balance_app/routes.dart';
 import 'package:balance_app/screens/intro_screen.dart';
 import 'package:balance_app/screens/main_screen.dart';
 import 'package:balance_app/screens/result_screen.dart';
@@ -31,14 +32,14 @@ class BalanceApp extends StatelessWidget {
 				],
 			  child: MaterialApp(
 					title: "Balance",
-					initialRoute: isFirstLaunch ? "/intro_route": "/main_route",
+					initialRoute: isFirstLaunch ? Routes.intro: Routes.main,
 					theme: lightTheme,
 					darkTheme: darkTheme,
 					routes: {
-						"/intro_route": (context) => IntroScreen(),
-						"/main_route": (context) => MainScreen(),
-						"/settings_route": (context) => SettingsScreen(),
-						"/result_route": (context) => ResultScreen()
+						Routes.intro: (context) => IntroScreen(),
+						Routes.main: (context) => MainScreen(),
+						Routes.settings: (context) => SettingsScreen(),
+						Routes.result: (context) => ResultScreen()
 					},
 				),
 			),
