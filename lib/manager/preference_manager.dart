@@ -2,6 +2,7 @@ import 'package:balance_app/model/sensor_bias.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceManager {
+  static const _isFirstTimeLaunch = "IsFirstTimeLaunch";
   static const _isDeviceCalibrated = "IsDeviceCalibrated";
   static const _accelerometerBiasX = "AccelerometerBiasX";
   static const _accelerometerBiasY = "AccelerometerBiasY";
@@ -9,6 +10,16 @@ class PreferenceManager {
   static const _gyroscopeBiasX = "GyroscopeBiasX";
   static const _gyroscopeBiasY = "GyroscopeBiasY";
   static const _gyroscopeBiasZ = "GyroscopeBiasZ";
+
+  static Future<bool> get isFirstTimeLaunch async {
+    var pref = await SharedPreferences.getInstance();
+    return pref.getBool(_isFirstTimeLaunch) ?? true;
+  }
+
+  static Future<void> firstLaunchDone() async {
+    var pref = await SharedPreferences.getInstance();
+    pref.setBool(_isFirstTimeLaunch, false);
+  }
 
   /// The device is already calibrated?
   ///
