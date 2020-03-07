@@ -1,6 +1,6 @@
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/model/measurement.dart';
-import 'package:balance_app/widgets/cicular_counter.dart';
+import 'package:balance_app/widgets/measure_countdown.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,18 +17,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        MeasureCountdown(
-          onPreCountdown: () => print("La misurazione stà per partire"),
-          onMeasureDone: () => print("Misurazione finita"),
-          onMeasureCancel: () => print("Misurazione cancellata"),
-          onMeasureStart: () => print("Inisio a misurare"),
-        ),
+        MeasureCountdown(),
         SizedBox(height: 30),
         RaisedButton(
           onPressed: () async {
