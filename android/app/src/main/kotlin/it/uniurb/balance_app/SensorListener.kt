@@ -28,7 +28,7 @@ class SensorListener(
 	override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
 		if (events == null || sensor == null) return
 		this.eventSink = events
-		sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+		sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST)
 	}
 
 	override fun onCancel(arguments: Any?) {

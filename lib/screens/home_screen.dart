@@ -1,8 +1,10 @@
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/model/measurement.dart';
+import 'package:balance_app/sensors/sensor_polling.dart';
 import 'package:balance_app/widgets/cicular_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quiver/async.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -17,6 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final sp = SensorPolling();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,15 @@ class _HomeState extends State<Home> {
           onMeasureStart: () => print("Inisio a misurare"),
         ),
         SizedBox(height: 30),
+        RaisedButton(
+          onPressed: () {
+            CountdownTimer(Duration(seconds: 32), Duration(seconds: 1))
+              ..listen((event) => print(event.elapsed),
+              onDone: () => sp.stopPolling());
+            sp.pollSensors();
+          },
+          child: Text("Measure"),
+        ),
         RaisedButton(
           onPressed: () async {
             int a = await Provider.of<MeasurementDatabase>(context, listen: false).measurementDao
