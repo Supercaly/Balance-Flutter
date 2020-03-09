@@ -1,19 +1,53 @@
-
 import 'dart:async';
-
+import 'package:balance_app/model/sensor_data.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 class SensorPolling {
-  EventChannel eventChannel = const EventChannel("uniurb.it/sensors");
-  Stream<SensorData> _stream;
-  StreamSubscription<SensorData> _streamSubscription;
-  List<SensorData> _data = [];
+  static const EventChannel _defaultSensorsEventChannel = const EventChannel("uniurb.it/sensors");
 
-  Stream<SensorData> get stream {
-    _stream ??= eventChannel.receiveBroadcastStream().map((e) => _eventToSensorData(e));
-    return _stream;
+  StreamSubscription<SensorData> _sensorsStreamSubscription;
+  List<SensorData> _sensorsData;
+  EventChannel _sensorsEventChannel;
+  bool _isListening;
+
+  static SensorPolling _instance;
+  factory SensorPolling() {
+    if (_instance == null)
+      _instance = SensorPolling.private(_defaultSensorsEventChannel);
+    return _instance;
   }
 
+  /// This constructor is only used for testing and
+  /// shouldn't be accessed from outside this class
+  @visibleForTesting
+  SensorPolling.private(this._sensorsEventChannel):
+      _isListening = false,
+      _sensorsData = [];
+
+  ///
+  void startListening() {
+    if (!_isListening) {
+      _isListening = true;
+      _sensorsStreamSubscription = _sensorsEventChannel
+        .receiveBroadcastStream()
+        .map((event) => _eventToSensorData(event))
+        .listen((event) {
+          if (event != null)
+            _sensorsData.add(event);
+        });
+    }
+  }
+
+  ///
+  void stopListening() {
+    if (_isListening) {
+      _isListening = false;
+      _sensorsStreamSubscription.cancel();
+    }
+  }
+
+  ///
   static SensorData _eventToSensorData(List event) {
     if (event == null) return null;
     int timestamp = event[0] as int;
@@ -26,50 +60,5 @@ class SensorPolling {
     double gyroZ = event[7] as double;
     return SensorData(timestamp, accuracy, accX, accY, accZ, gyroX, gyroY, gyroZ);
   }
-
-  void startListen() {
-    _streamSubscription = stream.listen((event) {
-      if (event != null)
-        _data.add(event);
-      print(event);
-    });
-  }
-
-  void stopListen() {
-    _streamSubscription?.cancel();
-    print("Ho ottenuto ${_data?.length} dati");
-    print("${_data[0]}");
-  }
 }
 
-class SensorData {
-  final int timestamp;
-  final int accuracy;
-  final double accelerometerX;
-  final double accelerometerY;
-  final double accelerometerZ;
-  final double gyroscopeX;
-  final double gyroscopeY;
-  final double gyroscopeZ;
-
-  SensorData(
-    this.timestamp,
-    this.accuracy,
-    this.accelerometerX,
-    this.accelerometerY,
-    this.accelerometerZ,
-    this.gyroscopeX,
-    this.gyroscopeY,
-    this.gyroscopeZ,
-  );
-
-  @override
-  String toString() => "SensorData(timestamp=$timestamp, "
-    "accuracy=$accuracy, "
-    "accelerometerX=$accelerometerX, "
-    "accelerometerY=$accelerometerY, "
-    "accelerometerZ=$accelerometerZ, "
-    "gyroscopeX=$gyroscopeX, "
-    "gyroscopeY=$gyroscopeY, "
-    "gyroscopeZ=$gyroscopeZ)";
-}
