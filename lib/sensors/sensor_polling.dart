@@ -1,45 +1,75 @@
 
 import 'dart:async';
 
-import 'package:balance_app/sensors/sensor_event.dart';
-import 'package:balance_app/sensors/sensors.dart';
+import 'package:flutter/services.dart';
 
 class SensorPolling {
-  StreamSubscription<SensorEvent> accStream;
-  StreamSubscription<SensorEvent> gyroStream;
-  Timer timer;
+  EventChannel eventChannel = const EventChannel("uniurb.it/sensors");
+  Stream<SensorData> _stream;
+  StreamSubscription<SensorData> _streamSubscription;
+  List<SensorData> _data = [];
 
-  SensorEvent currentAcc;
-  SensorEvent currentGyro;
+  Stream<SensorData> get stream {
+    _stream ??= eventChannel.receiveBroadcastStream().map((e) => _eventToSensorData(e));
+    return _stream;
+  }
 
-  List<SensorEvent> accList;
-  List<SensorEvent> gyroList;
+  static SensorData _eventToSensorData(List event) {
+    if (event == null) return null;
+    int timestamp = event[0] as int;
+    int accuracy = event[1] as int;
+    double accX = event[2] as double;
+    double accY = event[3] as double;
+    double accZ = event[4] as double;
+    double gyroX = event[5] as double;
+    double gyroY = event[6] as double;
+    double gyroZ = event[7] as double;
+    return SensorData(timestamp, accuracy, accX, accY, accZ, gyroX, gyroY, gyroZ);
+  }
 
-  void pollSensors() {
-    print("Inizio");
-    currentAcc = null;
-    currentGyro = null;
-    accList = [];
-    gyroList = [];
-
-    accStream = Sensors().accelerometerStream.listen((event) => currentAcc = event);
-    gyroStream = Sensors().gyroscopeStream.listen((event) => currentGyro = event);
-
-    timer = Timer.periodic(Duration(milliseconds: 10), (t) {
-      if (currentAcc != null)
-        accList.add(currentAcc);
-      if (currentGyro != null)
-        gyroList.add(currentGyro);
+  void startListen() {
+    _streamSubscription = stream.listen((event) {
+      if (event != null)
+        _data.add(event);
+      print(event);
     });
   }
 
-  void stopPolling() {
-    timer.cancel();
-    accStream.cancel();
-    gyroStream.cancel();
-    timer = null;
-    accStream = null;
-    gyroStream = null;
-    print("Stop... Ho: ${accList.length} e ${gyroList.length}");
+  void stopListen() {
+    _streamSubscription?.cancel();
+    print("Ho ottenuto ${_data?.length} dati");
+    print("${_data[0]}");
   }
+}
+
+class SensorData {
+  final int timestamp;
+  final int accuracy;
+  final double accelerometerX;
+  final double accelerometerY;
+  final double accelerometerZ;
+  final double gyroscopeX;
+  final double gyroscopeY;
+  final double gyroscopeZ;
+
+  SensorData(
+    this.timestamp,
+    this.accuracy,
+    this.accelerometerX,
+    this.accelerometerY,
+    this.accelerometerZ,
+    this.gyroscopeX,
+    this.gyroscopeY,
+    this.gyroscopeZ,
+  );
+
+  @override
+  String toString() => "SensorData(timestamp=$timestamp, "
+    "accuracy=$accuracy, "
+    "accelerometerX=$accelerometerX, "
+    "accelerometerY=$accelerometerY, "
+    "accelerometerZ=$accelerometerZ, "
+    "gyroscopeX=$gyroscopeX, "
+    "gyroscopeY=$gyroscopeY, "
+    "gyroscopeZ=$gyroscopeZ)";
 }

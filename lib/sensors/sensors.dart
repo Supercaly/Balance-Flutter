@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 class Sensors {
   static const _defaultAccelerometerEventChannel = const EventChannel("uniurb.it/sensors/accelerometer");
   static const _defaultGyroscopeEventChannel = const EventChannel("uniurb.it/sensors/gyroscope");
-  static const _defaultSensorMethodChannel = const MethodChannel("uniurb.it/sensors");
+  static const _defaultSensorMethodChannel = const MethodChannel("uniurb.it/sensors/presence");
 
   /// Instance of the Sensors class
   static Sensors _instance;

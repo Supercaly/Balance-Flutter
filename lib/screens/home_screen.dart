@@ -22,6 +22,12 @@ class _HomeState extends State<Home> {
   final sp = SensorPolling();
 
   @override
+  void dispose() {
+    sp.stopListen();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -35,10 +41,10 @@ class _HomeState extends State<Home> {
         SizedBox(height: 30),
         RaisedButton(
           onPressed: () {
-            CountdownTimer(Duration(seconds: 32), Duration(seconds: 1))
+            CountdownTimer(Duration(seconds: 5), Duration(seconds: 1))
               ..listen((event) => print(event.elapsed),
-              onDone: () => sp.stopPolling());
-            sp.pollSensors();
+              onDone: () => sp.stopListen());
+            sp.startListen();
           },
           child: Text("Measure"),
         ),
