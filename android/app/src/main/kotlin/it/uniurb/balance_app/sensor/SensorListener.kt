@@ -5,56 +5,85 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import io.flutter.Log
 import it.uniurb.balance_app.model.SensorData
 
 /**
+ * Listen Accelerometer and Gyroscope events from the device and
+ * store their values in a [SensorSharedValues] instance
  *
+ * @param context Context of the application used to retrieve the sensors
+ * @see SensorMonitor
  * @author Lorenzo Calisti on 09/03/2020
  */
 class SensorListener(context: Context): SensorEventListener {
-	private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager
-	private val rawAccelerometerSensor: Sensor? = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-	private val rawGyroscopeSensor: Sensor? = sensorManager?.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-	private val sharedValues = SensorSharedValues.instance
 
-	fun isAccelerometerPresent(): Boolean = rawAccelerometerSensor != null
-	fun isGyroscopePresent(): Boolean = rawGyroscopeSensor != null
-
-	fun startListening() {
-		if (isAccelerometerPresent())
-			sensorManager?.registerListener(this, rawAccelerometerSensor,
-				SensorManager.SENSOR_DELAY_FASTEST)
-		if (isGyroscopePresent())
-			sensorManager?.registerListener(this, rawGyroscopeSensor,
-				SensorManager.SENSOR_DELAY_FASTEST)
+	companion object {
+		private const val TAG = "SensorListener"
 	}
 
-	fun stopListening() = sensorManager?.unregisterListener(this)
+	private val mSensorManager = context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager
+	private val mRawAccelerometerSensor: Sensor? = mSensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+	private val mRawGyroscopeSensor: Sensor? = mSensorManager?.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+	private val mSharedValues = SensorSharedValues.instance
 
-	override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+	private var mListening: Boolean = false
+
+	/** Returns true if the accelerometer sensor is present */
+	fun isAccelerometerPresent(): Boolean = mRawAccelerometerSensor != null
+	/** Returns true if the gyroscope sensor is present */
+	fun isGyroscopePresent(): Boolean = mRawGyroscopeSensor != null
+
+	/**
+	 * Start listening to sensor data
+	 *
+	 * If we are not already listening start to listen
+	 * the sensors, if their are present.
+	 */
+	fun startListening() {
+		if (!mListening) {
+			mListening = true
+			if (isAccelerometerPresent())
+				mSensorManager?.registerListener(this, mRawAccelerometerSensor,
+					SensorManager.SENSOR_DELAY_FASTEST)
+			if (isGyroscopePresent())
+				mSensorManager?.registerListener(this, mRawGyroscopeSensor,
+					SensorManager.SENSOR_DELAY_FASTEST)
+		}
+	}
+
+	/**
+	 * Stop listening to sensor data
+	 */
+	fun stopListening() {
+		if (mListening) {
+			mListening = false
+			mSensorManager?.unregisterListener(this)
+		}
+	}
 
 	override fun onSensorChanged(event: SensorEvent?) {
 		when (event?.sensor?.type) {
-			Sensor.TYPE_ACCELEROMETER -> sharedValues.currentAccelerometerValue = SensorData(
+			// Build a SensorData with accelerometer values
+			Sensor.TYPE_ACCELEROMETER -> mSharedValues.currentAccelerometerValue = SensorData(
 				event.timestamp,
 				event.accuracy,
 				event.values[0],
 				event.values[1],
-				event.values[2],
-				null,
-				null,
-				null
+				event.values[2]
 			)
-			Sensor.TYPE_GYROSCOPE -> sharedValues.currentGyroscopeValue = SensorData(
+			// Build a SensorData with gyroscope values
+			Sensor.TYPE_GYROSCOPE -> mSharedValues.currentGyroscopeValue = SensorData(
 				event.timestamp,
 				event.accuracy,
-				null,
-				null,
-				null,
 				event.values[0],
 				event.values[1],
 				event.values[2]
 			)
 		}
+	}
+
+	override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+		Log.w(TAG, "onAccuracyChanged: The accuracy of sensor ${sensor?.type} is now $accuracy")
 	}
 }

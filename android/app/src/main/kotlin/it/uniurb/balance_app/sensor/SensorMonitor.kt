@@ -10,41 +10,55 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 /**
+ * Class implementing a Sensor specific [EventChannel.StreamHandler]
  *
+ * During [onListen] the sensors are listened to by [SensorListener] and
+ * a [SensorPollingRunnable] is executed in a separate thread; every time
+ * a new sensor value is emitted by the thread it is automatically added to
+ * the [EventChannel.EventSink].
+ * The thread pool and the [SensorListener] are all teardown during [onCancel].
+ *
+ * @param context Context of the application
+ * @see SensorSharedValues
+ * @see SensorListener
+ * @see SensorPollingRunnable
  * @author Lorenzo Calisti on 09/03/2020
  */
 class SensorMonitor(context: Context): EventChannel.StreamHandler {
-	private val sharedValues = SensorSharedValues.instance
-	private val sensorListener = SensorListener(context)
-	private val uiThreadHandler: Handler = Handler(Looper.getMainLooper())
-	private var threadPool: ExecutorService? = null
+	private val mSharedValues = SensorSharedValues.instance
+	private val mSensorListener = SensorListener(context)
+	private val mUiThreadHandler: Handler = Handler(Looper.getMainLooper())
+	private var mThreadPool: ExecutorService? = null
 
-	fun isAccelerometerPresent(): Boolean = sensorListener.isAccelerometerPresent()
-	fun isGyroscopePresent(): Boolean = sensorListener.isGyroscopePresent()
+	/** Returns true if the accelerometer sensor is present */
+	fun isAccelerometerPresent(): Boolean = mSensorListener.isAccelerometerPresent()
+	/** Returns true if the gyroscope sensor is present */
+	fun isGyroscopePresent(): Boolean = mSensorListener.isGyroscopePresent()
 
 	override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
-		threadPool = Executors.newSingleThreadExecutor()
-		threadPool?.execute(SensorPollingRunnable(
-			uiThreadHandler,
+		mSharedValues.reset()
+		mSensorListener.startListening()
+		mThreadPool = Executors.newSingleThreadExecutor()
+		mThreadPool?.execute(SensorPollingRunnable(
+			mUiThreadHandler,
 			Runnable {
 				events?.success(SensorData.mergeSensorData(
-					sharedValues.currentAccelerometerValue,
-					sharedValues.currentGyroscopeValue
+					mSharedValues.currentAccelerometerValue,
+					mSharedValues.currentGyroscopeValue
 				))
 			})
 		)
-		sensorListener.startListening()
 	}
 
 	override fun onCancel(arguments: Any?) {
-		threadPool?.shutdownNow()
+		mThreadPool?.shutdownNow()
 		try {
-			threadPool?.awaitTermination(0L, TimeUnit.SECONDS)
+			mThreadPool?.awaitTermination(0L, TimeUnit.SECONDS)
 		} catch (ex: InterruptedException) {
 			ex.printStackTrace()
 		} finally {
-			sensorListener.stopListening()
-			threadPool = null
+			mSensorListener.stopListening()
+			mThreadPool = null
 		}
 	}
 }
