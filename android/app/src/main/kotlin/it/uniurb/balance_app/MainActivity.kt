@@ -1,6 +1,5 @@
 package it.uniurb.balance_app
 
-import io.flutter.Log
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -21,7 +20,7 @@ class MainActivity: FlutterActivity() {
     val binaryMessenger = flutterEngine.dartExecutor.binaryMessenger
 
     // Setup EventChannel for getting stream of sensors
-    EventChannel(binaryMessenger, "uniurb.it/sensors").setStreamHandler(sensorMonitor)
+    EventChannel(binaryMessenger, "uniurb.it/sensors/stream").setStreamHandler(sensorMonitor)
     // Setup MethodChannel for getting sensors information
     MethodChannel(binaryMessenger, "uniurb.it/sensors/presence")
       .setMethodCallHandler { call, result ->
@@ -31,12 +30,5 @@ class MainActivity: FlutterActivity() {
           else -> result.notImplemented()
         }
       }
-
-    Log.w("Banana", "configureFlutterEngine: ")
-  }
-
-  override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
-    super.cleanUpFlutterEngine(flutterEngine)
-    Log.w("Banana", "cleanUpFlutterEngine: ")
   }
 }

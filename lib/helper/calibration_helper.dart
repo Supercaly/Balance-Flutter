@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/model/sensor_bias.dart';
 import 'package:balance_app/sensors/sensor_event.dart';
-import 'package:balance_app/sensors/sensors.dart';
+import 'package:balance_app/sensors/sensors_old.dart';
 import 'package:quiver/async.dart';
 
 /// Helper class for the device calibration process
@@ -28,8 +28,8 @@ class CalibrationHelper {
       _calibrating = true;
       _timerCanceled = false;
       // Start listening to sensors events
-      _accelerometerSub = Sensors().accelerometerStream.listen((event) => _accEvents.add(event));
-      _gyroscopeSub = Sensors().gyroscopeStream.listen((event) => _gyroEvents.add(event));
+      _accelerometerSub = SensorsOld().accelerometerStream.listen((event) => _accEvents.add(event));
+      _gyroscopeSub = SensorsOld().gyroscopeStream.listen((event) => _gyroEvents.add(event));
       // Start the CountdownTimer
       _countdownTimer = CountdownTimer(Duration(milliseconds: 10000), Duration(milliseconds: 1000))
         ..listen((event) => null,

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:balance_app/sensors/sensor_event.dart';
-import 'package:balance_app/sensors/sensors.dart';
+import 'package:balance_app/sensors/sensors_old.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -11,28 +11,28 @@ void main() {
   MockEventChannel gyroEventChannel;
   MockMethodChannel sensorMethodChannel;
 
-  Sensors sensors;
+  SensorsOld sensors;
 
   setUp(() {
     accEventChannel = MockEventChannel();
     gyroEventChannel = MockEventChannel();
     sensorMethodChannel = MockMethodChannel();
-    sensors = Sensors.private(accEventChannel, gyroEventChannel, sensorMethodChannel);
+    sensors = SensorsOld.private(accEventChannel, gyroEventChannel, sensorMethodChannel);
   });
 
   group("convert sensor events", () {
     test("convert good data", () {
       var goodData = [1,2,3.0,4.0,5.0];
-      expect(Sensors.eventToSensorEvent(goodData), isNotNull);
-      expect(Sensors.eventToSensorEvent(goodData), SensorEvent(1,2,3.0,4.0,5.0));
+      expect(SensorsOld.eventToSensorEvent(goodData), isNotNull);
+      expect(SensorsOld.eventToSensorEvent(goodData), SensorEvent(1,2,3.0,4.0,5.0));
     });
 
     test("convert bad data", () {
       var badData = ["wrong",2,3.0,4.0,5.0];
-      expect(Sensors.eventToSensorEvent(badData), isNull);
+      expect(SensorsOld.eventToSensorEvent(badData), isNull);
 
       var badData2 = [1,2,0.0];
-      expect(Sensors.eventToSensorEvent(badData2), isNull);
+      expect(SensorsOld.eventToSensorEvent(badData2), isNull);
     });
   });
 

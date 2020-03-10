@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// Class used to listen to sensor events
-class Sensors {
+class SensorsOld {
   static const _defaultAccelerometerEventChannel = const EventChannel("uniurb.it/sensors/accelerometer");
   static const _defaultGyroscopeEventChannel = const EventChannel("uniurb.it/sensors/gyroscope");
   static const _defaultSensorMethodChannel = const MethodChannel("uniurb.it/sensors/presence");
 
   /// Instance of the Sensors class
-  static Sensors _instance;
+  static SensorsOld _instance;
 
-  factory Sensors() {
+  factory SensorsOld() {
     if (_instance == null) {
-      _instance = Sensors.private(
+      _instance = SensorsOld.private(
         _defaultAccelerometerEventChannel,
         _defaultGyroscopeEventChannel,
         _defaultSensorMethodChannel
@@ -25,7 +25,7 @@ class Sensors {
 
   /// This constructor is only used for testing and shouldn't be accessed
   @visibleForTesting
-  Sensors.private(this._accelerometerEventChannel, this._gyroscopeEventChannel, this._sensorMethodChannel);
+  SensorsOld.private(this._accelerometerEventChannel, this._gyroscopeEventChannel, this._sensorMethodChannel);
 
   final EventChannel _accelerometerEventChannel;
   final EventChannel _gyroscopeEventChannel;

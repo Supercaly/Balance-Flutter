@@ -84,6 +84,6 @@ class SensorListener(context: Context): SensorEventListener {
 	}
 
 	override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-		Log.w(TAG, "onAccuracyChanged: The accuracy of sensor ${sensor?.type} is now $accuracy")
+		Log.w(TAG, "onAccuracyChanged: The accuracy of sensor ${sensor?.name} is now $accuracy")
 	}
 }
