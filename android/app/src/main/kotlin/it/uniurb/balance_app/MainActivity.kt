@@ -1,5 +1,6 @@
 package it.uniurb.balance_app
 
+import io.flutter.Log
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
@@ -13,22 +14,29 @@ import it.uniurb.balance_app.sensor.SensorMonitor
  */
 class MainActivity: FlutterActivity() {
 
-    private val sensorMonitor by lazy { SensorMonitor(context) }
+  private val sensorMonitor by lazy { SensorMonitor(context) }
 
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-      GeneratedPluginRegistrant.registerWith(flutterEngine)
-      val binaryMessenger = flutterEngine.dartExecutor.binaryMessenger
+  override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+    GeneratedPluginRegistrant.registerWith(flutterEngine)
+    val binaryMessenger = flutterEngine.dartExecutor.binaryMessenger
 
-      // Setup EventChannel for getting stream of sensors
-      EventChannel(binaryMessenger, "uniurb.it/sensors").setStreamHandler(sensorMonitor)
-      // Setup MethodChannel for getting sensors information
-      MethodChannel(binaryMessenger, "uniurb.it/sensors/presence")
-        .setMethodCallHandler { call, result ->
-          when(call.method) {
-            "isAccelerometerPresent" -> result.success(sensorMonitor.isAccelerometerPresent())
-            "isGyroscopePresent" -> result.success(sensorMonitor.isGyroscopePresent())
-            else -> result.notImplemented()
-          }
+    // Setup EventChannel for getting stream of sensors
+    EventChannel(binaryMessenger, "uniurb.it/sensors").setStreamHandler(sensorMonitor)
+    // Setup MethodChannel for getting sensors information
+    MethodChannel(binaryMessenger, "uniurb.it/sensors/presence")
+      .setMethodCallHandler { call, result ->
+        when(call.method) {
+          "isAccelerometerPresent" -> result.success(sensorMonitor.isAccelerometerPresent())
+          "isGyroscopePresent" -> result.success(sensorMonitor.isGyroscopePresent())
+          else -> result.notImplemented()
         }
-    }
+      }
+
+    Log.w("Banana", "configureFlutterEngine: ")
+  }
+
+  override fun cleanUpFlutterEngine(flutterEngine: FlutterEngine) {
+    super.cleanUpFlutterEngine(flutterEngine)
+    Log.w("Banana", "cleanUpFlutterEngine: ")
+  }
 }

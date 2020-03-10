@@ -11,12 +11,12 @@ class SensorPolling {
   EventChannel _sensorsEventChannel;
   bool _isListening;
 
-  static SensorPolling _instance;
-  factory SensorPolling() {
-    if (_instance == null)
-      _instance = SensorPolling.private(_defaultSensorsEventChannel);
-    return _instance;
-  }
+  List<SensorData> get data => _sensorsData;
+
+  SensorPolling():
+      _sensorsEventChannel = _defaultSensorsEventChannel,
+      _isListening = false,
+      _sensorsData = [];
 
   /// This constructor is only used for testing and
   /// shouldn't be accessed from outside this class
@@ -44,6 +44,7 @@ class SensorPolling {
     if (_isListening) {
       _isListening = false;
       _sensorsStreamSubscription.cancel();
+      print("Ho ottenuto ${data.length} dati");
     }
   }
 

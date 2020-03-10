@@ -18,13 +18,26 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with WidgetsBindingObserver {
   final sp = SensorPolling();
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+  @override
   void dispose() {
-    sp.stopListen();
+    print("_HomeState.dispose: ");
+    sp.stopListening();
     super.dispose();
+  }
+
+  @override
+  Future<bool> didPopRoute() async {
+    print("_HomeState.didPopRoute: ");
+    sp.stopListening();
+    return false;
   }
 
   @override
@@ -43,8 +56,8 @@ class _HomeState extends State<Home> {
           onPressed: () {
             CountdownTimer(Duration(seconds: 5), Duration(seconds: 1))
               ..listen((event) => print(event.elapsed),
-              onDone: () => sp.stopListen());
-            sp.startListen();
+              onDone: () => sp.stopListening());
+            sp.startListening();
           },
           child: Text("Measure"),
         ),
