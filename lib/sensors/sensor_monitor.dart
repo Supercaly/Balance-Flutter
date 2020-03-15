@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:balance_app/model/sensor_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:quiver/async.dart';
 
 /// Class for monitor device's sensors
 ///
@@ -11,28 +12,29 @@ class SensorMonitor {
   static const EventChannel _defaultSensorsEventChannel = const EventChannel("uniurb.it/sensors/stream");
   static const MethodChannel _defaultSensorsMethodChannel = const MethodChannel("uniurb.it/sensors/presence");
 
+  final Duration duration;
   final EventChannel _sensorsEventChannel;
   final MethodChannel _sensorsMethodChannel;
   final List<SensorData> _sensorsData;
   StreamSubscription<SensorData> _sensorsStreamSubscription;
-  bool _isListening;
+  StreamController<Duration> _streamController;
+  CountdownTimer _countdownTimer;
 
   /// Returns all the retrieved [SensorData]
   List<SensorData> get data => _sensorsData;
 
   /// Default constructor
-  SensorMonitor():
-      _sensorsEventChannel = _defaultSensorsEventChannel,
-      _sensorsMethodChannel = _defaultSensorsMethodChannel,
-      _isListening = false,
-      _sensorsData = [];
+  SensorMonitor({this.duration = const Duration(milliseconds: 5000)}):
+    _sensorsEventChannel = _defaultSensorsEventChannel,
+    _sensorsMethodChannel = _defaultSensorsMethodChannel,
+    _sensorsData = [];
 
   /// This constructor is only used for testing and
   /// shouldn't be accessed from outside this class
   @visibleForTesting
   SensorMonitor.private(this._sensorsMethodChannel, this._sensorsEventChannel):
-      _isListening = false,
-      _sensorsData = [];
+    duration = const Duration(milliseconds: 5),
+    _sensorsData = [];
 
   /// Returns true if the accelerometer sensor is present
   Future<bool> get isAccelerometerPresent =>
@@ -43,27 +45,58 @@ class SensorMonitor {
     _sensorsMethodChannel.invokeMethod("isGyroscopePresent")
       .then<bool>((value) => value);
 
-  /// Start listening to sensor events
-  void startListening() {
-    if (!_isListening) {
-      _sensorsData.clear();
-      _isListening = true;
-      _sensorsStreamSubscription = _sensorsEventChannel
-        .receiveBroadcastStream()
-        .map((event) => eventToSensorData(event))
-        .listen((event) {
+  /// Listens to sensor data for a given [duration]
+  ///
+  /// This method will return a [Stream] of [Duration].
+  /// Creates a new broadcast [StreamController] for each
+  /// new listening, this controller is responsible of starting
+  /// and stopping the senors [EventChannel] and a [CountdownTimer].
+  /// Calling this method during the listening will return the
+  /// previously created [StreamController], so to start a new one
+  /// the current active must be cancelled by unregister all the
+  /// listeners or waiting the timer completion.
+  Stream<Duration> get sensorStream {
+    // Create a new Broadcast StreamController if not already present
+    _streamController ??= StreamController.broadcast(
+      onListen: () {
+        /*
+         * When the stream if first listened to the old
+         * retrieved data is cleared, a new stream form
+         * EventChannel is listened and a new CountdownTimer
+         * is started
+         */
+        print("SensorMonitor.sensorStream: Start listening to sensor data!");
+        _sensorsData.clear();
+        _sensorsStreamSubscription = _sensorsEventChannel
+          .receiveBroadcastStream()
+          .map((event) => eventToSensorData(event))
+          .listen((event) {
           if (event != null)
             _sensorsData.add(event);
         });
-    }
-  }
-
-  /// Stop listening to sensor events
-  void stopListening() {
-    if (_isListening) {
-      _isListening = false;
-      _sensorsStreamSubscription.cancel();
-    }
+        _countdownTimer = CountdownTimer(duration, Duration(milliseconds: 1000))
+          ..listen((event) => _streamController.add(event.elapsed),
+            onDone: () {
+              // If the StreamController is not null close it
+              _streamController?.close();
+            }
+          );
+      },
+      onCancel: () {
+        /*
+         * When the stream is cancelled the EventChannel is closed,
+         * the StreamController instance is set to null and if the
+         * timer is running (meaning the StreamController is cancelled
+         * by the last listener leaving) it's cancelled.
+         */
+        print("SensorMonitor.sensorStream: Stop listening to sensor data!");
+        if (_countdownTimer.isRunning)
+          _countdownTimer.cancel();
+        _sensorsStreamSubscription.cancel();
+        _streamController = null;
+      },
+    );
+    return _streamController?.stream;
   }
 
   /// Map any received event to a [SensorData]

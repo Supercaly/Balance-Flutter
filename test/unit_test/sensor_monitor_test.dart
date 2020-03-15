@@ -61,25 +61,34 @@ void main() {
 
   // Group of tests for listening a stream of sensor data
   group("Sensor events", () {
-    StreamController<List> controller;
+    StreamController<List> mockDataController;
 
     setUp(() {
-      controller = StreamController();
+      mockDataController = StreamController();
       when(mockEventChannel.receiveBroadcastStream())
-        .thenAnswer((_) => controller.stream);
+        .thenAnswer((_) => mockDataController.stream);
     });
 
-    tearDown(() => controller.close());
+    tearDown(() => mockDataController.close());
 
-    test("multiple invocations", () {
-      sensorMonitor.startListening();
-      sensorMonitor.startListening();
-      sensorMonitor.stopListening();
+    test("multiple invocations", () async{
+      sensorMonitor.sensorStream.listen((event) {});
+      sensorMonitor.sensorStream.listen((event) {});
+      sensorMonitor.sensorStream.listen((event) {});
 
       verify(mockEventChannel.receiveBroadcastStream()).called(1);
     });
 
-    test("receive some data", () {
+    test("cancel timer", () {
+      final sub = sensorMonitor.sensorStream.listen((event) { });
+      mockDataController.add([0,0,0.0,0.0,0.0,0.0,0.0,0.0]);
+      Future.delayed(Duration(seconds: 1), () {
+        sub.cancel();
+        expect(sensorMonitor.data, isNotEmpty);
+      });
+    });
+
+    test("receive some data", () async {
       final mockData = [
         SensorData(0,0,0.0,0.0,0.0,0.0,0.0,0.0),
         SensorData(1,1,1.0,1.0,1.0,1.0,1.0,1.0),
@@ -91,24 +100,18 @@ void main() {
         [2,2,2.0,2.0,2.0,2.0,2.0,2.0],
       ];
 
-      sensorMonitor.startListening();
-      controller.add(mockSendData[0]);
-      controller.add(mockSendData[1]);
-      controller.add(mockSendData[2]);
-      Future.delayed(Duration(seconds: 1), () {
-        sensorMonitor.stopListening();
-        expect(sensorMonitor.data, isNotEmpty);
-        expect(sensorMonitor.data, mockData);
-      });
+      mockDataController.add(mockSendData[0]);
+      mockDataController.add(mockSendData[1]);
+      mockDataController.add(mockSendData[2]);
+      await for (var a in sensorMonitor.sensorStream) {}
+      expect(sensorMonitor.data, isNotEmpty);
+      expect(sensorMonitor.data, mockData);
     });
 
-    test("receive null data", () {
-      sensorMonitor.startListening();
-      controller.add(null);
-      Future.delayed(Duration(seconds: 1), () {
-        sensorMonitor.stopListening();
-        expect(sensorMonitor.data, isEmpty);
-      });
+    test("receive null data", () async {
+      mockDataController.add(null);
+      await for (var a in sensorMonitor.sensorStream) {}
+      expect(sensorMonitor.data, isEmpty);
     });
   });
 }
