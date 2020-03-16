@@ -38,16 +38,12 @@ class PreferenceManager {
   static Future<void> updateSensorBiases(SensorBias accBias, SensorBias gyroBias) async {
     var pref = await SharedPreferences.getInstance();
     pref.setBool(_isDeviceCalibrated, true);
-    if (accBias != null) {
-      pref.setDouble(_accelerometerBiasX, accBias.x);
-      pref.setDouble(_accelerometerBiasY, accBias.y);
-      pref.setDouble(_accelerometerBiasZ, accBias.z);
-    }
-    if (gyroBias != null) {
-      pref.setDouble(_gyroscopeBiasX, gyroBias.x);
-      pref.setDouble(_gyroscopeBiasY, gyroBias.y);
-      pref.setDouble(_gyroscopeBiasZ, gyroBias.z);
-    }
+    pref.setDouble(_accelerometerBiasX, accBias?.x);
+    pref.setDouble(_accelerometerBiasY, accBias?.y);
+    pref.setDouble(_accelerometerBiasZ, accBias?.z);
+    pref.setDouble(_gyroscopeBiasX, gyroBias?.x);
+    pref.setDouble(_gyroscopeBiasY, gyroBias?.y);
+    pref.setDouble(_gyroscopeBiasZ, gyroBias?.z);
   }
 
   /// Return a [Future] with accelerometer [SensorBias]
