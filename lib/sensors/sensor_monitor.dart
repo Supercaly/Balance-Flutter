@@ -24,7 +24,7 @@ class SensorMonitor {
   List<SensorData> get data => _sensorsData;
 
   /// Default constructor
-  SensorMonitor({this.duration = const Duration(milliseconds: 5000)}):
+  SensorMonitor([this.duration = const Duration(milliseconds: 5000)]):
     _sensorsEventChannel = _defaultSensorsEventChannel,
     _sensorsMethodChannel = _defaultSensorsMethodChannel,
     _sensorsData = [];
@@ -33,7 +33,7 @@ class SensorMonitor {
   /// shouldn't be accessed from outside this class
   @visibleForTesting
   SensorMonitor.private(this._sensorsMethodChannel, this._sensorsEventChannel):
-    duration = const Duration(milliseconds: 5),
+    duration = const Duration(milliseconds: 5000),
     _sensorsData = [];
 
   /// Returns true if the accelerometer sensor is present
@@ -50,7 +50,8 @@ class SensorMonitor {
   /// This method will return a [Stream] of [Duration].
   /// Creates a new broadcast [StreamController] for each
   /// new listening, this controller is responsible of starting
-  /// and stopping the senors [EventChannel] and a [CountdownTimer].
+  /// and stopping a senors [EventChannel] and a [CountdownTimer].
+  ///
   /// Calling this method during the listening will return the
   /// previously created [StreamController], so to start a new one
   /// the current active must be cancelled by unregister all the

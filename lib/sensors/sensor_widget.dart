@@ -1,107 +1,152 @@
 import 'dart:async';
 
-import 'package:balance_app/model/sensor_data.dart';
 import 'package:balance_app/sensors/sensor_monitor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quiver/async.dart';
 
-typedef Widget SensorWidgetBuilder(SensorListener listener);
-
+/// Widget that makes listening to sensors more easy
+/// 
+/// This Widget implements a [ChangeNotifierProvider] 
+/// of [SensorController] to manage the listening of 
+/// sensor events; the Widget will respond to changes
+/// in the listening state by calling the [builder] 
+/// method with the new state and let his child Widgets
+/// rebuild accordingly.
+/// 
+/// This Widget will stop the listening automatically
+/// when the back button is pressed or the Widget is
+/// disposed. 
 class SensorWidget extends StatefulWidget {
   final Duration duration;
-  final SensorWidgetBuilder builder;
+  final Widget Function(BuildContext context, SensorController controller) builder;
 
-  SensorWidget({Key key, this.duration: const Duration(seconds: 5), this.builder}): super(key: key);
+  SensorWidget({
+    Key key,
+    this.duration: const Duration(seconds: 5),
+    @required this.builder
+  }): assert(builder != null),
+    super(key: key);
 
   @override
   _SensorWidgetState createState() => _SensorWidgetState();
 }
 
 class _SensorWidgetState extends State<SensorWidget> with WidgetsBindingObserver {
-  SensorListener _sensorListener;
+  SensorController _controller;
 
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
-    _sensorListener = SensorListener(widget.duration);
+    _controller = SensorController(widget.duration);
     super.initState();
   }
 
   @override
-  Future<bool> didPopRoute() async {
-    _sensorListener.cancel();
-    return false;
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: 16/03/20 manage cancel on pause
+    switch(state) {
+      case AppLifecycleState.resumed:
+      // TODO: Handle this case.
+        break;
+      case AppLifecycleState.inactive:
+      // TODO: Handle this case.
+        break;
+      case AppLifecycleState.paused:
+      // TODO: Handle this case.
+        break;
+      case AppLifecycleState.detached:
+      // TODO: Handle this case.
+        break;
+    }
+  }
+
+  @override
+  Future<bool> didPopRoute() {
+    // Cancel the SensorController when the back button is pressed
+    _controller.cancel();
+    return Future.value(false);
   }
 
   @override
   void dispose() {
-    _sensorListener.cancel();
+    // Cancel the SensorController when the widget is disposed
+    _controller.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: _sensorListener,
-      child: Consumer<SensorListener>(
-        builder: (context, value, child) {
-          return widget.builder(value);
-        },
+    return ChangeNotifierProvider<SensorController>.value(
+      value: _controller,
+      child: Consumer<SensorController>(
+        // Every time the Consumer has new values re-build the child widgets
+        builder: (context, value, _) => widget.builder(context, value),
       ),
     );
+      return widget.builder(context, _controller);
   }
 }
 
-enum SensorListeningState { none, listening, cancelled, complete }
+/// Wrapper class for [SensorMonitor]
+/// 
+/// This class implements a [ChangeNotifier]
+/// to update his listeners every time the 
+/// monitor is started or stopped; SensorController
+/// can have four states: none, listening, cancelled, 
+/// complete.
+class SensorController extends ChangeNotifier {
+  /// The controller is freshly created
+  static const int none = 0;
+  /// The controller is listening to [SensorMonitor]
+  static const int listening = 1;
+  /// The controller is cancelled
+  static const int cancelled = 2;
+  /// The controller has finished the listening
+  static const int complete = 3;
 
-class SensorListener extends ChangeNotifier {
-  final Duration timerDuration;
+  final Duration duration;
   final SensorMonitor _monitor;
-  CountdownTimer _timer;
-  bool _timerCancelled;
-  bool _isListening;
-  SensorListeningState _state;
+  StreamSubscription _sub;
+  int _state;
 
-  SensorListeningState get state => _state;
+  SensorController(this.duration):
+    _monitor = SensorMonitor(duration),
+    _state = SensorController.none;
 
-  List<SensorData> get result => _monitor.data;
+  /// Returns the state of [SensorController]
+  int get state => _state;
 
-  SensorListener(this.timerDuration):
-    _monitor = SensorMonitor(),
-    _state = SensorListeningState.none,
-    _timerCancelled = false,
-    _isListening = false;
-
+  /// Start listening to [SensorMonitor.sensorStream]
+  /// 
+  /// This method is called every time we want to start listening
+  /// to sensor data in [SensorMonitor], it emits [listening] and
+  /// [complete] states for [SensorController]'s listeners.
+  /// 
+  /// This method can be called only once per listening, so calling
+  /// this multiple times will throw and [Exception].
   void listen() {
-    if (!_isListening) {
-      _isListening = true;
-      _timerCancelled = false;
-      _state = SensorListeningState.listening;
-      _timer = CountdownTimer(timerDuration, Duration(seconds: 1))
-        ..listen((event) => print("tick: ${event.elapsed}"),
-          cancelOnError: false,
-          onError: (e) => print("SensorMonitorHelper.start: Error listening sensors: $e"),
-          onDone: () {
-            _isListening = false;
-            _monitor.stopListening();
-            _state = SensorListeningState.cancelled;
-            // If the timer was not cancelled notify the completion
-            if (!_timerCancelled)
-              _state = SensorListeningState.complete;
-            notifyListeners();
-          }
-        );
-      _monitor.startListening();
-      notifyListeners();
-    }
+    if (_sub != null) throw Exception("SensorController.listen called multiple times! You are already listening.");
+    _sub = _monitor.sensorStream.listen((event) { /*NoOp*/ },
+      onDone: () {
+        _sub = null;
+        _state = SensorController.complete;
+        notifyListeners();
+      }
+    );
+    _state = SensorController.listening;
+    notifyListeners();
   }
 
+  /// Stop listening to [SensorMonitor.sensorStream]
+  /// 
+  /// This method will cancel the [Stream] of [SensorMonitor.sensorStream]
+  /// cancelling the listening process.
+  /// 
+  /// This method will emit a [cancelled] state every time it's called. 
   void cancel() {
-    if (_isListening) {
-      _timerCancelled = true;
-      _timer?.cancel();
-      _timer = null;
-    }
+    _sub?.cancel();
+    _sub = null;
+    _state = SensorController.cancelled;
+    notifyListeners();
   }
 }
