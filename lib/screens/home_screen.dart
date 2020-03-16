@@ -1,48 +1,37 @@
-import 'dart:async';
-
-import 'package:balance_app/sensors/sensor_monitor.dart';
 import 'package:balance_app/sensors/sensor_widget.dart';
-import 'package:balance_app/widgets/cicular_counter.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Home();
-  }
-}
-
-class Home extends StatefulWidget {
-  @override
-  _HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  @override
-  Widget build(BuildContext context) {
     return SensorWidget(
-      builder: (_, controller) {
-        print("${controller.state}");
-        return Column(
+      builder: (context, controller) => Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "${controller.state}",
+              style: Theme.of(context).textTheme.headline4,
+            ),
             SizedBox(height: 30),
             RaisedButton(
-              onPressed: () {
+              onPressed: () => controller.state == SensorController.listening?
+                controller.cancel():
+                controller.listen(),
+              child: Text(
                 controller.state == SensorController.listening?
-                  controller.cancel():
-                  controller.listen();
-              },
-              child: Text("Measure"),
+                "Stop": "Measure"
+              ),
             ),
             RaisedButton(
               onPressed: null,
-              child: Text("Boh"),
-            ),
-          ]
-        );
-      },
+              child: Text("Toggle Button"),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -84,7 +84,7 @@ void main() {
       mockDataController.add([0,0,0.0,0.0,0.0,0.0,0.0,0.0]);
       Future.delayed(Duration(seconds: 1), () {
         sub.cancel();
-        expect(sensorMonitor.data, isNotEmpty);
+        expect(sensorMonitor.result, isNotEmpty);
       });
     });
 
@@ -104,14 +104,14 @@ void main() {
       mockDataController.add(mockSendData[1]);
       mockDataController.add(mockSendData[2]);
       await for (var a in sensorMonitor.sensorStream) {}
-      expect(sensorMonitor.data, isNotEmpty);
-      expect(sensorMonitor.data, mockData);
+      expect(sensorMonitor.result, isNotEmpty);
+      expect(sensorMonitor.result, mockData);
     });
 
     test("receive null data", () async {
       mockDataController.add(null);
       await for (var a in sensorMonitor.sensorStream) {}
-      expect(sensorMonitor.data, isEmpty);
+      expect(sensorMonitor.result, isEmpty);
     });
   });
 }

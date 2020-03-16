@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:balance_app/model/sensor_data.dart';
 import 'package:balance_app/sensors/sensor_monitor.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,26 +43,8 @@ class _SensorWidgetState extends State<SensorWidget> with WidgetsBindingObserver
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    // TODO: 16/03/20 manage cancel on pause
-    switch(state) {
-      case AppLifecycleState.resumed:
-      // TODO: Handle this case.
-        break;
-      case AppLifecycleState.inactive:
-      // TODO: Handle this case.
-        break;
-      case AppLifecycleState.paused:
-      // TODO: Handle this case.
-        break;
-      case AppLifecycleState.detached:
-      // TODO: Handle this case.
-        break;
-    }
-  }
-
-  @override
   Future<bool> didPopRoute() {
+    // TODO: 16/03/20 Display a dialog asking the user if he wants to cancel
     // Cancel the SensorController when the back button is pressed
     _controller.cancel();
     return Future.value(false);
@@ -115,6 +98,9 @@ class SensorController extends ChangeNotifier {
 
   /// Returns the state of [SensorController]
   int get state => _state;
+
+  /// Returns [SensorMonitor.result]
+  List<SensorData> get result => _monitor.result;
 
   /// Start listening to [SensorMonitor.sensorStream]
   /// 

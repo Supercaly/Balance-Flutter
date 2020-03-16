@@ -21,7 +21,7 @@ class SensorMonitor {
   CountdownTimer _countdownTimer;
 
   /// Returns all the retrieved [SensorData]
-  List<SensorData> get data => _sensorsData;
+  List<SensorData> get result => _sensorsData;
 
   /// Default constructor
   SensorMonitor([this.duration = const Duration(milliseconds: 5000)]):
