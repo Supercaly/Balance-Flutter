@@ -11,11 +11,13 @@ class PreferenceManager {
   static const _gyroscopeBiasY = "GyroscopeBiasY";
   static const _gyroscopeBiasZ = "GyroscopeBiasZ";
 
+  /// Is this the first time the app has been launched?
   static Future<bool> get isFirstTimeLaunch async {
     var pref = await SharedPreferences.getInstance();
     return pref.getBool(_isFirstTimeLaunch) ?? true;
   }
 
+  /// Mark the first time launch as done
   static Future<void> firstLaunchDone() async {
     var pref = await SharedPreferences.getInstance();
     pref.setBool(_isFirstTimeLaunch, false);
