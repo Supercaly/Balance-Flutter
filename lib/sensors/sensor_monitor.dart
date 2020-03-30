@@ -47,7 +47,8 @@ class SensorMonitor {
 
   /// Listens to sensor data for a given [duration]
   ///
-  /// This method will return a [Stream] of [Duration].
+  /// This method will return a [Stream] of [Duration] with
+  /// the elapsed time from the start.
   /// Creates a new broadcast [StreamController] for each
   /// new listening, this controller is responsible of starting
   /// and stopping a senors [EventChannel] and a [CountdownTimer].

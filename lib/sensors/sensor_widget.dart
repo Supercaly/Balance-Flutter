@@ -96,6 +96,10 @@ class SensorController extends ChangeNotifier {
     _monitor = SensorMonitor(duration),
     _state = SensorController.none;
 
+  @visibleForTesting
+  SensorController.private(this._monitor, this.duration):
+      _state = SensorController.none;
+
   /// Returns the state of [SensorController]
   int get state => _state;
 

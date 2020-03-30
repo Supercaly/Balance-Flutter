@@ -36,7 +36,7 @@ void main() {
   });
 
   // Group of tests for retrieving a specific sensor presence
-  group("sensor presence", () {
+  group("Sensor presence", () {
 
     test("accelerometer presence", () async {
       when(mockMethodChannel.invokeMethod<bool>("isAccelerometerPresent"))
@@ -103,14 +103,14 @@ void main() {
       mockDataController.add(mockSendData[0]);
       mockDataController.add(mockSendData[1]);
       mockDataController.add(mockSendData[2]);
-      await for (var a in sensorMonitor.sensorStream) {}
+      await for (var _ in sensorMonitor.sensorStream) {}
       expect(sensorMonitor.result, isNotEmpty);
       expect(sensorMonitor.result, mockData);
     });
 
     test("receive null data", () async {
       mockDataController.add(null);
-      await for (var a in sensorMonitor.sensorStream) {}
+      await for (var _ in sensorMonitor.sensorStream) {}
       expect(sensorMonitor.result, isEmpty);
     });
   });
