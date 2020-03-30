@@ -66,7 +66,6 @@ class _SensorWidgetState extends State<SensorWidget> with WidgetsBindingObserver
         builder: (context, value, _) => widget.builder(context, value),
       ),
     );
-      return widget.builder(context, _controller);
   }
 }
 
