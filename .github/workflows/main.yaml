@@ -1,0 +1,43 @@
+
+# This file will trigger on every push to github,
+# it will execute code analysis and unit tests
+name: Balance CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test-and-analyze:
+    name: Unit Test & Code Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          channel: 'dev'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      # Generate part files for floor
+      - name: Generate part files
+        run: flutter packages pub run build_runner build
+
+      # Install SQLite libraries for floor tests
+      - name: Install SQLite
+        run: sudo apt-get -y install sqlite3 libsqlite3-dev
+
+      # Run Unit Tests
+      - name: Unit Test
+        run: flutter test
+
+      # Run Code Analysis
+      - name: Code Analysis
+        run: flutter analyze

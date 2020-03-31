@@ -58,30 +58,6 @@ class BColors {
     800: Color.fromRGBO(52, 198, 249, .9),
     900: Color.fromRGBO(52, 198, 249, 1),
   });
-  static const MaterialColor _venice_blue = MaterialColor(0xFF0A698D, {
-    50: Color.fromRGBO(10, 105, 141, .1),
-    100: Color.fromRGBO(10, 105, 141, .2),
-    200: Color.fromRGBO(10, 105, 141, .3),
-    300: Color.fromRGBO(10, 105, 141, .4),
-    400: Color.fromRGBO(10, 105, 141, .5),
-    500: Color.fromRGBO(10, 105, 141, .6),
-    600: Color.fromRGBO(10, 105, 141, .7),
-    700: Color.fromRGBO(10, 105, 141, .8),
-    800: Color.fromRGBO(10, 105, 141, .9),
-    900: Color.fromRGBO(10, 105, 141, 1),
-  });
-  static const MaterialColor _lili_white = MaterialColor(0xFFE4F5FF, {
-    50: Color.fromRGBO(228, 245, 255, .1),
-    100: Color.fromRGBO(228, 245, 255, .2),
-    200: Color.fromRGBO(228, 245, 255, .3),
-    300: Color.fromRGBO(228, 245, 255, .4),
-    400: Color.fromRGBO(228, 245, 255, .5),
-    500: Color.fromRGBO(228, 245, 255, .6),
-    600: Color.fromRGBO(228, 245, 255, .7),
-    700: Color.fromRGBO(228, 245, 255, .8),
-    800: Color.fromRGBO(228, 245, 255, .9),
-    900: Color.fromRGBO(228, 245, 255, 1),
-  });
 
   static const Color _dove_gray = Color.fromARGB(255, 102, 102, 102);
 }

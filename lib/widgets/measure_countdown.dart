@@ -1,11 +1,8 @@
-import 'dart:async';
-import 'dart:math';
 import 'package:balance_app/bloc/countdown_bloc.dart';
 import 'package:balance_app/bloc/events/countdown_events.dart';
 import 'package:balance_app/bloc/states/countdown_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quiver/async.dart';
 
 import 'package:balance_app/widgets/circular_countdown.dart';
 
@@ -21,6 +18,7 @@ class MeasureCountdown extends StatelessWidget {
   }
 
   Widget _buildMeasureWidgets(BuildContext context, CountdownState state) {
+    // ignore: close_sinks
     final CountdownBloc _bloc = BlocProvider.of<CountdownBloc>(context);
     Widget logoWidget;
 
