@@ -7,7 +7,7 @@ class BStrings {
   static const lorem_long =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum interdum convallis euismod. Aliquam faucibus, lectus ut commodo pretium, leo nulla laoreet massa, eu fermentum augue nibh eget nunc. Etiam eu libero leo. Mauris congue eu felis eu sollicitudin. Fusce lorem arcu, efficitur id ullamcorper eu, consectetur vel sapien.";
 
-  static const navigation_titles = ["Home", "Measurements", "Calibrate Device"];
+  static const navigation_titles = ["Home", "Tests", "Settings"];
 
   // Calibration Screen
   static const calibration_message_txt = "Metti il dispositivo su una superficie piana, come un" +

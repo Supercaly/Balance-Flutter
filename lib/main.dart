@@ -4,7 +4,7 @@ import 'package:balance_app/routes.dart';
 import 'package:balance_app/screens/intro_screen.dart';
 import 'package:balance_app/screens/main_screen.dart';
 import 'package:balance_app/screens/result_screen.dart';
-import 'package:balance_app/screens/settings_screen.dart';
+import 'package:balance_app/screens/calibrate_device_screen.dart';
 import 'package:balance_app/res/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +38,7 @@ class BalanceApp extends StatelessWidget {
 					routes: {
 						Routes.intro: (context) => IntroScreen(),
 						Routes.main: (context) => MainScreen(),
-						Routes.settings: (context) => SettingsScreen(),
+						Routes.calibration: (context) => CalibrateDeviceScreen(),
 						Routes.result: (context) => ResultScreen()
 					},
 				),

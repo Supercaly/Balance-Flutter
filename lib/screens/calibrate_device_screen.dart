@@ -14,56 +14,59 @@ import 'package:flutter_svg/svg.dart';
 class CalibrateDeviceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.all(16.0),
-        child: SensorWidget(
-          duration: Duration(seconds: 10),
-          builder: (context, controller) {
-            final state = controller.state;
-            // Calibration completed... Compute and save the SensorBiases
-            if (state == SensorController.complete)
-              PreferenceManager.updateSensorBiases(
-                _computeAccelerometerBias(controller.result),
-                _computeGyroscopeBias(controller.result)
-              );
-            // Return the child widget containing the UI elements
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  flex: 4,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    // TODO: 24/02/20 Animate the Picture during the calibration
-                    child: SvgPicture.asset("assets/icons/calibration_phone.svg", height: 200)
-                  )
-                ),
-                Expanded(child: SizedBox(height: 24)),
-                Expanded(
-                  flex: 2,
-                  child: _makeTextElements(context, state),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: RaisedButton(
-                      onPressed: state == SensorController.listening ?
-                      null :
-                        () => controller.listen(),
-                      child: Text(
-                        state == SensorController.complete ?
-                        "Calibrate Again" :
-                        "Start Calibration"
+    return Scaffold(
+      appBar: AppBar(title: Text("Calibrate Device")),
+      body: Container(
+          padding: EdgeInsets.all(16.0),
+          child: SensorWidget(
+            duration: Duration(seconds: 10),
+            builder: (context, controller) {
+              final state = controller.state;
+              // Calibration completed... Compute and save the SensorBiases
+              if (state == SensorController.complete)
+                PreferenceManager.updateSensorBiases(
+                  _computeAccelerometerBias(controller.result),
+                  _computeGyroscopeBias(controller.result)
+                );
+              // Return the child widget containing the UI elements
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    flex: 4,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      // TODO: 24/02/20 Animate the Picture during the calibration
+                      child: SvgPicture.asset("assets/icons/calibration_phone.svg", height: 200)
+                    )
+                  ),
+                  Expanded(child: SizedBox(height: 24)),
+                  Expanded(
+                    flex: 2,
+                    child: _makeTextElements(context, state),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: RaisedButton(
+                        onPressed: state == SensorController.listening ?
+                        null :
+                          () => controller.listen(),
+                        child: Text(
+                          state == SensorController.complete ?
+                          "Calibrate Again" :
+                          "Start Calibration"
+                        ),
                       ),
-                    ),
+                    )
                   )
-                )
-              ],
-            );
-          }
-        ),
+                ],
+              );
+            }
+          ),
+      ),
     );
   }
 

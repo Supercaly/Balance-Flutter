@@ -2,10 +2,9 @@ import 'package:balance_app/res/string.dart';
 import 'package:balance_app/widgets/google_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
-import '../routes.dart';
-import 'calibrate_device_screen.dart';
 import 'home_screen.dart';
 import 'measurements_screen.dart';
+import 'settings_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -17,11 +16,13 @@ class _MainScreenState extends State<MainScreen> {
   // Index of the current page open
   int _currentIndex;
   List<Widget> _pages;
+  List<String> _titles;
 
   @override
   void initState() {
     _currentIndex = _initialPage;
-    _pages = [HomeScreen(), MeasurementsScreen(), CalibrateDeviceScreen()];
+    _pages = [HomeScreen(), MeasurementsScreen(), SettingsScreen()];
+    _titles = BStrings.navigation_titles;
     super.initState();
   }
 
@@ -29,12 +30,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(BStrings.navigation_titles[_currentIndex]),
-        // Show the settings action if the current page is HomeScreen
-        actions: _currentIndex == _initialPage ? [IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: () => Navigator.pushNamed(context, Routes.settings)
-        )] : null,
+        title: Text(_titles[_currentIndex]),
       ),
       body: WillPopScope(
         onWillPop: () => Future.sync(() {
@@ -48,9 +44,9 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: GoogleBottomNavigationBar(
         currentIndex: _currentIndex,
         items: [
-          GoogleBottomNavigationItem(icon: Icon(Icons.home), text: Text("Home")),
-          GoogleBottomNavigationItem(icon: Icon(Icons.list), text: Text("Tests")),
-          GoogleBottomNavigationItem(icon: Icon(Icons.settings), text: Text("Settings")),
+          GoogleBottomNavigationItem(icon: Icon(Icons.home), text: Text(_titles[0])),
+          GoogleBottomNavigationItem(icon: Icon(Icons.list), text: Text(_titles[1])),
+          GoogleBottomNavigationItem(icon: Icon(Icons.settings), text: Text(_titles[2])),
         ],
         onTap: (newIdx) => setState(() => _currentIndex = newIdx),
       ),
