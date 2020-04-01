@@ -62,7 +62,7 @@ class SettingsElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: Theme.of(context).brightness == Brightness.light? Colors.white: Theme.of(context).primaryColor,
       child: InkWell(
         onTap: () => onTap?.call(),
         child: Container(

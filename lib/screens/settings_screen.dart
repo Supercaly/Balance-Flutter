@@ -37,7 +37,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SettingsElement(
               icon: Icon(Icons.info_outline),
               text: Text("What we know about you"),
-              onTap: () => Navigator.pushNamed(context, Routes.calibration),
+              onTap: () => Navigator.pushNamed(context, Routes.personal_info_recap),
             )
           ]
         ),
