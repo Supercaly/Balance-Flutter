@@ -45,17 +45,19 @@ class SettingsGroup extends StatelessWidget {
 ///
 /// This Widget implements and element of a [SettingsGroup],
 /// the element has an [icon], a [text] and responds to
-/// [onTap] events.
+/// [onTap] and [onLongPress] events.
 class SettingsElement extends StatelessWidget {
   final Icon icon;
-  final Text text;
+  final String text;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
 
   SettingsElement({
     Key key,
     this.icon,
     @required this.text,
     this.onTap,
+    this.onLongPress
   }): assert(text != null),
       super(key: key);
 
@@ -64,6 +66,7 @@ class SettingsElement extends StatelessWidget {
     return Material(
       color: Theme.of(context).brightness == Brightness.light? Colors.white: Theme.of(context).primaryColor,
       child: InkWell(
+        onLongPress: () => onLongPress?.call(),
         onTap: () => onTap?.call(),
         child: Container(
           child: Padding(
@@ -72,7 +75,10 @@ class SettingsElement extends StatelessWidget {
               children: <Widget>[
                 icon != null ? icon: SizedBox(width: 24, height: 24),
                 SizedBox(width: 16),
-                text,
+                Text(
+                  text,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
               ],
             ),
           ),

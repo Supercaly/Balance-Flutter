@@ -1,22 +1,10 @@
+
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/settings_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  int _easterEggTapCount;
-
-  @override
-  void initState() {
-    _easterEggTapCount = 0;
-    super.initState();
-  }
-
+class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -26,7 +14,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             SettingsElement(
               icon: Icon(Icons.send),
-              text: Text("Calibrate your Device"),
+              text: "Calibrate your Device",
               onTap: () => Navigator.pushNamed(context, Routes.calibration),
             ),
           ],
@@ -36,7 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             SettingsElement(
               icon: Icon(Icons.info_outline),
-              text: Text("What we know about you"),
+              text: "What we know about you",
               onTap: () => Navigator.pushNamed(context, Routes.personal_info_recap),
             )
           ]
@@ -46,11 +34,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             SettingsElement(
               icon: Icon(Icons.chrome_reader_mode),
-              text: Text("Privacy policy"),
+              text: "Privacy policy",
             ),
             SettingsElement(
               icon: Icon(Icons.adb),
-              text: Text("Open Source"),
+              text: "Open Source",
             ),
           ]
         ),
@@ -59,14 +47,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: [
             SettingsElement(
               icon: Icon(Icons.hotel),
-              text: Text("About Balance"),
+              text: "About Balance",
             ),
             SettingsElement(
-              text: Text("Version 0.0.1 (1)"),
-              onTap: () {
-                _easterEggTapCount++;
-                if (_easterEggTapCount == 5) {
-                  _easterEggTapCount = 0;
+              text: "Version 0.0.1 (1)",
+              onLongPress: () {
                   Scaffold.of(context)
                     .showSnackBar(
                       SnackBar(
@@ -74,11 +59,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         duration: Duration(seconds: 2),
                       )
                   );
-                }
               }
             ),
             SettingsElement(
-              text: Text("Made with ❤ from Italy"),
+              text: "Made with ❤ from Italy",
             ),
           ]
         ),
