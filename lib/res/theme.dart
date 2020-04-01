@@ -101,6 +101,7 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
     ),
   ),
   iconTheme: IconThemeData(
+    size: 24,
     color: BColors.textColor,
   ),
 );
