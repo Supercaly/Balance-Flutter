@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// This Widget implements a custom version of a bottom
 /// navigation bar, inspired form the youtube video:
 /// https://www.youtube.com/watch?v=jJPSKEEiN-E
-class GoogleBottomNavigationBar extends StatefulWidget {
+class GoogleBottomNavigationBar extends StatelessWidget {
   final Color backgroundColor;
   final Color selectedColor;
   final Color unselectedColor;
@@ -30,18 +30,13 @@ class GoogleBottomNavigationBar extends StatefulWidget {
       super(key: key);
 
   @override
-  _GoogleBottomNavigationBarState createState() => _GoogleBottomNavigationBarState();
-}
-
-class _GoogleBottomNavigationBarState extends State<GoogleBottomNavigationBar> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 56,
       padding: EdgeInsets.only(left: 24, top: 6, right: 24, bottom: 6),
       decoration: BoxDecoration(
-        color: widget.backgroundColor,
+        color: backgroundColor,
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -51,18 +46,18 @@ class _GoogleBottomNavigationBarState extends State<GoogleBottomNavigationBar> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: widget.items.map((item) {
-          final itemIdx = widget.items.indexOf(item);
+        children: items.map((item) {
+          final itemIdx = items.indexOf(item);
           return Material(
-            color: widget.backgroundColor,
+            color: backgroundColor,
             child: InkWell(
               customBorder: CircleBorder(),
               onTap: () {
-                if (widget.currentIndex != itemIdx) {
-                  widget.onTap.call(itemIdx);
+                if (currentIndex != itemIdx) {
+                  onTap.call(itemIdx);
                 }
               },
-              child: _buildItem(item, widget.currentIndex == itemIdx),
+              child: _buildItem(item, currentIndex == itemIdx),
             ),
           );
         }).toList()
@@ -80,7 +75,7 @@ class _GoogleBottomNavigationBarState extends State<GoogleBottomNavigationBar> {
       width: isSelected ? 122 : 50,
       height: double.maxFinite,
       decoration: isSelected ? BoxDecoration(
-        color: widget.rectangleColor,
+        color: rectangleColor,
         borderRadius: BorderRadius.circular(90)
       ): null,
       child: Center(
@@ -94,7 +89,7 @@ class _GoogleBottomNavigationBarState extends State<GoogleBottomNavigationBar> {
                 IconTheme(
                   data: IconThemeData(
                     size: 24,
-                    color: widget.selectedColor
+                    color: selectedColor
                   ),
                   child: item.icon,
                 ),
@@ -102,7 +97,7 @@ class _GoogleBottomNavigationBarState extends State<GoogleBottomNavigationBar> {
                   padding: const EdgeInsets.only(left: 12),
                   child: DefaultTextStyle.merge(
                     style: TextStyle(
-                      color: widget.selectedColor,
+                      color: selectedColor,
                       fontSize: 12,
                       fontWeight: FontWeight.w500
                     ),
@@ -115,7 +110,7 @@ class _GoogleBottomNavigationBarState extends State<GoogleBottomNavigationBar> {
         ): IconTheme(
           data: IconThemeData(
             size: 24,
-            color: widget.unselectedColor
+            color: unselectedColor
           ),
           child: item.icon,
         ),
