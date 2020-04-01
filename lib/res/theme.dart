@@ -104,6 +104,9 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
     size: 24,
     color: BColors.textColor,
   ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: BColors.colorAccent,
+  )
 );
 
 /// Dark Theme for the app
