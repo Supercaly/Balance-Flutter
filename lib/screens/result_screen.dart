@@ -1,5 +1,4 @@
-import 'package:balance_app/res/text_appearance.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -9,14 +8,24 @@ class ResultScreen extends StatelessWidget {
     // Get the resultId from the arguments
     final int resultId = ModalRoute.of(context).settings.arguments;
 
+    // TextStyles for the Widget
+    final titleTextStyle = Theme.of(context).textTheme.subtitle2.copyWith(
+      fontSize: 17,
+    );
+    final headlineTextStyle = Theme.of(context).textTheme.bodyText1;
+    final valueTextStyle = Theme.of(context).textTheme.caption;
+    final valueBoldTextStyle = Theme.of(context).textTheme.caption.copyWith(
+      fontWeight: FontWeight.w500,
+    );
+
     return Scaffold(
-      appBar: AppBar(title: Text("Result $resultId")),
+      appBar: AppBar(title: Text("Test $resultId")),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
         child: Column(
           children: <Widget>[
             // Result info card
             Card(
+              margin: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -28,7 +37,7 @@ class ResultScreen extends StatelessWidget {
                         SizedBox(width: 16),
                         Text(
                           "20/20/2020 20:20:20",
-                          style: Theme.of(context).textTheme.cardBody,
+                          style: headlineTextStyle,
                         )
                       ],
                     ),
@@ -40,7 +49,7 @@ class ResultScreen extends StatelessWidget {
                         SizedBox(width: 16),
                         Text(
                           "Eyes open",
-                          style: Theme.of(context).textTheme.cardBody,
+                          style: headlineTextStyle,
                         )
                       ],
                     )
@@ -48,9 +57,9 @@ class ResultScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16),
             // Charts card
             Card(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -58,7 +67,7 @@ class ResultScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       "Charts",
-                      style: Theme.of(context).textTheme.featureTitle,
+                      style: titleTextStyle,
                     ),
                     SizedBox(height: 16),
                     Placeholder(
@@ -72,9 +81,9 @@ class ResultScreen extends StatelessWidget {
                 )
               ),
             ),
-            SizedBox(height: 16),
             // Time domain features card
             Card(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -82,7 +91,7 @@ class ResultScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       "Time Domain Features",
-                      style: Theme.of(context).textTheme.featureTitle,
+                      style: titleTextStyle,
                     ),
                     SizedBox(height: 16),
                     Row(
@@ -91,25 +100,25 @@ class ResultScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Sway Path", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("Sway Path", style: headlineTextStyle,),
                             SizedBox(height: 8),
-                            Text("Mean Displacement", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("Mean Displacement", style: headlineTextStyle,),
                             SizedBox(height: 8),
-                            Text("STD Displacement", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("STD Displacement", style: headlineTextStyle,),
                             SizedBox(height: 8),
-                            Text("Range", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("Range", style: headlineTextStyle,),
                           ],
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            Text("0.0 mm/s", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0 mm/s", style: valueTextStyle,),
                             SizedBox(height: 8),
-                            Text("0.0 mm/s", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0 mm/s", style: valueTextStyle,),
                             SizedBox(height: 8),
-                            Text("0.0 mm/s", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0 mm/s", style: valueTextStyle,),
                             SizedBox(height: 8),
-                            Text("[0.0 mm/s - 0.0 mm/s]", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("[0.0 mm/s - 0.0 mm/s]", style: valueTextStyle,),
                           ],
                         )
                       ]
@@ -118,9 +127,9 @@ class ResultScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16),
             // Frequency domain features card
             Card(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -128,7 +137,7 @@ class ResultScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       "Frequency Domain Features",
-                      style: Theme.of(context).textTheme.featureTitle,
+                      style: titleTextStyle,
                     ),
                     SizedBox(height: 16),
                     Column(
@@ -136,24 +145,24 @@ class ResultScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text("Mean Frequency", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("Mean Frequency", style: headlineTextStyle,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 RichText(
                                   text: TextSpan(
-                                    style: Theme.of(context).textTheme.featuresValue,
+                                    style: valueTextStyle,
                                     children: [
-                                      TextSpan(text: "AP:", style: Theme.of(context).textTheme.featuresValueBold),
+                                      TextSpan(text: "AP:", style: valueBoldTextStyle),
                                       TextSpan(text: " 0.0 Hz"),
                                     ]
                                   ),
                                 ),
                                 RichText(
                                   text: TextSpan(
-                                    style: Theme.of(context).textTheme.featuresValue,
+                                    style: valueTextStyle,
                                     children: [
-                                      TextSpan(text: "ML:", style: Theme.of(context).textTheme.featuresValueBold),
+                                      TextSpan(text: "ML:", style: valueBoldTextStyle),
                                       TextSpan(text: " 0.0 Hz"),
                                     ]
                                   ),
@@ -170,24 +179,24 @@ class ResultScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text("Frequency Peack", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("Frequency Peack", style: headlineTextStyle,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 RichText(
                                   text: TextSpan(
-                                    style: Theme.of(context).textTheme.featuresValue,
+                                    style: valueTextStyle,
                                     children: [
-                                      TextSpan(text: "AP:", style: Theme.of(context).textTheme.featuresValueBold),
+                                      TextSpan(text: "AP:", style: valueBoldTextStyle),
                                       TextSpan(text: " 0.0 Hz"),
                                     ]
                                   ),
                                 ),
                                 RichText(
                                   text: TextSpan(
-                                    style: Theme.of(context).textTheme.featuresValue,
+                                    style: valueTextStyle,
                                     children: [
-                                      TextSpan(text: "ML:", style: Theme.of(context).textTheme.featuresValueBold),
+                                      TextSpan(text: "ML:", style: valueBoldTextStyle),
                                       TextSpan(text: " 0.0 Hz"),
                                     ]
                                   ),
@@ -204,24 +213,24 @@ class ResultScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text("F80", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("F80", style: headlineTextStyle,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: <Widget>[
                                 RichText(
                                   text: TextSpan(
-                                    style: Theme.of(context).textTheme.featuresValue,
+                                    style: valueTextStyle,
                                     children: [
-                                      TextSpan(text: "AP:", style: Theme.of(context).textTheme.featuresValueBold),
+                                      TextSpan(text: "AP:", style: valueBoldTextStyle),
                                       TextSpan(text: " 0.0 Hz"),
                                     ]
                                   ),
                                 ),
                                 RichText(
                                   text: TextSpan(
-                                    style: Theme.of(context).textTheme.featuresValue,
+                                    style: valueTextStyle,
                                     children: [
-                                      TextSpan(text: "ML:", style: Theme.of(context).textTheme.featuresValueBold),
+                                      TextSpan(text: "ML:", style: valueBoldTextStyle),
                                       TextSpan(text: " 0.0 Hz"),
                                     ]
                                   ),
@@ -236,9 +245,9 @@ class ResultScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16),
             // Structural features card
             Card(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -246,7 +255,7 @@ class ResultScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       "Structural Features",
-                      style: Theme.of(context).textTheme.featureTitle,
+                      style: titleTextStyle,
                     ),
                     SizedBox(height: 16),
                     Row(
@@ -255,37 +264,37 @@ class ResultScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("NP", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("NP", style: headlineTextStyle,),
                             SizedBox(height: 8),
-                            Text("MT", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("MT", style: headlineTextStyle,),
                             SizedBox(height: 8),
-                            Text("ST", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("ST", style: headlineTextStyle,),
                             SizedBox(height: 8),
-                            Text("MD", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("MD", style: headlineTextStyle,),
                             SizedBox(height: 8),
-                            Text("SD", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("SD", style: headlineTextStyle,),
                             SizedBox(height: 8),
-                            Text("MP", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("MP", style: headlineTextStyle,),
                             SizedBox(height: 8),
-                            Text("SP", style: Theme.of(context).textTheme.featuresHeadline,),
+                            Text("SP", style: headlineTextStyle,),
                           ],
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
-                            Text("0.0", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0", style: valueTextStyle,),
                             SizedBox(height: 8),
-                            Text("0.0 s", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0 s", style: valueTextStyle,),
                             SizedBox(height: 8),
-                            Text("0.0 s", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0 s", style: valueTextStyle,),
                             SizedBox(height: 8),
-                            Text("0.0 mm", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0 mm", style: valueTextStyle,),
                             SizedBox(height: 8),
-                            Text("0.0 mm", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0 mm", style: valueTextStyle,),
                             SizedBox(height: 8),
-                            Text("0.0 s", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0 s", style: valueTextStyle,),
                             SizedBox(height: 8),
-                            Text("0.0 s", style: Theme.of(context).textTheme.featuresValue,),
+                            Text("0.0 s", style: valueTextStyle,),
                           ],
                         )
                       ]
@@ -294,9 +303,9 @@ class ResultScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 16),
             // Gyroscopic features card
             Card(
+              margin: EdgeInsets.only(left: 16, top: 8, right: 16, bottom: 16),
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -304,39 +313,39 @@ class ResultScreen extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       "Gyroscopic Features",
-                      style: Theme.of(context).textTheme.featureTitle,
+                      style: titleTextStyle,
                     ),
                     SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("GR", style: Theme.of(context).textTheme.featuresHeadline,),
+                        Text("GR", style: headlineTextStyle,),
                         Column(
                           children: <Widget>[
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "X:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "X:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0 degrees/s"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Y:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Y:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0 degrees/s"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Z:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Z:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0 degrees/s"),
                                 ]
                               ),
@@ -350,32 +359,32 @@ class ResultScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("GM", style: Theme.of(context).textTheme.featuresHeadline,),
+                        Text("GM", style: headlineTextStyle,),
                         Column(
                           children: <Widget>[
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "X:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "X:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0 degrees/s"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Y:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Y:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0 degrees/s"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Z:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Z:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0 degrees/s"),
                                 ]
                               ),
@@ -389,32 +398,32 @@ class ResultScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("GV", style: Theme.of(context).textTheme.featuresHeadline,),
+                        Text("GV", style: headlineTextStyle,),
                         Column(
                           children: <Widget>[
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "X:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "X:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0 degrees/s"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Y:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Y:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0 degrees/s"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Z:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Z:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0 degrees/s"),
                                 ]
                               ),
@@ -428,32 +437,32 @@ class ResultScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("GK", style: Theme.of(context).textTheme.featuresHeadline,),
+                        Text("GK", style: headlineTextStyle,),
                         Column(
                           children: <Widget>[
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "X:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "X:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Y:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Y:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Z:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Z:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0"),
                                 ]
                               ),
@@ -467,32 +476,32 @@ class ResultScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("GS", style: Theme.of(context).textTheme.featuresHeadline,),
+                        Text("GS", style: headlineTextStyle,),
                         Column(
                           children: <Widget>[
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "X:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "X:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Y:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Y:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0"),
                                 ]
                               ),
                             ),
                             RichText(
                               text: TextSpan(
-                                style: Theme.of(context).textTheme.featuresValue,
+                                style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "Z:", style: Theme.of(context).textTheme.featuresValueBold),
+                                  TextSpan(text: "Z:", style: valueBoldTextStyle),
                                   TextSpan(text: " 0.0"),
                                 ]
                               ),
