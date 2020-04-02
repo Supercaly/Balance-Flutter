@@ -55,6 +55,7 @@ class SettingsScreen extends StatelessWidget {
                   Scaffold.of(context)
                     .showSnackBar(
                       SnackBar(
+                        behavior: SnackBarBehavior.floating,
                         content: Text("This is not an Easter Egg!!!"),
                         duration: Duration(seconds: 2),
                       )
