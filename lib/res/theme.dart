@@ -14,6 +14,7 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   // TODO: 02/03/20 Sostituire con il colore migliore
   hintColor: Color( 0x8a000000 ),
   errorColor: Color( 0xffd32f2f ),
+  scaffoldBackgroundColor: Color(0xFFFBFBFF),
   // Button theme
   buttonTheme: ButtonThemeData(
     buttonColor: BColors.colorPrimary,
@@ -107,7 +108,13 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: BColors.colorAccent,
-  )
+  ),
+  cardTheme: CardTheme(
+    elevation: 4,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(9))
+    ),
+  ),
 );
 
 /// Dark Theme for the app

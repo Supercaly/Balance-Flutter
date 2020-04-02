@@ -86,10 +86,10 @@ class MeasurementsScreen extends StatelessWidget {
 
   /// Returns a [Widget] with a measurement item
   Widget _measurementItemTemplate(BuildContext context, Measurement measurement) {
-    return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, Routes.result, arguments: measurement.id),
-      child: Card(
-        margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: InkWell(
+        onTap: () => Navigator.pushNamed(context, Routes.result, arguments: measurement.id),
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Column(
@@ -124,8 +124,10 @@ class MeasurementsScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ]),
-            ]),
-      )),
+            ]
+          ),
+        ),
+      ),
     );
   }
 }

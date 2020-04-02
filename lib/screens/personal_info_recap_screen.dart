@@ -21,7 +21,7 @@ class PersonalInfoRecapScreen extends StatelessWidget {
         children: <Widget>[
           // General Info Card
           Card(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            margin: const EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
