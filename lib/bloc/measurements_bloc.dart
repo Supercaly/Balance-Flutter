@@ -23,7 +23,6 @@ class MeasurementsBloc extends Bloc<MeasurementsEvents, MeasurementsState> {
     switch(event) {
       // fetch the data from the repository
       case MeasurementsEvents.fetch:
-        yield MeasurementsLoading();
         try {
           final measurements = await repository.getMeasurements();
           if (measurements.isEmpty)
