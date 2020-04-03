@@ -1,3 +1,5 @@
+
+import 'package:balance_app/routes.dart';
 import 'package:balance_app/sensors/sensor_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +28,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             RaisedButton(
-              onPressed: null,
+              onPressed: () => Navigator.pushNamed(context, Routes.result, arguments: 1),
               child: Text("Toggle Button"),
             )
           ],
