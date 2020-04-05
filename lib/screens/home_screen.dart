@@ -1,4 +1,5 @@
 
+import 'package:balance_app/model/measurement.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/sensors/sensor_widget.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             RaisedButton(
-              onPressed: () => Navigator.pushNamed(context, Routes.result, arguments: 1),
+              onPressed: () => Navigator.pushNamed(context, Routes.result, arguments: Measurement(id: 8, creationDate: DateTime.now().millisecondsSinceEpoch, eyesOpen: true)),
               child: Text("Toggle Button"),
             )
           ],

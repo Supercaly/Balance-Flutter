@@ -89,7 +89,11 @@ class MeasurementsScreen extends StatelessWidget {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: InkWell(
-        onTap: () => Navigator.pushNamed(context, Routes.result, arguments: measurement.id),
+        onTap: () => Navigator.pushNamed(
+          context,
+          Routes.result,
+          arguments: measurement
+        ),
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Column(

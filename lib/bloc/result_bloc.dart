@@ -1,8 +1,8 @@
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/events/result_events.dart';
 import 'package:balance_app/bloc/states/result_states.dart';
 import 'package:balance_app/repository/result_repository.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Class representing the Bloc for Result screen
 ///
@@ -23,10 +23,8 @@ class ResultBloc extends Bloc<ResultEvents, ResultState> {
       // fetch the data from the repository
       try {
         await repository.getResult(event.measurementId);
-        print("Hola");
         yield ResultSuccess();
       } catch (e) {
-        print("error");
         yield ResultError(e);
       }
     }

@@ -25,7 +25,8 @@ class ResultInfoItem extends StatelessWidget {
                 Icon(Icons.today, color: Theme.of(context).iconTheme.color),
                 SizedBox(width: 16),
                 Text(
-                  DateTime.fromMicrosecondsSinceEpoch(measurement.creationDate).toString(),
+                  // TODO: 05/04/20 Fix how to display the error
+                  DateTime.fromMicrosecondsSinceEpoch(measurement?.creationDate ?? 0).toString(),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ],
@@ -35,11 +36,13 @@ class ResultInfoItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Icon(
-                  measurement.eyesOpen? Icons.remove_red_eye: Icons.panorama_fish_eye,
+                  // TODO: 05/04/20 Fix the error icon
+                  (measurement != null)? measurement.eyesOpen? Icons.remove_red_eye: Icons.panorama_fish_eye: Icons.error,
                 ),
                 SizedBox(width: 16),
                 Text(
-                  measurement.eyesOpen? "Eyes Open": "Eye Closed",
+                  // TODO: 05/04/20 Fix the error text
+                  (measurement != null)? measurement.eyesOpen? "Eyes Open": "Eye Closed": "null",
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ],
