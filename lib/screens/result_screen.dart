@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/states/result_states.dart';
 import 'package:balance_app/bloc/result_bloc.dart';
 
@@ -23,26 +23,23 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) => ResultBloc.create(measurement.id),
-        child: BlocBuilder<ResultBloc, ResultState>(
+        child: BlocConsumer<ResultBloc, ResultState>(
+          listenWhen: (_, current) => current is ResultError,
+          listener: (context, state) {
+            print("listen: $state");
+            Scaffold.of(context).showSnackBar(SnackBar(
+              behavior: SnackBarBehavior.floating,
+              content: Text("An unexpected error occurred!"),
+            ));
+          },
           builder: (context, state) {
-            print(state);
-            // Display the data
-            if (state is ResultSuccess)
-              return _successScreen(context, measurement, state);
-            // Display the error snack-bar
-            else if (state is ResultError) {
-              WidgetsBinding.instance
-                .addPostFrameCallback((_) => Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  behavior: SnackBarBehavior.floating,
-                  content: Text("An unexpected error occurred!"),
-                )
-              ));
-              return _successScreen(context, measurement, null);
-            }
-            // Display the loading
-            else
+            print("build $state");
+            // Display the loading screen
+            if (state is ResultLoading)
               return _loadingScreen(context, measurement);
+            // Display the data screen
+            else
+              return _successScreen(context, measurement, state is ResultSuccess? state: null);
           },
         ),
       ),
