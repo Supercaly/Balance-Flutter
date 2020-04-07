@@ -11,7 +11,7 @@ class IntroBloc extends Bloc<IntroEvents, IntroState> {
   Stream<IntroState> mapEventToState(IntroEvents event) async* {
     // Check if the event is for validation
     if (event is NeedToValidateEvent)
-      yield NeedToValidateState();
+      yield NeedToValidateState(event.index);
     // Check if the event is for validation result
     else if (event is ValidationResultEvent)
       yield ValidationResultState(event.isValid);
