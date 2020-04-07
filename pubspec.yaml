@@ -25,7 +25,9 @@ dependencies:
   flutter_svg: ^0.17.3+1
   quiver: ^2.0.5
   shared_preferences: ^0.5.6+2
-  introduction_screen: ^1.0.8
+  circular_check_box:
+    git:
+      url: git://github.com/Supercaly/circular_check_box
 
 dev_dependencies:
   # Test dependencies

@@ -120,6 +120,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  circular_check_box:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "95a2ed19dd2fe98e7855c44fd0b62fd4bea96ddf"
+      url: "git://github.com/Supercaly/circular_check_box"
+    source: git
+    version: "1.0.1"
   code_builder:
     dependency: transitive
     description:
@@ -176,13 +185,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.3"
-  dots_indicator:
-    dependency: transitive
-    description:
-      name: dots_indicator
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.0"
   ffi:
     dependency: transitive
     description:
@@ -296,13 +298,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.12"
-  introduction_screen:
-    dependency: "direct main"
-    description:
-      name: introduction_screen
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.8"
   io:
     dependency: transitive
     description:
