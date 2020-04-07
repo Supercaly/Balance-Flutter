@@ -1,66 +1,49 @@
 
 import 'package:flutter/material.dart';
+import 'package:balance_app/widgets/custom_number_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/intro_bloc.dart';
 
-/// Second of the intro screens
+/// Second intro screen
 ///
 /// This Widget represents the second of the intro
 /// screens, his purpose is to ask the user his
 /// height letting him know why ke need such
-/// information.
+/// information; the user cannot skip this step.
 class HeightScreen extends StatefulWidget {
-  final ValueChanged<bool> callback;
+  final ValueChanged<bool> enableNextBtnCallback;
 
-  HeightScreen(this.callback);
+  HeightScreen(this.enableNextBtnCallback);
 
   @override
-  HeightScreenState createState() => HeightScreenState();
+  _HeightScreenState createState() => _HeightScreenState();
 }
 
-class HeightScreenState extends State<HeightScreen> {
-  TextEditingController _heightTextController = TextEditingController();
-  bool canGoNext = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _heightTextController.addListener(() {
-      if (_heightTextController.text.isNotEmpty && !canGoNext) {
-        canGoNext = true;
-        widget.callback(true);
-      } else if (_heightTextController.text.isEmpty && canGoNext) {
-        canGoNext = false;
-        widget.callback(false);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _heightTextController.dispose();
-    super.dispose();
-  }
+class _HeightScreenState extends State<HeightScreen> {
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _canGoNext = false;
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<IntroBloc, IntroState>(
-      condition: (_, current) => current is NeedToValidateState,
+      condition: (_, current) => current is NeedToValidateState && current.index == 1,
       listener: (context, state) {
-        print("Devo validare height");
-        context.bloc<IntroBloc>().add(ValidationResultEvent(false));
+        bool isValid = _formKey.currentState.validate();
+        if (isValid) _formKey.currentState.save();
+        context.bloc<IntroBloc>().add(ValidationResultEvent(isValid));
+        print("_HeightScreenState.build: Height data is ${isValid? 'valid': 'invalid'}");
       },
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(height: 50),
-            InkWell(
-              // TODO: 05/04/20 Remove this
-              onTap: () => widget.callback(true),
-              child: Center(
+      child: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          reverse: true,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              //SizedBox(height: 50),
+              Center(
                 child: IconTheme(
                   data: IconThemeData(
                     size: 150,
@@ -68,11 +51,8 @@ class HeightScreenState extends State<HeightScreen> {
                   child: Icon(Icons.accessibility)
                 ),
               ),
-            ),
-            SizedBox(height: 50),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
+              SizedBox(height: 100),
+              Text(
                 "Tell us your height",
                 style: Theme.of(context).textTheme.headline4.copyWith(
                   fontSize: 36,
@@ -80,33 +60,53 @@ class HeightScreenState extends State<HeightScreen> {
                   color: Colors.white,
                 ),
               ),
-            ),
-            SizedBox(height: 18),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Text(
+              SizedBox(height: 18),
+              Text(
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et risus metus ut vel mattis.",
                 style: Theme.of(context).textTheme.subtitle2.copyWith(
                   fontSize: 18,
                   color: Colors.white,
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40),
-              child: TextField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                controller: _heightTextController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Height",
-                  errorText: _heightTextController.text.length > 3? "Errorino": null,
-                  filled: true,
-                  fillColor: Colors.red,
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 40),
+                child: Form(
+                  key: _formKey,
+                  child: CustomNumberFormField(
+                      onChanged: (isNotEmpty) {
+                        // Enable/Disable the next button if the text field is empty
+                        if (isNotEmpty && !_canGoNext) {
+                          _canGoNext = true;
+                          widget.enableNextBtnCallback(true);
+                        } else if (!isNotEmpty && _canGoNext) {
+                          _canGoNext = false;
+                          widget.enableNextBtnCallback(false);
+                        }
+                      },
+                      initialValue: null,
+                      validator: (value) {
+                        try {
+                          double height = double.parse(value);
+                          if (height < 50)
+                            return "You're too short!";
+                          else if (height > 240)
+                            return "You're too tall!";
+                          else
+                            return null;
+                        } on FormatException catch(_) {
+                          return "Invalid height!";
+                        }
+                      },
+                      onSaved: (newValue) {
+                        // TODO: 06/04/20 update the model with the new data
+                        print("Saving value...");
+                      },
+                  ),
                 ),
               ),
-            ),
-          ],
+              SizedBox(height: 64)
+            ],
+          ),
         ),
       ),
     );
