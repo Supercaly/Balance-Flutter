@@ -9,8 +9,4 @@ class NeedToValidateState extends IntroState {
 
   const NeedToValidateState(this.index);
 }
-class ValidationResultState extends IntroState {
-  final bool isValid;
-
-  const ValidationResultState(this.isValid);
-}
+class ValidationSuccessState extends IntroState {}

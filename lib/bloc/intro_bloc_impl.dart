@@ -13,7 +13,7 @@ class IntroBloc extends Bloc<IntroEvents, IntroState> {
     if (event is NeedToValidateEvent)
       yield NeedToValidateState(event.index);
     // Check if the event is for validation result
-    else if (event is ValidationResultEvent)
-      yield ValidationResultState(event.isValid);
+    else if (event is ValidationSuccessEvent)
+      yield ValidationSuccessState();
   }
 }

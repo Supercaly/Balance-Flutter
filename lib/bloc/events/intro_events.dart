@@ -8,8 +8,4 @@ class NeedToValidateEvent extends IntroEvents {
 
   const NeedToValidateEvent(this.index);
 }
-class ValidationResultEvent extends IntroEvents {
-  final bool isValid;
-
-  const ValidationResultEvent(this.isValid);
-}
+class ValidationSuccessEvent extends IntroEvents {}
