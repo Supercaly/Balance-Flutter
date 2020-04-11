@@ -41,9 +41,10 @@ class NextButton extends StatelessWidget {
           ):
           Icon(
             Icons.arrow_forward,
-            color: isEnable? Colors.white: Color(0xFFA6A6A6),
+            //color: isEnable? Colors.white: Color(0xFFA6A6A6),
           ),
         backgroundColor: isEnable? backgroundColor: Color(0xFFE0E0E0),
+        foregroundColor: isEnable? Colors.white: Color(0xFFA6A6A6),
       ),
     );
   }

@@ -131,4 +131,93 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
     textTheme: ButtonTextTheme.primary,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9.0)),
   ),
+  textTheme: TextTheme(
+    headline1: TextStyle(
+      color: Colors.white,
+      fontSize: 96.0,
+      fontWeight: FontWeight.w300,
+      fontStyle: FontStyle.normal,
+    ),
+    headline2: TextStyle(
+      color: Colors.white,
+      fontSize: 60.0,
+      fontWeight: FontWeight.w300,
+      fontStyle: FontStyle.normal,
+    ),
+    headline3: TextStyle(
+      color: Colors.white,
+      fontSize: 48.0,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+    ),
+    headline4: TextStyle(
+      color: Colors.white,
+      fontSize: 34.0,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+    ),
+    headline5: TextStyle(
+      color: Colors.white,
+      fontSize: 24.0,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+    ),
+    headline6: TextStyle(
+      color: Colors.white,
+      fontSize: 20.0,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+    ),
+    subtitle1: TextStyle(
+      color: Colors.white,
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+    ),
+    subtitle2: TextStyle(
+      color: Colors.white,
+      fontSize: 14.0,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+    ),
+    bodyText1: TextStyle(
+      color: Colors.white,
+      fontSize: 14.0,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+    ),
+    bodyText2: TextStyle(
+      color: Colors.white,
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+    ),
+    caption: TextStyle(
+      color: Colors.white,
+      fontSize: 12.0,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+    ),
+    button: TextStyle(
+      color: Colors.white,
+      fontSize: 14.0,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+    ),
+    overline: TextStyle(
+      color: Colors.white,
+      fontSize: 10.0,
+      fontWeight: FontWeight.w400,
+      fontStyle: FontStyle.normal,
+    ),
+  ),
+  floatingActionButtonTheme: FloatingActionButtonThemeData(
+    foregroundColor: BColors.colorAccent,
+  ),
+  cardTheme: CardTheme(
+    elevation: 4,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(9))
+    ),
+  ),
 );
