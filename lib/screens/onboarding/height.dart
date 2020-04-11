@@ -29,8 +29,10 @@ class _HeightScreenState extends State<HeightScreen> {
       condition: (_, current) => current is NeedToValidateState && current.index == 1,
       listener: (context, state) {
         bool isValid = _formKey.currentState.validate();
-        if (isValid) _formKey.currentState.save();
-        context.bloc<IntroBloc>().add(ValidationResultEvent(isValid));
+        if (isValid) {
+          _formKey.currentState.save();
+          context.bloc<IntroBloc>().add(ValidationSuccessEvent());
+        }
         print("_HeightScreenState.build: Height data is ${isValid? 'valid': 'invalid'}");
       },
       child: Center(
@@ -73,34 +75,35 @@ class _HeightScreenState extends State<HeightScreen> {
                 child: Form(
                   key: _formKey,
                   child: CustomNumberFormField(
-                      onChanged: (isNotEmpty) {
-                        // Enable/Disable the next button if the text field is empty
-                        if (isNotEmpty && !_canGoNext) {
-                          _canGoNext = true;
-                          widget.enableNextBtnCallback(true);
-                        } else if (!isNotEmpty && _canGoNext) {
-                          _canGoNext = false;
-                          widget.enableNextBtnCallback(false);
-                        }
-                      },
-                      initialValue: null,
-                      validator: (value) {
-                        try {
-                          double height = double.parse(value);
-                          if (height < 50)
-                            return "You're too short!";
-                          else if (height > 240)
-                            return "You're too tall!";
-                          else
-                            return null;
-                        } on FormatException catch(_) {
-                          return "Invalid height!";
-                        }
-                      },
-                      onSaved: (newValue) {
-                        // TODO: 06/04/20 update the model with the new data
-                        print("Saving value...");
-                      },
+                    labelText: "Height",
+                    suffix: "cm",
+                    onChanged: (isNotEmpty) {
+                      // Enable/Disable the next button if the text field is empty
+                      if (isNotEmpty && !_canGoNext) {
+                        _canGoNext = true;
+                        widget.enableNextBtnCallback(true);
+                      } else if (!isNotEmpty && _canGoNext) {
+                        _canGoNext = false;
+                        widget.enableNextBtnCallback(false);
+                      }
+                    },
+                    validator: (value) {
+                      try {
+                        double height = double.parse(value);
+                        if (height < 50)
+                          return "You're too short!";
+                        else if (height > 240)
+                          return "You're too tall!";
+                        else
+                          return null;
+                      } on FormatException catch(_) {
+                        return "Invalid height!";
+                      }
+                    },
+                    onSaved: (newValue) {
+                      // TODO: 06/04/20 update the model with the new data
+                      print("Saving height value...");
+                    },
                   ),
                 ),
               ),

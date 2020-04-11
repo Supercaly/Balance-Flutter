@@ -14,10 +14,7 @@ class WelcomeScreen extends StatelessWidget {
     return BlocListener<IntroBloc, IntroState>(
       condition: (_, current) => current is NeedToValidateState && current.index == 0,
       // This page is always valid
-      listener: (context, state) {
-        print("WelcomeScreen.build: Valid");
-        context.bloc<IntroBloc>().add(ValidationResultEvent(true));
-      },
+      listener: (context, _) => context.bloc<IntroBloc>().add(ValidationSuccessEvent()),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -22,7 +22,7 @@ class _PostureScreenState extends State<PostureScreen> {
       condition: (_, current) => current is NeedToValidateState && current.index == 3,
       listener: (context, state) {
         print("_PostureScreenState.build: posture: ${_postureKey.currentState.selected}");
-        context.bloc<IntroBloc>().add(ValidationResultEvent(true));
+        context.bloc<IntroBloc>().add(ValidationSuccessEvent());
       },
       child: SafeArea(
         child: Padding(

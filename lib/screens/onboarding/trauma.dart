@@ -18,7 +18,7 @@ class _TraumaScreenState extends State<TraumaScreen> {
       condition: (_, current) => current is NeedToValidateState && current.index == 4,
       listener: (context, state) {
         print("TraumaScreen.build: selected: ${_traumaKey.currentState.selected}");
-        context.bloc<IntroBloc>().add(ValidationResultEvent(true));
+        context.bloc<IntroBloc>().add(ValidationSuccessEvent());
       },
       child: SafeArea(
         child: Padding(

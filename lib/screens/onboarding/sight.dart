@@ -1,4 +1,5 @@
 
+import 'package:custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/widgets/checkbox.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,11 +13,14 @@ class SightScreen extends StatefulWidget {
 class _SightScreenState extends State<SightScreen> {
   @override
   Widget build(BuildContext context) {
+    final hearDefects = ["none", "light", "moderata", "severa", "profonda"];
+    int hearIndex;
+
     return BlocListener<IntroBloc, IntroState>(
       condition: (_, current) => current is NeedToValidateState && current.index == 5,
       listener: (context, state) {
         print("_SightScreenState.build: ");
-        context.bloc<IntroBloc>().add(ValidationResultEvent(true));
+        context.bloc<IntroBloc>().add(ValidationSuccessEvent());
       },
       child: SafeArea(
         child: Padding(
@@ -52,13 +56,16 @@ class _SightScreenState extends State<SightScreen> {
                 ),
               ),
               SizedBox(height: 24),
-              DropdownButton(
-                items: [0,1,2,3,4].map((e) => DropdownMenuItem(
-                  child: Text(e.toString()),
-                  value: e,
+              CustomDropdown(
+                items: hearDefects.map((e) => DropdownItem(
+                  text: e
                 )).toList(),
-                onChanged: (_) {},
-                hint: Text("Ipoacusia"),
+                onChanged: (newIndex) {
+                  setState(() => hearIndex = newIndex);
+                  print(hearIndex);
+                },
+                hint: "Ipoacusia",
+                valueIndex: hearIndex,
               ),
             ],
           ),

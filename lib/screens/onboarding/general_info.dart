@@ -1,4 +1,6 @@
 
+import 'package:balance_app/res/colors.dart';
+import 'package:custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/widgets/custom_number_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +13,7 @@ class GeneralInfoScreen extends StatefulWidget {
 
 class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  int _genderIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,10 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
       condition: (_, current) =>  current is NeedToValidateState && current.index == 2,
       listener: (context, state) {
         final isValid = _formKey.currentState.validate();
-        context.bloc<IntroBloc>().add(ValidationResultEvent(isValid));
+        if (isValid) {
+          _formKey.currentState.save();
+          context.bloc<IntroBloc>().add(ValidationSuccessEvent());
+        }
         print("GeneralInfoScreen.build: General info are ${isValid? "valid": "invalid"}");
       },
       child: Center(
@@ -73,16 +79,25 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                           // TODO: 06/04/20 Update the model
                         },
                       ),
-                      SizedBox(height: 0),
-                      DropdownButton(
-                        items: [0,1,2].map((e) => DropdownMenuItem(
-                          child: Text(e.toString()),
-                          value: e,
-                        )).toList(),
-                        onChanged: (_) {},
-                        hint: Text("Gender"),
+                      SizedBox(height: 8),
+                      CustomDropdown(
+                        hint: "Gender",
+                        valueIndex: _genderIndex,
+                        onChanged: (newValue) {
+                          setState(() => _genderIndex = newValue);
+                        },
+                        items: [
+                          DropdownItem(text: "unknow"),
+                          DropdownItem(text: "male"),
+                          DropdownItem(text: "female"),
+                        ],
+                        openColor: Color(0xFFF4F6F9),
+                        enabledColor: Colors.white,
+                        enableTextColor: Color(0xFFBFBFBF),
+                        elementTextColor: Color(0xFF666666),
+                        enabledIconColor: BColors.colorPrimary,
                       ),
-                      SizedBox(height: 0),
+                      SizedBox(height: 8),
                       CustomNumberFormField(
                         labelText: "Weight",
                         decimal: true,

@@ -51,15 +51,14 @@ class _IntroScreenState extends State<IntroScreen> {
                   duration: Duration(milliseconds: 500),
                   color: _pageColors[_currentPage],
                   child: BlocListener<IntroBloc, IntroState>(
-                    condition: (_, current) => current is ValidationResultState,
-                    listener: (context, state) {
-                      // If the page is valid move to next page
-                      if ((state as ValidationResultState).isValid)
-                        _pageController.nextPage(
-                          duration: Duration(milliseconds: 800),
-                          curve: Curves.ease
-                        );
-                      print("è valido: ${(state as ValidationResultState).isValid}");
+                    condition: (_, current) => current is ValidationSuccessState,
+                    listener: (context, _) {
+                      // The page is valid... move to next page
+                      _pageController.nextPage(
+                        duration: Duration(milliseconds: 800),
+                        curve: Curves.ease
+                      );
+                      print("è valido");
                     },
                     child: PageView(
                       controller: _pageController,
