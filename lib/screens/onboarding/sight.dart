@@ -57,7 +57,7 @@ class _SightScreenState extends State<SightScreen> {
               ),
               SizedBox(height: 24),
               CustomDropdown(
-                items: hearDefects.map((e) => DropdownItem(
+                items: hearDefects.map((e) => CustomDropdownItem(
                   text: e
                 )).toList(),
                 onChanged: (newIndex) {

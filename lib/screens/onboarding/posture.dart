@@ -48,50 +48,60 @@ class _PostureScreenState extends State<PostureScreen> {
                 ],
               ),
               SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      "Sono presenti problemi posturali in famiglia?",
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                        fontSize: 18,
-                        color: Colors.white,
+              GestureDetector(
+                onTap: () {
+                  setState(() => _problemsInFamily = !_problemsInFamily);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        "Sono presenti problemi posturali in famiglia?",
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  CircularCheckBox(
-                    value: _problemsInFamily,
-                    onChanged: (value) => setState(() => _problemsInFamily = value),
-                    activeColor: Colors.white,
-                    inactiveColor: Colors.white,
-                    checkColor: Color(0xFFC95E4B),
-                  ),
-                ],
+                    CircularCheckBox(
+                      value: _problemsInFamily,
+                      onChanged: (value) => setState(() => _problemsInFamily = value),
+                      activeColor: Colors.white,
+                      inactiveColor: Colors.white,
+                      checkColor: Color(0xFFC95E4B),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    child: Text(
-                      "Uso di medicinali che possono interferire con l'equilibrio",
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                        fontSize: 18,
-                        color: Colors.white,
+              GestureDetector(
+                onTap: () {
+                  setState(() => _useOfDrugs = !_useOfDrugs);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        "Uso di medicinali che possono interferire con l'equilibrio",
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  CircularCheckBox(
-                    value: _useOfDrugs,
-                    onChanged: (value) => setState(() => _useOfDrugs = value),
-                    activeColor: Colors.white,
-                    inactiveColor: Colors.white,
-                    checkColor: Color(0xFFC95E4B),
-                  ),
-                ],
+                    CircularCheckBox(
+                      value: _useOfDrugs,
+                      onChanged: (value) => setState(() => _useOfDrugs = value),
+                      activeColor: Colors.white,
+                      inactiveColor: Colors.white,
+                      checkColor: Color(0xFFC95E4B),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 80)
             ],

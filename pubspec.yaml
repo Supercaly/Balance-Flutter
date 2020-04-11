@@ -29,7 +29,7 @@ dependencies:
     git:
       url: git://github.com/Supercaly/circular_check_box
       ref: development
-  custom_dropdown: ^0.0.1
+  custom_dropdown: ^0.0.2
 
 dev_dependencies:
   # Test dependencies

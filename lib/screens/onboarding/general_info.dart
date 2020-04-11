@@ -80,24 +80,30 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                         },
                       ),
                       SizedBox(height: 8),
-                      CustomDropdown(
+                      CustomDropdownFormField(
                         hint: "Gender",
-                        valueIndex: _genderIndex,
+                        value: _genderIndex,
                         onChanged: (newValue) {
                           setState(() => _genderIndex = newValue);
                         },
                         items: [
-                          DropdownItem(text: "unknow"),
-                          DropdownItem(text: "male"),
-                          DropdownItem(text: "female"),
+                          CustomDropdownItem(text: "unknow"),
+                          CustomDropdownItem(text: "male"),
+                          CustomDropdownItem(text: "female"),
                         ],
                         openColor: Color(0xFFF4F6F9),
                         enabledColor: Colors.white,
                         enableTextColor: Color(0xFFBFBFBF),
                         elementTextColor: Color(0xFF666666),
                         enabledIconColor: BColors.colorPrimary,
+                        validator: (_) => null,
+                        onSaved: (newValue) {
+                          // TODO: 11/04/20 Update the model
+                          print("salvo $newValue");
+                        },
                       ),
                       SizedBox(height: 8),
+                      DropdownButton(items: null, onChanged: null),
                       CustomNumberFormField(
                         labelText: "Weight",
                         decimal: true,
