@@ -6,37 +6,38 @@ import 'package:balance_app/res/colors.dart';
 /// Widget that contains and manage a group of [CheckboxElement]s
 /// 
 /// This Widget instantiates a list of [CheckboxElement]s
-/// based on the given [labels]s.
-/// Using a [GlobalKey] of [CheckboxGroupState] its possible
-/// to call the [CheckboxGroupState.selected] getter to obtain
-/// the selected elements.
+/// based on the given [labels].
+/// Every time an item is selected [onChanged] callback will be called
+/// passing a list of length equal to [labels] where each item is either 
+/// true or false if it's selected.
+/// Passing a list of boolean as [selected] parameter to preselect some 
+/// element when creating the group.
 class CheckboxGroup extends StatefulWidget {
+  /// List of [String]s labels
   final List<String> labels;
+  /// List of selected items.
+  final List<bool> selected;
+  /// Callback called when an item is selected
+  final ValueChanged<List<bool>> onChanged;
 
   CheckboxGroup({
     Key key,
     this.labels,
+    this.selected,
+    this.onChanged,
   }): super(key: key);
 
   @override
-  State<StatefulWidget> createState() => CheckboxGroupState();
+  State<StatefulWidget> createState() => _CheckboxGroupState();
 }
 
-/// State of [CheckboxGroupState]
-class CheckboxGroupState extends State<CheckboxGroup> {
-  List<GlobalKey<_CheckboxElementState>> _keys;
-  
+class _CheckboxGroupState extends State<CheckboxGroup> {
+  List<bool> _selectedItems;
+
   @override
   void initState() {
     super.initState();
-    _keys = [];
-    widget.labels.forEach((_) => _keys.add(GlobalKey<_CheckboxElementState>()));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _keys = null;
+    _selectedItems = widget.selected ?? List.filled(widget.labels.length, false);
   }
 
   @override
@@ -44,32 +45,32 @@ class CheckboxGroupState extends State<CheckboxGroup> {
     return Column(
       children: widget.labels.map((e) {
         final idx = widget.labels.indexOf(e);
-        return CheckboxElement(key: _keys[idx],label: e);
+        return CheckboxElement(
+          label: e,
+          isSelected: _selectedItems[idx],
+          onItemSelected: (value) => setState(() {
+            _selectedItems[idx] = value;
+            widget.onChanged(_selectedItems);
+          }),
+        );
       }).toList()
     );
   }
-
-  /// Returns a list of length equal to the number of labels where
-  /// each elements is true or false if it's selected.
-  List<bool> get selected => _keys.map((key) => key.currentState.isSelected).toList();
 }
 
 /// A single checkbox element
-class CheckboxElement extends StatefulWidget {
+class CheckboxElement extends StatelessWidget {
   final String label;
+  final bool isSelected;
+  final ValueChanged<bool> onItemSelected;
 
   CheckboxElement({
     Key key,
-    @required this.label,
+    this.label,
+    this.isSelected: false,
+    this.onItemSelected,
   }): assert(label != null),
     super(key: key);
-
-  @override
-  _CheckboxElementState createState() => _CheckboxElementState();
-}
-
-class _CheckboxElementState extends State<CheckboxElement> {
-  bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,7 @@ class _CheckboxElementState extends State<CheckboxElement> {
         elevation: isSelected? 8: 4,
         child: InkWell(
           onTap: () {
-            setState(() => isSelected = !isSelected);
+            onItemSelected(!isSelected);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -93,11 +94,11 @@ class _CheckboxElementState extends State<CheckboxElement> {
                   checkColor: Color(0xFFF3F3FF),
                   value: isSelected,
                   onChanged: (value) {
-                    setState(() => isSelected = value);
+                    onItemSelected(value);
                   },
                 ),
                 Text(
-                  widget.label,
+                  label,
                   style: Theme.of(context).textTheme.subtitle2.copyWith(
                     color: isSelected? BColors.colorPrimary: Color(0xFFBFBFBF),
                   ),
@@ -108,5 +109,105 @@ class _CheckboxElementState extends State<CheckboxElement> {
         ),
       ),
     );
+  }
+}
+
+class CheckboxGroupFormField extends FormField<List<bool>> {
+  CheckboxGroupFormField({
+    Key key,
+    List<String> items,
+    this.onChanged,
+    List<bool> value,
+    bool autovalidate: false,
+    FormFieldValidator validator,
+    FormFieldSetter onSaved,
+  }): super(
+    key: key,
+    initialValue: value,
+    validator: validator,
+    onSaved: onSaved,
+    autovalidate: autovalidate,
+    builder: (state) {
+      return CheckboxGroup(
+        labels: items,
+        selected: state.value,
+        onChanged: onChanged == null? null: state.didChange,
+      );
+  });
+
+  final ValueChanged<List<bool>> onChanged;
+
+  @override
+  FormFieldState<List<bool>> createState() => _CheckboxGroupFormFieldState();
+}
+
+class _CheckboxGroupFormFieldState extends FormFieldState<List<bool>> {
+  @override
+  CheckboxGroupFormField get widget => super.widget as CheckboxGroupFormField;
+
+  @override
+  void didChange(value) {
+    super.didChange(value);
+    assert(widget.onChanged != null);
+    widget.onChanged(value);
+  }
+}
+
+class PlainCheckboxFormField extends FormField<bool> {
+  PlainCheckboxFormField({
+    Key key,
+    Text child,
+    bool value,
+    this.onChanged,
+    FormFieldValidator<bool> validator,
+    FormFieldSetter<bool> onSaved,
+    bool autovalidate: false,
+  }): super(
+    key: key,
+    initialValue: value,
+    validator: validator,
+    autovalidate: autovalidate,
+    onSaved: onSaved,
+    builder: (state) {
+      return GestureDetector(
+        onTap: () {
+          if (onChanged != null)
+            state.didChange(!state.value);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Flexible(
+              child: child,
+          ),
+            CircularCheckBox(
+              value: state.value,
+              onChanged: onChanged == null? null: state.didChange,
+              activeColor: Colors.white,
+              inactiveColor: Colors.white,
+              checkColor: Color(0xFFC95E4B),
+            ),
+          ],
+        )
+      );
+    }
+  );
+  
+  final ValueChanged<bool> onChanged;
+  
+  @override
+  FormFieldState<bool> createState() => _PlainCheckboxFormFieldState();
+}
+
+class _PlainCheckboxFormFieldState extends FormFieldState<bool> {
+  @override
+  PlainCheckboxFormField get widget => super.widget as PlainCheckboxFormField;
+
+  @override
+  void didChange(value) {
+    super.didChange(value);
+    assert(widget.onChanged != null);
+    widget.onChanged(value);
   }
 }
