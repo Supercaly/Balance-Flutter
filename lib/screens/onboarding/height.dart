@@ -1,4 +1,5 @@
 
+import 'package:balance_app/manager/user_info_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/widgets/custom_number_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class HeightScreen extends StatefulWidget {
 }
 
 class _HeightScreenState extends State<HeightScreen> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   bool _canGoNext = false;
 
   @override
@@ -28,6 +29,7 @@ class _HeightScreenState extends State<HeightScreen> {
     return BlocListener<IntroBloc, IntroState>(
       condition: (_, current) => current is NeedToValidateState && current.index == 1,
       listener: (context, state) {
+        // Validate and save height data
         bool isValid = _formKey.currentState.validate();
         if (isValid) {
           _formKey.currentState.save();
@@ -101,8 +103,11 @@ class _HeightScreenState extends State<HeightScreen> {
                       }
                     },
                     onSaved: (newValue) {
-                      // TODO: 06/04/20 update the model with the new data
-                      print("Saving height value...");
+                      try {
+                        UserInfoManager.update(height: double.parse(newValue));
+                      } on FormatException catch(e) {
+                        print("Some error occurred saving height data: ${e.message}");
+                      }
                     },
                   ),
                 ),

@@ -1,4 +1,5 @@
 
+import 'package:balance_app/manager/user_info_manager.dart';
 import 'package:balance_app/res/colors.dart';
 import 'package:custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class GeneralInfoScreen extends StatefulWidget {
 }
 
 class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   int _genderIndex;
 
   @override
@@ -25,7 +26,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
           _formKey.currentState.save();
           context.bloc<IntroBloc>().add(ValidationSuccessEvent());
         }
-        print("GeneralInfoScreen.build: General info are ${isValid? "valid": "invalid"}");
+        print("_GeneralInfoScreenState.build: General info are ${isValid? "valid": "invalid"}");
       },
       child: Center(
         child: SingleChildScrollView(
@@ -76,7 +77,12 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                           return null;
                         },
                         onSaved: (newValue) {
-                          // TODO: 06/04/20 Update the model
+                          if (newValue.isNotEmpty)
+                            try {
+                              UserInfoManager.update(age: int.parse(newValue));
+                            } on FormatException catch(e) {
+                              print("Some error occurred saving age data: ${e.message}");
+                            }
                         },
                       ),
                       SizedBox(height: 8),
@@ -97,13 +103,9 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                         elementTextColor: Color(0xFF666666),
                         enabledIconColor: BColors.colorPrimary,
                         validator: (_) => null,
-                        onSaved: (newValue) {
-                          // TODO: 11/04/20 Update the model
-                          print("salvo $newValue");
-                        },
+                        onSaved: (newValue) => UserInfoManager.update(gender: newValue ?? 0),
                       ),
                       SizedBox(height: 8),
-                      DropdownButton(items: null, onChanged: null),
                       CustomNumberFormField(
                         labelText: "Weight",
                         decimal: true,
@@ -122,7 +124,12 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                           return null;
                         },
                         onSaved: (newValue) {
-                          // TODO: 06/04/20 Update the model
+                          if (newValue.isNotEmpty)
+                            try {
+                              UserInfoManager.update(weight: double.parse(newValue));
+                            } on FormatException catch(e) {
+                              print("Some error occurred saving weight data: ${e.message}");
+                            }
                         },
                       ),
                       SizedBox(height: 70),
