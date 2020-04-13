@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:balance_app/bloc/user_info_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class PersonalInfoRecapScreen extends StatelessWidget {
+class UserInfoRecapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Text styles used by the widget

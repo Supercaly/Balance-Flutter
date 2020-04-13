@@ -6,12 +6,12 @@ import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/routes.dart';
 
-import 'package:balance_app/screens/personal_info_recap_screen.dart';
-import 'package:balance_app/screens/intro_screen.dart';
 import 'package:balance_app/screens/main_screen.dart';
+import 'package:balance_app/screens/intro_screen.dart';
 import 'package:balance_app/screens/result_screen.dart';
 import 'package:balance_app/screens/calibrate_device_screen.dart';
 import 'package:balance_app/screens/onboarding_screen.dart';
+import 'package:balance_app/screens/user_info_recap_screen.dart';
 
 Future<void> main() async {
 	WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +43,7 @@ class BalanceApp extends StatelessWidget {
 						Routes.intro: (_) => IntroScreen(),
 						Routes.main: (_) => MainScreen(),
 						Routes.calibration: (_) => CalibrateDeviceScreen(),
-						Routes.personal_info_recap: (_) => PersonalInfoRecapScreen(),
+						Routes.personal_info_recap: (_) => UserInfoRecapScreen(),
 						Routes.onboarding: (_) => OnBoardingScreen(),
 						Routes.result: (_) => ResultScreen()
 					},
