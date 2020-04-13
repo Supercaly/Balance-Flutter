@@ -1,5 +1,5 @@
 
-import 'package:balance_app/manager/user_info_manager.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/model/user_info.dart';
 
 /// Repository class used to get the user information
@@ -7,5 +7,5 @@ import 'package:balance_app/model/user_info.dart';
 class UserInfoRepository {
 
   /// Return a [Future] of [UserInfo] object from [UserInfoManager]
-  Future<UserInfo> getUserInfo() => UserInfoManager.userInfo;
+  Future<UserInfo> getUserInfo() => PreferenceManager.userInfo;
 }

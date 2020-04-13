@@ -1,5 +1,5 @@
 
-import 'package:balance_app/manager/user_info_manager.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/res/colors.dart';
 import 'package:custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +79,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                         onSaved: (newValue) {
                           if (newValue.isNotEmpty)
                             try {
-                              UserInfoManager.update(age: int.parse(newValue));
+                              PreferenceManager.update(age: int.parse(newValue));
                             } on FormatException catch(e) {
                               print("Some error occurred saving age data: ${e.message}");
                             }
@@ -103,7 +103,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                         elementTextColor: Color(0xFF666666),
                         enabledIconColor: BColors.colorPrimary,
                         validator: (_) => null,
-                        onSaved: (newValue) => UserInfoManager.update(gender: newValue ?? 0),
+                        onSaved: (newValue) => PreferenceManager.update(gender: newValue ?? 0),
                       ),
                       SizedBox(height: 8),
                       CustomNumberFormField(
@@ -126,7 +126,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                         onSaved: (newValue) {
                           if (newValue.isNotEmpty)
                             try {
-                              UserInfoManager.update(weight: double.parse(newValue));
+                              PreferenceManager.update(weight: double.parse(newValue));
                             } on FormatException catch(e) {
                               print("Some error occurred saving weight data: ${e.message}");
                             }

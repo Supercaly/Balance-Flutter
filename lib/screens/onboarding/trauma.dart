@@ -1,10 +1,9 @@
 
 import 'package:balance_app/bloc/intro_bloc.dart';
-import 'package:balance_app/manager/user_info_manager.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TraumaScreen extends StatefulWidget {
   @override
@@ -58,7 +57,7 @@ class _TraumaScreenState extends State<TraumaScreen> {
                     setState(() =>_selectedTrauma = value);
                   },
                   validator: (value) => null,
-                  onSaved: (newValue) => UserInfoManager.update(otherTrauma: newValue?? List.filled(5, false)),
+                  onSaved: (newValue) => PreferenceManager.update(otherTrauma: newValue?? List.filled(5, false)),
                 ),
               ),
             ],

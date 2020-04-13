@@ -1,5 +1,5 @@
 
-import 'package:balance_app/manager/user_info_manager.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/next_button.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +65,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           curve: Curves.ease
                         );
                       }
-                      final ui = await UserInfoManager.userInfo;
+                      final ui = await PreferenceManager.userInfo;
                       print("è valido.. $ui");
                     },
                     child: PageView(

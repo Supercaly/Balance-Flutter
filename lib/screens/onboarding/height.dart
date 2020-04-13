@@ -1,6 +1,5 @@
 
 import 'package:balance_app/manager/preference_manager.dart';
-import 'package:balance_app/manager/user_info_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/widgets/custom_number_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -110,7 +109,7 @@ class _HeightScreenState extends State<HeightScreen> {
                     },
                     onSaved: (newValue) {
                       try {
-                        UserInfoManager.update(height: double.parse(newValue));
+                        PreferenceManager.update(height: double.parse(newValue));
                       } on FormatException catch(e) {
                         print("Some error occurred saving height data: ${e.message}");
                       }

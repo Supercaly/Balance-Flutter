@@ -1,7 +1,6 @@
 
-import 'package:balance_app/manager/user_info_manager.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:circular_check_box/circular_check_box.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,7 +53,7 @@ class _PostureScreenState extends State<PostureScreen> {
                     "Lordosi",
                   ],
                   validator: (value) => null,
-                  onSaved: (newValue) => UserInfoManager.update(posturalProblems: newValue ?? List.filled(3, false)),
+                  onSaved: (newValue) => PreferenceManager.update(posturalProblems: newValue ?? List.filled(3, false)),
                   value: _selectedPosture,
                   onChanged: (value) => setState(() {
                     _selectedPosture = value;
@@ -72,7 +71,7 @@ class _PostureScreenState extends State<PostureScreen> {
                   value: _problemsInFamily,
                   onChanged: (value) => setState(() => _problemsInFamily = value),
                   validator: (value) => null,
-                  onSaved: (newValue) => UserInfoManager.update(problemsInFamily: newValue),
+                  onSaved: (newValue) => PreferenceManager.update(problemsInFamily: newValue),
                 ),
                 SizedBox(height: 20),
                 PlainCheckboxFormField(
@@ -86,7 +85,7 @@ class _PostureScreenState extends State<PostureScreen> {
                   value: _useOfDrugs,
                   onChanged: (value) => setState(() => _useOfDrugs = value),
                   validator: (value) => null,
-                  onSaved: (newValue) => UserInfoManager.update(useOfDrugs: newValue),
+                  onSaved: (newValue) => PreferenceManager.update(useOfDrugs: newValue),
                 ),
                 SizedBox(height: 80)
               ],
