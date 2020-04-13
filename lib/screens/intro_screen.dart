@@ -1,5 +1,6 @@
 
 import 'package:balance_app/manager/user_info_manager.dart';
+import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/next_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,11 +55,16 @@ class _IntroScreenState extends State<IntroScreen> {
                   child: BlocListener<IntroBloc, IntroState>(
                     condition: (_, current) => current is ValidationSuccessState,
                     listener: (context, _) async {
-                      // The page is valid... move to next page
-                      _pageController.nextPage(
-                        duration: Duration(milliseconds: 800),
-                        curve: Curves.ease
-                      );
+                      // If we are in the last page go to home
+                      if (_currentPage == 5) {
+                        Navigator.pushNamed(context, Routes.main);
+                      } else {
+                        // Move to next page
+                        _pageController.nextPage(
+                          duration: Duration(milliseconds: 800),
+                          curve: Curves.ease
+                        );
+                      }
                       final ui = await UserInfoManager.userInfo;
                       print("è valido.. $ui");
                     },
@@ -99,7 +105,8 @@ class _IntroScreenState extends State<IntroScreen> {
                         child: Row(children: <Widget>[
                           (_currentPage != 0 && _currentPage != 1)? FlatButton(
                             textColor: Colors.white,
-                            onPressed: () => print("Skippooo"),
+                            // It's safe to skip because the button is displayed after the required data
+                            onPressed: () => Navigator.pushNamed(context, Routes.main),
                             child: Text("Skip"),
                           ): SizedBox(),
                           NextButton(

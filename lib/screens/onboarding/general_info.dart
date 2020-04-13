@@ -113,12 +113,12 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                           if (value.isNotEmpty) {
                             try {
                               double weight = double.parse(value);
-                              if (weight <= 0)
-                                return "Invalid Age!";
-                              else if (weight > 130)
-                                return "You're too old!";
+                              if (weight < 25.0)
+                                return "You're too light!";
+                              else if (weight > 580.0)
+                                return "You're too heavy!";
                             } on FormatException catch(_) {
-                              return "Invalid Age!";
+                              return "Invalid Weight!";
                             }
                           }
                           return null;
