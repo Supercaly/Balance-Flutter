@@ -112,6 +112,7 @@ class CheckboxElement extends StatelessWidget {
   }
 }
 
+/// [FormField] wrapper class for [CheckboxGroup]
 class CheckboxGroupFormField extends FormField<List<bool>> {
   CheckboxGroupFormField({
     Key key,
@@ -153,6 +154,7 @@ class _CheckboxGroupFormFieldState extends FormFieldState<List<bool>> {
   }
 }
 
+/// [FormField] wrapper class for a plain [CircularCheckBox] with text
 class PlainCheckboxFormField extends FormField<bool> {
   PlainCheckboxFormField({
     Key key,

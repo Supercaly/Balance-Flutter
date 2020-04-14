@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+/// StatelessWidget that implements the custom
+/// style for a [TextFormField]
 class CustomNumberFormField extends StatelessWidget {
   final String initialValue;
   final String labelText;

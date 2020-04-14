@@ -125,6 +125,7 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   // TODO: 02/03/20 Sostituire con il colore migliore
   hintColor: Color( 0x8a000000 ),
   errorColor: Color( 0xffd32f2f ),
+  scaffoldBackgroundColor: Color(0xFF121212),
   // Button theme
   buttonTheme: ButtonThemeData(
     buttonColor: BColors.colorPrimary,
