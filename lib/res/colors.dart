@@ -10,6 +10,8 @@ class BColors {
   static const MaterialColor colorAccent = _dodger_blue;
   static const Color textColor = _dove_gray;
 
+  static const Color darkOnBg = Color(0xFF1F1F1F);
+
   static const MaterialColor _malibu = MaterialColor(0xFF8C88FF, {
     50: Color.fromRGBO(140, 136, 255, .1),
     100: Color.fromRGBO(140, 136, 255, .2),

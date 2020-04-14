@@ -7,10 +7,6 @@ import 'package:flutter/material.dart';
 /// navigation bar, inspired form the youtube video:
 /// https://www.youtube.com/watch?v=jJPSKEEiN-E
 class GoogleBottomNavigationBar extends StatelessWidget {
-  final Color backgroundColor;
-  final Color selectedColor;
-  final Color unselectedColor;
-  final Color rectangleColor;
   final List<GoogleBottomNavigationItem> items;
   final int currentIndex;
   final ValueChanged<int> onTap;
@@ -20,10 +16,6 @@ class GoogleBottomNavigationBar extends StatelessWidget {
     @required this.items,
     this.onTap,
     this.currentIndex = 0,
-    this.backgroundColor = Colors.white,
-    this.selectedColor = BColors.colorPrimary,
-    this.unselectedColor = BColors.textColor,
-    this.rectangleColor = const Color(0xffe8e7ff),
   }): assert(items != null),
       assert(items.length >= 2),
       assert(0 <= currentIndex && currentIndex < items.length),
@@ -31,12 +23,13 @@ class GoogleBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLightTheme = Theme.of(context).brightness == Brightness.light;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 56,
       padding: EdgeInsets.only(left: 24, top: 6, right: 24, bottom: 6),
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color: isLightTheme? Colors.white: BColors.darkOnBg,
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -49,7 +42,7 @@ class GoogleBottomNavigationBar extends StatelessWidget {
         children: items.map((item) {
           final itemIdx = items.indexOf(item);
           return Material(
-            color: backgroundColor,
+            color: isLightTheme? Colors.white: BColors.darkOnBg,
             child: InkWell(
               customBorder: CircleBorder(),
               onTap: () {
@@ -57,7 +50,7 @@ class GoogleBottomNavigationBar extends StatelessWidget {
                   onTap.call(itemIdx);
                 }
               },
-              child: _buildItem(item, currentIndex == itemIdx),
+              child: _buildItem(item, currentIndex == itemIdx, isLightTheme),
             ),
           );
         }).toList()
@@ -69,13 +62,13 @@ class GoogleBottomNavigationBar extends StatelessWidget {
   ///
   /// Given a [GoogleBottomNavigationItem] and if it [isSelected]
   /// returns a Widget to display as navigation element
-  Widget _buildItem(GoogleBottomNavigationItem item, bool isSelected) {
+  Widget _buildItem(GoogleBottomNavigationItem item, bool isSelected, bool isLightTheme) {
     return AnimatedContainer(
       duration: Duration(milliseconds: 270),
       width: isSelected ? 122 : 50,
       height: double.maxFinite,
       decoration: isSelected ? BoxDecoration(
-        color: rectangleColor,
+        color: isLightTheme? Color(0xffe8e7ff): BColors.colorPrimary,
         borderRadius: BorderRadius.circular(90)
       ): null,
       child: Center(
@@ -89,7 +82,7 @@ class GoogleBottomNavigationBar extends StatelessWidget {
                 IconTheme(
                   data: IconThemeData(
                     size: 24,
-                    color: selectedColor
+                    color: isLightTheme? BColors.colorPrimary: Colors.white
                   ),
                   child: item.icon,
                 ),
@@ -97,7 +90,7 @@ class GoogleBottomNavigationBar extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 12),
                   child: DefaultTextStyle.merge(
                     style: TextStyle(
-                      color: selectedColor,
+                      color: isLightTheme? BColors.colorPrimary: Colors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w500
                     ),
@@ -110,7 +103,7 @@ class GoogleBottomNavigationBar extends StatelessWidget {
         ): IconTheme(
           data: IconThemeData(
             size: 24,
-            color: unselectedColor
+            color: isLightTheme? BColors.textColor: Colors.white
           ),
           child: item.icon,
         ),
