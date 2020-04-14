@@ -98,26 +98,36 @@ class PreferenceManager {
   /// as an instance of [UserInfo].
   /// If the stored height is null the entire object
   /// will be null.
+  /// If there is some error extracting
+  /// the data the object will be null.
   static Future<UserInfo> get userInfo async {
     var pref = await SharedPreferences.getInstance();
     var height = pref.getDouble(_height);
     if (height == null) return null;
     try {
-      // TODO: 13/04/20 Add default values
       return UserInfo(
         height: height,
-        age: pref.getInt(_age),
-        weight: pref.getDouble(_weight),
-        gender: pref.getInt(_gender),
-        posturalProblems: pref.getString(_posturalProblems)?.split(",")?.map((e) => e == 'true')?.toList(),
-        problemsInFamily: pref.getBool(_problemsInFamily),
-        useOfDrugs: pref.getBool(_useOfDrugs),
-        otherTrauma: pref.getString(_otherTrauma)?.split(",")?.map((e) => e == 'true')?.toList(),
-        sightProblems: pref.getString(_sightProblems)?.split(",")?.map((e) => e == 'true')?.toList(),
-        hearingProblems: pref.getInt(_hearingProblems),
+        age: pref.getInt(_age), // Defaults to null
+        weight: pref.getDouble(_weight), // Defaults to null
+        gender: pref.getInt(_gender) ?? 0, // Defaults to unknown
+        posturalProblems: pref.getString(_posturalProblems)
+          ?.split(",")
+          ?.map((e) => e == 'true')
+          ?.toList(), // Defaults to null
+        problemsInFamily: pref.getBool(_problemsInFamily) ?? false, // Defaults to false
+        useOfDrugs: pref.getBool(_useOfDrugs) ?? false, // Defaults to false
+        otherTrauma: pref.getString(_otherTrauma)
+          ?.split(",")
+          ?.map((e) => e == 'true')
+          ?.toList(), // Defaults to null
+        sightProblems: pref.getString(_sightProblems)
+          ?.split(",")
+          ?.map((e) => e == 'true')
+          ?.toList(), // Defaults to null
+        hearingProblems: pref.getInt(_hearingProblems) ?? 0, // Defaults to none
       );
-    } catch(e) {
-      print("error $e");
+    } catch(_) {
+      // Some error occurred... return a null object
       return null;
     }
   }
@@ -129,7 +139,7 @@ class PreferenceManager {
   /// the given values.
   /// Only the non-null given values will be
   /// updated so this method can be with optional
-  /// parameters.
+  /// parameters to update only some of the data.
   static Future<void> update({
     double height,
     double weight,
