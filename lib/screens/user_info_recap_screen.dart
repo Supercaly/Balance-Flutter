@@ -3,7 +3,65 @@ import 'package:flutter/material.dart';
 import 'package:balance_app/bloc/user_info_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+/// Extension function used in [UserInfoRecapScreen].
+extension _UserInfoIterableExtension on Iterable<bool> {
+  /// Generate an [Iterable] of [int] where the elements
+  /// are the index of all the elements with value true.
+  Iterable<int> whereIndexed() sync*{
+    for (var i = 0; i < this.length; i++)
+       if (this.elementAt(i))
+        yield i;
+  }
+}
+
 class UserInfoRecapScreen extends StatelessWidget {
+  /// Get the String of gender
+  static String _getGenderString(int gender) {
+    if (gender == null)
+      return "Unknown";
+
+    switch(gender) {
+      case 1:
+        return "Male";
+      case 2:
+        return "Female";
+      default:
+        return "Unknown";
+    }
+  }
+  /// Get the String of posture problems
+  static String _getPostureString(List<bool> list) {
+    if (list == null)
+      return "none";
+
+    final problems = ["Scogliosi", "Cifosi", "Lordosi"];
+    return "[${list.whereIndexed().map((e) => problems[e]).join(", ")}]";
+  }
+  /// Get the String of other trauma
+  static String _getTraumaString(List<bool> list) {
+    if (list == null)
+      return "none";
+
+    final problems = ["Fratture", "Operazioni agli arti", "Cadute", "Distorsioni", "Trauma cranici"];
+    return "[${list.whereIndexed().map((e) => problems[e]).join(", ")}]";
+  }
+  /// Get the String of sight problems
+  static String _getSightString(List<bool> list) {
+    if (list == null)
+      return "none";
+
+    final problems = ["Miopia", "Presbiopia", "Ipermetropia"];
+    return "[${list.whereIndexed().map((e) => problems[e]).join(", ")}]";
+  }
+  /// Get the String of hearing problems
+  static String _getHearingString(int value) {
+    if (value == null || value < 0 || value > 5)
+      return "none";
+
+    final problems = ["none", "leggera", "moderata", "severa", "profonda"];
+    return problems[value];
+  }
+
   @override
   Widget build(BuildContext context) {
     // Text styles used by the widget
@@ -21,12 +79,13 @@ class UserInfoRecapScreen extends StatelessWidget {
         create: (context) => UserInfoBloc.create(),
         child: BlocBuilder<UserInfoBloc, UserInfoState>(
           builder: (context, state) {
+            // Show the loading screen
             if (state is UserInfoLoading)
               return Center(
                 child: CircularProgressIndicator(),
               );
+            // Show the user info cards
             final userInfo = (state as UserInfoSuccess).value;
-            // TODO: 13/04/20 Add method to convert from UserInfo to strings
             return ListView(
               children: <Widget>[
                 // General Info Card
@@ -50,7 +109,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                               style: headlineTextStyle,
                             ),
                             Text(
-                              userInfo?.age.toString(),
+                              userInfo?.age?.toString() ?? "-",
                               style: valueTextStyle,
                             ),
                           ],
@@ -64,7 +123,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                               style: headlineTextStyle,
                             ),
                             Text(
-                              userInfo?.gender == 0? "unknown": userInfo?.gender == 1? "male": "female",
+                              _getGenderString(userInfo?.gender),
                               style: valueTextStyle,
                             ),
                           ],
@@ -78,7 +137,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                               style: headlineTextStyle,
                             ),
                             Text(
-                              "${userInfo.height} cm",
+                              userInfo?.height != null? "${userInfo.height.toStringAsFixed(1)} cm": "-",
                               style: valueTextStyle,
                             ),
                           ],
@@ -92,7 +151,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                               style: headlineTextStyle,
                             ),
                             Text(
-                              "${userInfo.weight} Kg",
+                              userInfo?.weight != null? "${userInfo.weight.toStringAsFixed(1)} Kg": "-",
                               style: valueTextStyle,
                             ),
                           ],
@@ -122,7 +181,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                               style: headlineTextStyle,
                             ),
                             Text(
-                              "[${userInfo?.posturalProblems?.join(", ")}]",
+                              _getPostureString(userInfo?.posturalProblems),
                               style: valueTextStyle,
                               textAlign: TextAlign.end,
                             ),
@@ -137,7 +196,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                               style: headlineTextStyle,
                             ),
                             Text(
-                              userInfo.problemsInFamily? "yes": "no",
+                                userInfo != null && userInfo.problemsInFamily? "yes": "no",
                               style: valueTextStyle,
                             ),
                           ],
@@ -154,7 +213,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                               )
                             ),
                             Text(
-                              userInfo.useOfDrugs? "yes": "no",
+                              userInfo != null && userInfo.useOfDrugs? "yes": "no",
                               style: valueTextStyle,
                             ),
                           ],
@@ -187,7 +246,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                             SizedBox(width: 16),
                             Flexible(
                               child: Text(
-                                "[${userInfo?.otherTrauma?.join(", ")}]",
+                                _getTraumaString(userInfo?.otherTrauma),
                                 style: valueTextStyle,
                                 textAlign: TextAlign.end,
                               )
@@ -219,7 +278,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                               style: headlineTextStyle,
                             ),
                             Text(
-                              "${userInfo?.sightProblems?.join(", ")}",
+                              _getSightString(userInfo?.sightProblems),
                               style: valueTextStyle,
                               textAlign: TextAlign.end,
                             ),
@@ -234,7 +293,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                               style: headlineTextStyle,
                             ),
                             Text(
-                              userInfo.hearingProblems.toString(),
+                              _getHearingString(userInfo.hearingProblems),
                               style: valueTextStyle,
                             ),
                           ],
