@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/intro_bloc.dart';
 

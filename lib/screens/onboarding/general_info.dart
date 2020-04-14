@@ -1,12 +1,19 @@
 
-import 'package:balance_app/manager/preference_manager.dart';
+import 'package:flutter/material.dart';
 import 'package:balance_app/res/colors.dart';
 import 'package:custom_dropdown/custom_dropdown.dart';
-import 'package:flutter/material.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_number_form_field.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/intro_bloc.dart';
 
+/// Third intro screen
+///
+/// This Widget represents the third of the intro
+/// screens, his purpose is to ask the user his age,
+/// his gender and is weight.
+/// The user can leave blank this info.
 class GeneralInfoScreen extends StatefulWidget {
   @override
   _GeneralInfoScreenState createState() => _GeneralInfoScreenState();
@@ -14,6 +21,7 @@ class GeneralInfoScreen extends StatefulWidget {
 
 class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _genders = ["unknown", "male", "female"];
   int _genderIndex;
 
   @override
@@ -92,11 +100,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                         onChanged: (newValue) {
                           setState(() => _genderIndex = newValue);
                         },
-                        items: [
-                          CustomDropdownItem(text: "unknow"),
-                          CustomDropdownItem(text: "male"),
-                          CustomDropdownItem(text: "female"),
-                        ],
+                        items: _genders.map((e) => CustomDropdownItem(text: e)).toList(),
                         openColor: Color(0xFFF4F6F9),
                         enabledColor: Colors.white,
                         enableTextColor: Color(0xFFBFBFBF),

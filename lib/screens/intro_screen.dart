@@ -1,5 +1,4 @@
 
-import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/next_button.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +56,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     listener: (context, _) async {
                       // If we are in the last page go to home
                       if (_currentPage == 5) {
-                        Navigator.pushNamed(context, Routes.main);
+                        Navigator.pushReplacementNamed(context, Routes.main);
                       } else {
                         // Move to next page
                         _pageController.nextPage(
@@ -65,10 +64,9 @@ class _IntroScreenState extends State<IntroScreen> {
                           curve: Curves.ease
                         );
                       }
-                      final ui = await PreferenceManager.userInfo;
-                      print("è valido.. $ui");
                     },
                     child: PageView(
+                      physics: NeverScrollableScrollPhysics(),
                       controller: _pageController,
                       onPageChanged: (newPage) =>
                         setState(() {
@@ -106,7 +104,7 @@ class _IntroScreenState extends State<IntroScreen> {
                           (_currentPage != 0 && _currentPage != 1)? FlatButton(
                             textColor: Colors.white,
                             // It's safe to skip because the button is displayed after the required data
-                            onPressed: () => Navigator.pushNamed(context, Routes.main),
+                            onPressed: () => Navigator.pushReplacementNamed(context, Routes.main),
                             child: Text("Skip"),
                           ): SizedBox(),
                           NextButton(

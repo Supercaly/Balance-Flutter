@@ -1,12 +1,19 @@
 
-import 'package:balance_app/manager/preference_manager.dart';
-import 'package:balance_app/res/colors.dart';
-import 'package:custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_app/res/colors.dart';
+import 'package:balance_app/manager/preference_manager.dart';
+import 'package:custom_dropdown/custom_dropdown.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/intro_bloc.dart';
 
+/// Sixth intro screen
+///
+/// This Widget represents the sixth of the intro
+/// screens, his purpose is to ask the user if he
+/// has some sight problem or hearing problem.
+/// The user can leave blank this info.
 class SightScreen extends StatefulWidget {
   @override
   _SightScreenState createState() => _SightScreenState();
@@ -55,7 +62,9 @@ class _SightScreenState extends State<SightScreen> {
                   value: _selectedSightProblem,
                   onChanged: (value) => setState(() => _selectedSightProblem = value),
                   validator: (value) => null,
-                  onSaved: (newValue) => PreferenceManager.update(sightProblems: newValue?? List.filled(3, false)),
+                  onSaved: (newValue) => PreferenceManager.update(
+                    sightProblems: newValue?? List.filled(3, false)
+                  ),
                 ),
                 SizedBox(height: 40),
                 Text(
@@ -80,7 +89,7 @@ class _SightScreenState extends State<SightScreen> {
                   elementTextColor: Color(0xFF666666),
                   enabledIconColor: BColors.colorPrimary,
                   validator: (_) => null,
-                  onSaved: (newValue) => PreferenceManager.update(hearingProblems: newValue),
+                  onSaved: (newValue) => PreferenceManager.update(hearingProblems: newValue ?? 0),
                 ),
               ],
             ),

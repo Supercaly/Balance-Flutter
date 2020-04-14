@@ -1,10 +1,18 @@
 
-import 'package:balance_app/bloc/intro_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:balance_app/bloc/intro_bloc.dart';
+
+/// Fifth intro screen
+///
+/// This Widget represents the fifth of the intro
+/// screens, his purpose is to ask the user if he
+/// had some trauma like broken bones, head trauma
+/// or other.
+/// The user can leave blank this info.
 class TraumaScreen extends StatefulWidget {
   @override
   _TraumaScreenState createState() => _TraumaScreenState();
@@ -12,6 +20,7 @@ class TraumaScreen extends StatefulWidget {
 
 class _TraumaScreenState extends State<TraumaScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _otherTrauma = ["Fratture", "Operazioni agli arti", "Cadute", "Distorsioni", "Trauma cranici"];
   List<bool> _selectedTrauma;
 
   @override
@@ -45,19 +54,15 @@ class _TraumaScreenState extends State<TraumaScreen> {
               Form(
                 key: _formKey,
                 child: CheckboxGroupFormField(
-                  items: [
-                    "Fratture",
-                    "Operazioni agli arti",
-                    "Cadute",
-                    "Distorsioni",
-                    "Trauma cranici",
-                  ],
+                  items: _otherTrauma,
                   value: _selectedTrauma,
                   onChanged: (value) {
                     setState(() =>_selectedTrauma = value);
                   },
                   validator: (value) => null,
-                  onSaved: (newValue) => PreferenceManager.update(otherTrauma: newValue?? List.filled(5, false)),
+                  onSaved: (newValue) => PreferenceManager.update(
+                    otherTrauma: newValue?? List.filled(5, false)
+                  ),
                 ),
               ),
             ],

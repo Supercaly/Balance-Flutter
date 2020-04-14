@@ -1,11 +1,19 @@
 
-import 'package:balance_app/manager/preference_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/intro_bloc.dart';
 
+/// Fourth intro screen
+///
+/// This Widget represents the Fourth of the intro
+/// screens, his purpose is to ask the user if he has
+/// some postural problems and if there are in his family
+/// or if he use some drugs that can interfere with the
+/// posture.
+/// The user can leave blank this info.
 class PostureScreen extends StatefulWidget {
   @override
   _PostureScreenState createState() => _PostureScreenState();
@@ -13,6 +21,7 @@ class PostureScreen extends StatefulWidget {
 
 class _PostureScreenState extends State<PostureScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _postureProblems = ["Scogliosi", "Cifosi", "Lordosi"];
   List<bool> _selectedPosture;
   bool _problemsInFamily = false;
   bool _useOfDrugs = false;
@@ -47,13 +56,11 @@ class _PostureScreenState extends State<PostureScreen> {
                 ),
                 SizedBox(height: 40),
                 CheckboxGroupFormField(
-                  items: [
-                    "Scogliosi",
-                    "Cifosi",
-                    "Lordosi",
-                  ],
+                  items: _postureProblems,
                   validator: (value) => null,
-                  onSaved: (newValue) => PreferenceManager.update(posturalProblems: newValue ?? List.filled(3, false)),
+                  onSaved: (newValue) => PreferenceManager.update(
+                    posturalProblems: newValue ?? List.filled(3, false)
+                  ),
                   value: _selectedPosture,
                   onChanged: (value) => setState(() {
                     _selectedPosture = value;

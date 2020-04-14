@@ -1,7 +1,8 @@
 
-import 'package:balance_app/manager/preference_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_number_form_field.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/intro_bloc.dart';
 
