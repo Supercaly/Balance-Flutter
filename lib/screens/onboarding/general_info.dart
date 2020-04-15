@@ -6,7 +6,7 @@ import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_number_form_field.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:balance_app/bloc/intro_bloc.dart';
+import 'package:balance_app/bloc/onboarding_bloc.dart';
 
 /// Third intro screen
 ///
@@ -15,6 +15,18 @@ import 'package:balance_app/bloc/intro_bloc.dart';
 /// his gender and is weight.
 /// The user can leave blank this info.
 class GeneralInfoScreen extends StatefulWidget {
+  /// Index of the screen
+  final int screenIndex;
+  final String age;
+  final int gender;
+  final String weight;
+
+  GeneralInfoScreen(this.screenIndex, {
+    this.age,
+    this.gender,
+    this.weight
+  });
+
   @override
   _GeneralInfoScreenState createState() => _GeneralInfoScreenState();
 }
@@ -25,14 +37,20 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
   int _genderIndex;
 
   @override
+  void initState() {
+    super.initState();
+    _genderIndex = widget.gender;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<IntroBloc, IntroState>(
-      condition: (_, current) =>  current is NeedToValidateState && current.index == 2,
+    return BlocListener<OnBoardingBloc, OnBoardingState>(
+      condition: (_, current) =>  current is NeedToValidateState && current.index == widget.screenIndex,
       listener: (context, state) {
         final isValid = _formKey.currentState.validate();
         if (isValid) {
           _formKey.currentState.save();
-          context.bloc<IntroBloc>().add(ValidationSuccessEvent());
+          context.bloc<OnBoardingBloc>().add(ValidationSuccessEvent());
         }
         print("_GeneralInfoScreenState.build: General info are ${isValid? "valid": "invalid"}");
       },
@@ -70,6 +88,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                     children: <Widget>[
                       CustomNumberFormField(
                         labelText: "Age",
+                        initialValue: widget.age,
                         validator: (value) {
                           if (value.isNotEmpty) {
                             try {
@@ -113,6 +132,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                       CustomNumberFormField(
                         labelText: "Weight",
                         decimal: true,
+                        initialValue: widget.weight,
                         validator: (value) {
                           if (value.isNotEmpty) {
                             try {

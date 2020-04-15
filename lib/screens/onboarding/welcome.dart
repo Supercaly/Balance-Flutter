@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:balance_app/bloc/intro_bloc.dart';
+import 'package:balance_app/bloc/onboarding_bloc.dart';
 
 /// First intro screen
 ///
@@ -10,12 +10,17 @@ import 'package:balance_app/bloc/intro_bloc.dart';
 /// screens, his purpose is to display a welcome
 /// message to the user and explain the app.
 class WelcomeScreen extends StatelessWidget {
+  /// Index of the screen
+  final int screenIndex;
+
+  WelcomeScreen(this.screenIndex);
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<IntroBloc, IntroState>(
-      condition: (_, current) => current is NeedToValidateState && current.index == 0,
+    return BlocListener<OnBoardingBloc, OnBoardingState>(
+      condition: (_, current) => current is NeedToValidateState && current.index == screenIndex,
       // This page is always valid
-      listener: (context, _) => context.bloc<IntroBloc>().add(ValidationSuccessEvent()),
+      listener: (context, _) => context.bloc<OnBoardingBloc>().add(ValidationSuccessEvent()),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

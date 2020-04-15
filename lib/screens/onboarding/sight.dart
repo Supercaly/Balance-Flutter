@@ -6,7 +6,7 @@ import 'package:custom_dropdown/custom_dropdown.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:balance_app/bloc/intro_bloc.dart';
+import 'package:balance_app/bloc/onboarding_bloc.dart';
 
 /// Sixth intro screen
 ///
@@ -15,6 +15,16 @@ import 'package:balance_app/bloc/intro_bloc.dart';
 /// has some sight problem or hearing problem.
 /// The user can leave blank this info.
 class SightScreen extends StatefulWidget {
+  /// Index of the screen
+  final int screenIndex;
+  final List<bool> sight;
+  final int hearing;
+
+  SightScreen(this.screenIndex, {
+    this.sight,
+    this.hearing,
+  });
+
   @override
   _SightScreenState createState() => _SightScreenState();
 }
@@ -24,17 +34,24 @@ class _SightScreenState extends State<SightScreen> {
   final _sightDefects = ["Miopia", "Presbiopia", "Ipermetropia"];
   final _hearDefects = ["none", "light", "moderata", "severa", "profonda"];
   List<bool> _selectedSightProblem;
-  int _hearIndex = 0;
+  int _hearIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedSightProblem = widget.sight;
+    _hearIndex = widget.hearing ?? 0;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<IntroBloc, IntroState>(
-      condition: (_, current) => current is NeedToValidateState && current.index == 5,
+    return BlocListener<OnBoardingBloc, OnBoardingState>(
+      condition: (_, current) => current is NeedToValidateState && current.index == widget.screenIndex,
       listener: (context, state) {
         final isValid = _formKey.currentState.validate();
         if (isValid) {
           _formKey.currentState.save();
-          context.bloc<IntroBloc>().add(ValidationSuccessEvent());
+          context.bloc<OnBoardingBloc>().add(ValidationSuccessEvent());
         }
         print("_SightScreenState.build: Sight and Hearing info are ${isValid? "valid": "invalid"}");
       },

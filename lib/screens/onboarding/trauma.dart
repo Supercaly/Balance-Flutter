@@ -4,7 +4,7 @@ import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:balance_app/bloc/intro_bloc.dart';
+import 'package:balance_app/bloc/onboarding_bloc.dart';
 
 /// Fifth intro screen
 ///
@@ -14,6 +14,14 @@ import 'package:balance_app/bloc/intro_bloc.dart';
 /// or other.
 /// The user can leave blank this info.
 class TraumaScreen extends StatefulWidget {
+  /// Index of the screen
+  final int screenIndex;
+  final List<bool> trauma;
+
+  TraumaScreen(this.screenIndex, {
+    this.trauma,
+  });
+
   @override
   _TraumaScreenState createState() => _TraumaScreenState();
 }
@@ -24,14 +32,20 @@ class _TraumaScreenState extends State<TraumaScreen> {
   List<bool> _selectedTrauma;
 
   @override
+  void initState() {
+    super.initState();
+    _selectedTrauma = widget.trauma;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<IntroBloc, IntroState>(
-      condition: (_, current) => current is NeedToValidateState && current.index == 4,
+    return BlocListener<OnBoardingBloc, OnBoardingState>(
+      condition: (_, current) => current is NeedToValidateState && current.index == widget.screenIndex,
       listener: (context, state) {
         final isValid = _formKey.currentState.validate();
         if (isValid) {
           _formKey.currentState.save();
-          context.bloc<IntroBloc>().add(ValidationSuccessEvent());
+          context.bloc<OnBoardingBloc>().add(ValidationSuccessEvent());
         }
         print("_TraumaScreenState.build: Trauma info are ${isValid? "valid": "invalid"}");
       },

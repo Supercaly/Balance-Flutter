@@ -4,7 +4,7 @@ import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_number_form_field.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:balance_app/bloc/intro_bloc.dart';
+import 'package:balance_app/bloc/onboarding_bloc.dart';
 
 /// Second intro screen
 ///
@@ -13,9 +13,12 @@ import 'package:balance_app/bloc/intro_bloc.dart';
 /// height letting him know why ke need such
 /// information; the user cannot skip this step.
 class HeightScreen extends StatefulWidget {
+  /// Index of the screen
+  final int screenIndex;
   final ValueChanged<bool> enableNextBtnCallback;
+  final String height;
 
-  HeightScreen(this.enableNextBtnCallback);
+  HeightScreen(this.screenIndex, this.enableNextBtnCallback, {this.height});
 
   @override
   _HeightScreenState createState() => _HeightScreenState();
@@ -27,19 +30,14 @@ class _HeightScreenState extends State<HeightScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<IntroBloc, IntroState>(
-      condition: (_, current) => current is NeedToValidateState && current.index == 1,
+    return BlocListener<OnBoardingBloc, OnBoardingState>(
+      condition: (_, current) => current is NeedToValidateState && current.index == widget.screenIndex,
       listener: (context, state) {
         // Validate and save height data
         bool isValid = _formKey.currentState.validate();
         if (isValid) {
           _formKey.currentState.save();
-          /*
-           * All the required data are stored... mark the
-           * first launch as done so we don't ask this data anymore
-           */
-          PreferenceManager.firstLaunchDone();
-          context.bloc<IntroBloc>().add(ValidationSuccessEvent());
+          context.bloc<OnBoardingBloc>().add(ValidationSuccessEvent());
         }
         print("_HeightScreenState.build: Height data is ${isValid? 'valid': 'invalid'}");
       },
@@ -85,6 +83,7 @@ class _HeightScreenState extends State<HeightScreen> {
                   child: CustomNumberFormField(
                     labelText: "Height",
                     suffix: "cm",
+                    initialValue: widget.height,
                     onChanged: (isNotEmpty) {
                       // Enable/Disable the next button if the text field is empty
                       if (isNotEmpty && !_canGoNext) {
