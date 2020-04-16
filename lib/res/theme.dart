@@ -115,6 +115,9 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
       borderRadius: BorderRadius.all(Radius.circular(9))
     ),
   ),
+  dialogTheme: DialogTheme(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(9)))
+  ),
 );
 
 /// Dark Theme for the app
@@ -220,5 +223,8 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(9))
     ),
+  ),
+  dialogTheme: DialogTheme(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(9)))
   ),
 );
