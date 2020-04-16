@@ -1,6 +1,9 @@
 
+/// Enum representing the events on the countdown
 enum CountdownEvents {
   startPreMeasure,
   startMeasure,
-  stop,
+  stopPreMeasure,
+  stopMeasure,
+  measureComplete,
 }
