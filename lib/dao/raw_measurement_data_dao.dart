@@ -9,4 +9,7 @@ abstract class RawMeasurementDataDao {
 
   @Query("SELECT * FROM measurements_data WHERE measurement_id = :measurementId")
   Future<List<RawMeasurement>> findAllRawMeasDataForId(int measurementId);
+
+  @Query("SELECT * FROM measurements_data")
+  Future<List<RawMeasurement>> getAllData();
 }

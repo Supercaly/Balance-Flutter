@@ -53,4 +53,49 @@ class RawMeasurement {
       gyroscopeZ: sensorData.gyroscopeZ,
     );
   }
+
+  @override
+  String toString() => "RawMeasurement("
+    "id=$id, "
+    "measurementId=$measurementId, "
+    "timestamp=$timestamp, "
+    "accuracy=$accuracy, "
+    "accelerometerX=$accelerometerX, "
+    "accelerometerY=$accelerometerY, "
+    "accelerometerZ=$accelerometerZ, "
+    "gyroscopeX=$gyroscopeX, "
+    "gyroscopeY=$gyroscopeY, "
+    "gyroscopeZ,=$gyroscopeZ)";
+
+  @override
+  int get hashCode {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + id.hashCode;
+    result = prime * result + measurementId.hashCode;
+    result = prime * result + timestamp.hashCode;
+    result = prime * result + accuracy.hashCode;
+    result = prime * result + accelerometerX.hashCode;
+    result = prime * result + accelerometerY.hashCode;
+    result = prime * result + accelerometerZ.hashCode;
+    result = prime * result + gyroscopeX.hashCode;
+    result = prime * result + gyroscopeY.hashCode;
+    result = prime * result + gyroscopeZ.hashCode;
+    return result;
+  }
+
+  @override
+  bool operator ==(other) =>
+    other is RawMeasurement &&
+      other.id == this.id &&
+      other.measurementId == this.measurementId &&
+      other.timestamp == this.timestamp &&
+      other.accuracy == this.accuracy &&
+      other.accelerometerX == this.accelerometerX &&
+      other.accelerometerY == this.accelerometerY &&
+      other.accelerometerZ == this.accelerometerZ &&
+      other.gyroscopeX == this.gyroscopeX &&
+      other.gyroscopeY == this.gyroscopeY &&
+      other.gyroscopeZ == this.gyroscopeZ;
+
 }
