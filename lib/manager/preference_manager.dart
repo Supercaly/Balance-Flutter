@@ -6,6 +6,8 @@ import 'package:balance_app/model/user_info.dart';
 class PreferenceManager {
   // First launch
   static const _isFirstTimeLaunch = "IsFirstTimeLaunch";
+  // Show measuring tutorial
+  static const _showTutorial = "ShowTutorial";
   // Calibration
   static const _isDeviceCalibrated = "IsDeviceCalibrated";
   // Accelerometer
@@ -38,6 +40,18 @@ class PreferenceManager {
   static Future<void> firstLaunchDone() async {
     var pref = await SharedPreferences.getInstance();
     pref.setBool(_isFirstTimeLaunch, false);
+  }
+
+  /// Can show the measuring tutorial?
+  static Future<bool> get showMeasuringTutorial async {
+    var pref = await SharedPreferences.getInstance();
+    return pref.getBool(_showTutorial) ?? true;
+  }
+
+  /// Never show the tutorial again
+  static Future<void> neverShowMeasuringTutorial() async{
+    var pref = await SharedPreferences.getInstance();
+    pref.setBool(_showTutorial, false);
   }
 
   /// The device is already calibrated?
