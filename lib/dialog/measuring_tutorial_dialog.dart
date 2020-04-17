@@ -1,12 +1,39 @@
 
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-void showTutorialDialog(BuildContext context) {
+/// Show the [TutorialDialog]
+///
+/// The callback [onDone] is called every time the action button
+/// is pressed and it lets the parent Widget start the measuring
+void showTutorialDialog(BuildContext context, VoidCallback onDone) {
   showDialog(
     context: context,
-    builder: (context) => AlertDialog(
+    builder: (context) => TutorialDialog(onDone),
+  );
+}
+
+/// Widget that implements a tutorial dialog
+///
+/// This dialog has the purpose of teaching the user
+/// how to correctly perform a measurement.
+class TutorialDialog extends StatefulWidget {
+  final VoidCallback callback;
+
+  TutorialDialog(this.callback);
+
+  @override
+  _TutorialDialogState createState() => _TutorialDialogState();
+}
+
+class _TutorialDialogState extends State<TutorialDialog> {
+  bool _neverShowAgainCheck = false;
+  
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
       contentPadding: const EdgeInsets.all(0.0),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -37,8 +64,10 @@ void showTutorialDialog(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CircularCheckBox(
-                  value: true,
-                  onChanged: (_) {},
+                  value: _neverShowAgainCheck,
+                  onChanged: (value) {
+                    setState(() => _neverShowAgainCheck = value);
+                  },
                   activeColor: Colors.blue,
                 ),
                 SizedBox(width: 8),
@@ -50,10 +79,15 @@ void showTutorialDialog(BuildContext context) {
       ),
       actions: [
         FlatButton(
-          onPressed: null,
-          child: Text("OK"),
-        )
+          onPressed: () {
+            if (_neverShowAgainCheck)
+              PreferenceManager.neverShowMeasuringTutorial();
+            widget.callback();
+            Navigator.pop(context);
+          },
+          child: Text("OK")
+        ),
       ],
-    ),
-  );
+    );
+  }
 }
