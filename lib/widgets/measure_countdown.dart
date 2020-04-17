@@ -71,6 +71,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
     return BlocProvider<CountdownBloc>.value(
       value: _bloc,
       child: BlocConsumer<CountdownBloc, CountdownState>(
+        listenWhen: (previous, current) => current != previous,
         listener: (_, state) => _state = state,
         builder: (context, state) {
           return Column(

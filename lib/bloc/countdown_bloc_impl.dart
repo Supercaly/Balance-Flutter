@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'package:balance_app/repository/test_repository.dart';
 import 'package:quiver/async.dart';
 import 'package:balance_app/floor/measurement_database.dart';
 
@@ -13,11 +14,13 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
   bool _isCountdownCancelled;
   SensorMonitor _sensorMonitor;
   StreamSubscription<Duration> _monitorSub;
+  TestRepository _repository;
 
   /// Private constructor of [CountdownBloc]
   CountdownBloc._(MeasurementDatabase db):
+    _repository = TestRepository(db),
     _isCountdownCancelled = false,
-    _sensorMonitor = SensorMonitor(Duration(seconds: 8));
+    _sensorMonitor = SensorMonitor(Duration(milliseconds: 5));
 
   /// Factory method for creating an instance of [CountdownBloc]
   factory CountdownBloc.create(MeasurementDatabase db) => CountdownBloc._(db);
@@ -32,8 +35,10 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
       case CountdownEvents.startPreMeasure:
         print("CountdownBloc.mapEventToState: startPreMeasure");
         _isCountdownCancelled = false;
-        _countdownTimer = CountdownTimer(Duration(seconds: 6), Duration(seconds: 1))
-          ..listen((event) { /*No-op*/ },
+        _countdownTimer = CountdownTimer(
+          Duration(milliseconds: 6000),
+          Duration(milliseconds: 1000)
+        )..listen((event) { /*No-op*/ },
             onDone: () {
               if (!_isCountdownCancelled)
                 add(CountdownEvents.startMeasure);
@@ -70,6 +75,8 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
       // Save the new test into the database
       case CountdownEvents.measureComplete:
         print("Store ${_sensorMonitor.result.length} data to db");
+        await _repository.createNewMeasurement(_sensorMonitor.result, true);
+        print("idle?");
         yield CountdownState.idle;
         break;
     }
