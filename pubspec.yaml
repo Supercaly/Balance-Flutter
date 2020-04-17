@@ -57,4 +57,5 @@ flutter:
 
   # Assets paths
   assets:
+    - assets/
     - assets/icons/
