@@ -1,10 +1,10 @@
 
 import 'dart:async';
-import 'package:balance_app/repository/test_repository.dart';
 import 'package:quiver/async.dart';
 import 'package:balance_app/floor/measurement_database.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:balance_app/repository/measure_countdown_repository.dart';
 import 'package:balance_app/bloc/events/countdown_events.dart';
 import 'package:balance_app/bloc/states/countdown_state.dart';
 import 'package:balance_app/sensors/sensor_monitor.dart';
@@ -14,13 +14,13 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
   bool _isCountdownCancelled;
   SensorMonitor _sensorMonitor;
   StreamSubscription<Duration> _monitorSub;
-  TestRepository _repository;
+  MeasureCountdownRepository _repository;
 
   /// Private constructor of [CountdownBloc]
   CountdownBloc._(MeasurementDatabase db):
-    _repository = TestRepository(db),
+    _repository = MeasureCountdownRepository(db),
     _isCountdownCancelled = false,
-    _sensorMonitor = SensorMonitor(Duration(milliseconds: 5));
+    _sensorMonitor = SensorMonitor(Duration(milliseconds: 8000));
 
   /// Factory method for creating an instance of [CountdownBloc]
   factory CountdownBloc.create(MeasurementDatabase db) => CountdownBloc._(db);
@@ -74,9 +74,9 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
         break;
       // Save the new test into the database
       case CountdownEvents.measureComplete:
-        print("Store ${_sensorMonitor.result.length} data to db");
-        await _repository.createNewMeasurement(_sensorMonitor.result, true);
-        print("idle?");
+        // TODO: 18/04/20 return the entire Measurement and do some error handling
+        final newId = await _repository.createNewMeasurement(_sensorMonitor.result, true);
+        print("CountdownBloc.mapEventToState: Measurement $newId created with ${_sensorMonitor.result.length} raw data");
         yield CountdownState.idle;
         break;
     }

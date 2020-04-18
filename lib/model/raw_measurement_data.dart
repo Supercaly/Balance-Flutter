@@ -15,7 +15,7 @@ import 'package:balance_app/model/sensor_data.dart';
     )
   ]
 )
-class RawMeasurement {
+class RawMeasurementData {
   @PrimaryKey(autoGenerate: true) final int id;
   @ColumnInfo(name: "measurement_id", nullable: false) final int measurementId;
   @ColumnInfo() final int timestamp;
@@ -27,7 +27,7 @@ class RawMeasurement {
   @ColumnInfo(name: "gyroscope_y") final double gyroscopeY;
   @ColumnInfo(name: "gyroscope_z") final double gyroscopeZ;
 
-  RawMeasurement({
+  RawMeasurementData({
     this.id,
     this.measurementId,
     this.timestamp,
@@ -40,8 +40,8 @@ class RawMeasurement {
     this.gyroscopeZ,
   });
 
-  factory RawMeasurement.fromSensorData(int measurementId, SensorData sensorData) {
-    return RawMeasurement(
+  factory RawMeasurementData.fromSensorData(int measurementId, SensorData sensorData) {
+    return RawMeasurementData(
       measurementId: measurementId,
       timestamp:sensorData.timestamp,
       accuracy: sensorData.accuracy,
@@ -86,7 +86,7 @@ class RawMeasurement {
 
   @override
   bool operator ==(other) =>
-    other is RawMeasurement &&
+    other is RawMeasurementData &&
       other.id == this.id &&
       other.measurementId == this.measurementId &&
       other.timestamp == this.timestamp &&

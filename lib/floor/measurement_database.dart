@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:balance_app/dao/measurement_dao.dart';
 import 'package:balance_app/dao/raw_measurement_data_dao.dart';
 import 'package:balance_app/model/measurement.dart';
-import 'package:balance_app/model/raw_measurement.dart';
+import 'package:balance_app/model/raw_measurement_data.dart';
 
 part 'measurement_database.g.dart';
 
@@ -16,7 +16,7 @@ part 'measurement_database.g.dart';
   version: 1,
   entities: [
     Measurement,
-    RawMeasurement,
+    RawMeasurementData,
   ]
 )
 abstract class MeasurementDatabase extends FloorDatabase {

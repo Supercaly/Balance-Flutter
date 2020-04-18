@@ -1,11 +1,11 @@
 
-import 'package:balance_app/dao/measurement_dao.dart';
-import 'package:balance_app/dao/raw_measurement_data_dao.dart';
-import 'package:balance_app/floor/measurement_database.dart';
-import 'package:balance_app/model/measurement.dart';
-import 'package:balance_app/model/raw_measurement.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_ffi_test/sqflite_ffi_test.dart';
+import 'package:balance_app/floor/measurement_database.dart';
+import 'package:balance_app/dao/measurement_dao.dart';
+import 'package:balance_app/dao/raw_measurement_data_dao.dart';
+import 'package:balance_app/model/measurement.dart';
+import 'package:balance_app/model/raw_measurement_data.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -20,13 +20,13 @@ void main() {
       Measurement(id: 2, creationDate: 1, eyesOpen: false),
       Measurement(id: 3, creationDate: 1, eyesOpen: false),
     ];
-    List<RawMeasurement> rawMeasurementsList = [
-      RawMeasurement(id: 0, measurementId: 1),
-      RawMeasurement(id: 1, measurementId: 1),
-      RawMeasurement(id: 2, measurementId: 1),
-      RawMeasurement(id: 3, measurementId: 2),
-      RawMeasurement(id: 4, measurementId: 2),
-      RawMeasurement(id: 5, measurementId: 3),
+    List<RawMeasurementData> rawMeasurementsList = [
+      RawMeasurementData(measurementId: 1),
+      RawMeasurementData(measurementId: 1),
+      RawMeasurementData(measurementId: 1),
+      RawMeasurementData(measurementId: 2),
+      RawMeasurementData(measurementId: 2),
+      RawMeasurementData(measurementId: 3),
     ];
 
     setUp(() async {
@@ -51,9 +51,10 @@ void main() {
       final newIds = await rawMeasurementDataDao
         .insertRawMeasurements(rawMeasurementsList);
 
-      final allData = await rawMeasurementDataDao.getAllData();
       // All the items are inserted?
       expect(newIds, hasLength(6));
+
+      final allData = await rawMeasurementDataDao.getAllData();
       expect(allData, hasLength(6));
     });
     
@@ -75,7 +76,21 @@ void main() {
       // Find the all the data
       final allData = await rawMeasurementDataDao.getAllData();
       expect(allData, hasLength(6));
-      expect(allData, equals(rawMeasurementsList));
+    });
+
+    test("ignore duplicate data", () async{
+      await rawMeasurementDataDao.insertRawMeasurements(rawMeasurementsList);
+
+      // Insert a duplicate RawMeasurement
+      await rawMeasurementDataDao
+        .insertRawMeasurements([RawMeasurementData(id: 1, measurementId: 3)]);
+
+      // If the insertion is ignored the RawMeasurement will not be present in db
+      expect(
+        (await rawMeasurementDataDao.getAllData())
+          .where((element) => element.id == 1 && element.measurementId == 3),
+        isEmpty
+      );
     });
   });
 }
