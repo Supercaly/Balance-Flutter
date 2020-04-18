@@ -219,21 +219,21 @@ packages:
       name: floor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.0"
+    version: "0.12.0"
   floor_annotation:
     dependency: transitive
     description:
       name: floor_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.0"
+    version: "0.7.0"
   floor_generator:
     dependency: "direct dev"
     description:
       name: floor_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.0"
+    version: "0.12.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -367,7 +367,7 @@ packages:
       name: moor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.2"
   moor_ffi:
     dependency: transitive
     description:
