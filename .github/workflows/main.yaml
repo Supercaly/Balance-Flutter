@@ -7,7 +7,10 @@ on:
   push:
     branches:
       - master
+      - dev/*
   pull_request:
+    branches:
+      - master
 
 jobs:
   test-and-analyze:
@@ -26,13 +29,13 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Generate part files for floor
-      - name: Generate part files
-        run: flutter packages pub run build_runner build
-
       # Install SQLite libraries for floor tests
       - name: Install SQLite
-        run: sudo apt-get -y install sqlite3 libsqlite3-dev
+        run: ./scripts/linux/install_db.sh
+
+      # Generate part files for floor
+      - name: Generate part files
+        run: ./scripts/linux/create_db.sh
 
       # Run Unit Tests
       - name: Unit Test
