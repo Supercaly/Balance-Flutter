@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 
 // Class containing all the [MaterialColor] of the app
 class BColors {
+
+  BColors._();
+
   static const MaterialColor colorPrimary = _malibu;
   static const MaterialColor colorPrimaryDark = _scampi;
   static const MaterialColor colorPrimaryLight = _periwinkle;
   static const MaterialColor colorAccent = _dodger_blue;
+  static const MaterialColor colorSecondary = _solitude;
   static const Color textColor = _dove_gray;
   static const Color darkOnBg = _mine_shaft;
 
@@ -57,6 +61,18 @@ class BColors {
     700: Color.fromRGBO(52, 198, 249, .8),
     800: Color.fromRGBO(52, 198, 249, .9),
     900: Color.fromRGBO(52, 198, 249, 1),
+  });
+  static const MaterialColor _solitude = MaterialColor(0xFFE5F4FF, {
+    50: Color.fromRGBO(229, 244, 255, .1),
+    100: Color.fromRGBO(229, 244, 255, .2),
+    200: Color.fromRGBO(229, 244, 255, .3),
+    300: Color.fromRGBO(229, 244, 255, .4),
+    400: Color.fromRGBO(229, 244, 255, .5),
+    500: Color.fromRGBO(229, 244, 255, .6),
+    600: Color.fromRGBO(229, 244, 255, .7),
+    700: Color.fromRGBO(229, 244, 255, .8),
+    800: Color.fromRGBO(229, 244, 255, .9),
+    900: Color.fromRGBO(229, 244, 255, 1),
   });
 
   static const Color _dove_gray = Color.fromARGB(255, 102, 102, 102);

@@ -118,6 +118,13 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   dialogTheme: DialogTheme(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(9)))
   ),
+  toggleButtonsTheme: ToggleButtonsThemeData(
+    color: BColors.textColor,
+    selectedColor: Colors.white,
+    fillColor: BColors.colorPrimary,
+    borderRadius: BorderRadius.all(Radius.circular(9)),
+    borderColor: Colors.grey,
+  ),
 );
 
 /// Dark Theme for the app
@@ -226,5 +233,12 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   ),
   dialogTheme: DialogTheme(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(9)))
+  ),
+  toggleButtonsTheme: ToggleButtonsThemeData(
+    color: BColors.textColor,
+    selectedColor: Colors.white,
+    fillColor: BColors.colorPrimary,
+    borderRadius: BorderRadius.all(Radius.circular(9)),
+    borderColor: Colors.grey,
   ),
 );

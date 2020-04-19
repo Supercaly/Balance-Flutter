@@ -1,6 +1,8 @@
 
 import 'dart:async';
 
+import 'package:balance_app/res/colors.dart';
+import 'package:balance_app/widgets/custom_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/manager/preference_manager.dart';
@@ -28,6 +30,7 @@ class MeasureCountdown extends StatefulWidget {
 class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBindingObserver {
   CountdownBloc _bloc;
   CountdownState _state;
+  bool _eyesOpen = true;
 
   @override
   void initState() {
@@ -75,6 +78,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
         listener: (_, state) => _state = state,
         builder: (context, state) {
           return Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               _buildWidgetForState(context, state),
               SizedBox(height: 0),
@@ -106,7 +110,25 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
                     // Stop the measurement
                     context.bloc<CountdownBloc>().add(CountdownEvents.stopMeasure);
                 },
-                child: Text(state == CountdownState.idle ? "START TEST" : "STOP TEST"),
+                color: BColors.colorAccent,
+                child: Text(
+                  state == CountdownState.idle ? "START TEST" : "STOP TEST",
+                  style: Theme.of(context).textTheme.button.copyWith(color: Colors.white),
+                ),
+              ),
+              SizedBox(height: 30),
+              CustomToggleButton(
+                selected: _eyesOpen? SelectedToggle.left: SelectedToggle.right,
+                onChanged: (selected) {
+                  setState(() {
+                    selected == SelectedToggle.left
+                      ? _eyesOpen = true
+                      : _eyesOpen = false;
+                    context.bloc<CountdownBloc>().eyesOpen = _eyesOpen;
+                  });
+                },
+                leftText: Text("Eyes open"),
+                rightText: Text("Eyes closed"),
               )
             ],
           );

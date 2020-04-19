@@ -15,6 +15,9 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
   SensorMonitor _sensorMonitor;
   StreamSubscription<Duration> _monitorSub;
   MeasureCountdownRepository _repository;
+  bool _eyesOpen;
+
+  void set eyesOpen(bool value) => _eyesOpen = value;
 
   /// Private constructor of [CountdownBloc]
   CountdownBloc._(MeasurementDatabase db):
@@ -75,7 +78,7 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
       // Save the new test into the database
       case CountdownEvents.measureComplete:
         // TODO: 18/04/20 return the entire Measurement and do some error handling
-        final newId = await _repository.createNewMeasurement(_sensorMonitor.result, true);
+        final newId = await _repository.createNewMeasurement(_sensorMonitor.result, _eyesOpen);
         print("CountdownBloc.mapEventToState: Measurement $newId created with ${_sensorMonitor.result.length} raw data");
         yield CountdownState.idle;
         break;
