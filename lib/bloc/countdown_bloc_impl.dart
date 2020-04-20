@@ -30,7 +30,7 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
   factory CountdownBloc.create(MeasurementDatabase db) => CountdownBloc._(db);
 
   @override
-  CountdownState get initialState => CountdownState.idle;
+  CountdownState get initialState => CountdownIdleState();
 
   @override
   Stream<CountdownState> mapEventToState(CountdownEvents event) async* {
@@ -42,24 +42,24 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
         _countdownTimer = CountdownTimer(
           Duration(milliseconds: 6000),
           Duration(milliseconds: 1000)
-        )..listen((event) { /*No-op*/ },
+        )..listen((event) { /*No-Op*/ },
             onDone: () {
               if (!_isCountdownCancelled)
                 add(CountdownEvents.startMeasure);
             }
           );
-        yield CountdownState.preMeasure;
+        yield CountdownPreMeasureState();
         break;
       // Start the measuring
       case CountdownEvents.startMeasure:
         print("CountdownBloc.mapEventToState: startMeasure");
-        _monitorSub = _sensorMonitor.sensorStream.listen((event) { },
+        _monitorSub = _sensorMonitor.sensorStream.listen((event) { /*No-op*/ },
           onDone: () {
             _monitorSub = null;
             add(CountdownEvents.measureComplete);
           }
         );
-        yield CountdownState.measure;
+        yield CountdownMeasureState();
         break;
       // Stop the pre measuring countdown
       case CountdownEvents.stopPreMeasure:
@@ -67,21 +67,27 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
         _isCountdownCancelled = true;
         _countdownTimer.cancel();
         _countdownTimer = null;
-        yield CountdownState.idle;
+        yield CountdownIdleState();
         break;
       // Stop the measuring
       case CountdownEvents.stopMeasure:
         print("CountdownBloc.mapEventToState: stopMeasure");
         _monitorSub.cancel();
         _monitorSub = null;
-        yield CountdownState.idle;
+        yield CountdownIdleState();
         break;
       // Save the new test into the database
       case CountdownEvents.measureComplete:
         // TODO: 18/04/20 return the entire Measurement and do some error handling
-        final newId = await _repository.createNewMeasurement(_sensorMonitor.result, _eyesOpen);
-        print("CountdownBloc.mapEventToState: Measurement $newId created with ${_sensorMonitor.result.length} raw data");
-        yield CountdownState.idle;
+        try {
+         final newId = await _repository.createNewMeasurement(_sensorMonitor.result, _eyesOpen);
+         print("CountdownBloc.mapEventToState: Measurement $newId created with ${_sensorMonitor.result.length} raw data");
+         yield CountdownCompleteState.success(newId);
+        } catch(e) {
+          print("$e");
+          yield CountdownCompleteState.error(e);
+        } finally {
+        }
         break;
     }
   }
