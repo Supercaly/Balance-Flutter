@@ -17,6 +17,7 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
   MeasureCountdownRepository _repository;
   bool _eyesOpen;
 
+  /// Setter for the [_eyesOpen] parameter
   void set eyesOpen(bool value) => _eyesOpen = value;
 
   /// Private constructor of [CountdownBloc]
@@ -83,5 +84,18 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
         yield CountdownState.idle;
         break;
     }
+  }
+
+  @override
+  Future<void> close() {
+    print("Close bloc");
+    // Stop the countdown timer
+    _isCountdownCancelled = true;
+    _countdownTimer?.cancel();
+    _countdownTimer = null;
+    // Stop the sensor monitor
+    _monitorSub?.cancel();
+    _monitorSub = null;
+    return super.close();
   }
 }

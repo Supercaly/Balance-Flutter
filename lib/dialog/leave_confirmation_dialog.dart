@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 ///
 /// This method return a [Future] of [bool] used by the method [didPopRoute]
 /// to know if the app should be closed or not.
-/// [onPositivePressed] is called every time the positive action is pressed
-/// and lets the parent Widget stop the test
-Future<bool> showLeaveDialog(BuildContext context, VoidCallback onPositivePressed) {
+Future<bool> showLeaveDialog(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -25,7 +23,6 @@ Future<bool> showLeaveDialog(BuildContext context, VoidCallback onPositivePresse
         // Stop the test and close the app
         FlatButton(
           onPressed: () {
-            onPositivePressed();
             // Close the dialog and the app
             Navigator.pop(context, false);
           },

@@ -30,42 +30,32 @@ class MeasureCountdown extends StatefulWidget {
 
 class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBindingObserver {
   CountdownBloc _bloc;
-  CountdownState _state;
+  bool _measuring = false;
 
   @override
   void initState() {
     super.initState();
-    // Create aCountdownBloc with an instance of the database
-    _bloc = CountdownBloc
-      .create(Provider.of<MeasurementDatabase>(context, listen: false));
-    _bloc.eyesOpen = true;
     WidgetsBinding.instance.addObserver(this);
+    // Create aCountdownBloc with an instance of the database
+    _bloc = CountdownBloc.create(
+      Provider.of<MeasurementDatabase>(context, listen: false)
+    );
+    _bloc.eyesOpen = true;
   }
 
   @override
   Future<bool> didPopRoute() async{
-    // If we are measuring ask the user if he wants to leave
-    if (_state == CountdownState.measure)
-      return await showLeaveDialog(
-        context,
-        () => _bloc.add(CountdownEvents.stopMeasure)
-      );
-    // If we are in pre measure stop the countdown
-    if (_state == CountdownState.preMeasure)
-      _bloc.add(CountdownEvents.stopPreMeasure);
-    // Close the app
-    return false;
+    bool handlePop = false;
+    if (_measuring)
+      handlePop = await showLeaveDialog(context);
+    if (!handlePop) _bloc.close();
+    return handlePop;
   }
 
   @override
   void dispose() {
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
-    // If the test is running stop it
-    if (_state == CountdownState.preMeasure)
-      _bloc.add(CountdownEvents.stopPreMeasure);
-    if (_state == CountdownState.measure)
-      _bloc.add(CountdownEvents.stopMeasure);
     // Dismiss the bloc
     _bloc.close();
   }
@@ -75,8 +65,11 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
     return BlocProvider<CountdownBloc>.value(
       value: _bloc,
       child: BlocConsumer<CountdownBloc, CountdownState>(
-        listenWhen: (previous, current) => current != previous,
-        listener: (_, state) => _state = state,
+        //listenWhen: (previous, current) => current != previous,
+        listener: (_, state) {
+          print("listen $state");
+          state == CountdownState.measure? _measuring = true: _measuring = false;
+        },
         builder: (context, state) {
           return Column(
             mainAxisSize: MainAxisSize.min,
@@ -151,19 +144,5 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
           ),
         );
     }
-  }
-
-  Widget _buildMeasure(BuildContext context, String time) {
-    return Container(
-      width: 220,
-      height: 220,
-      decoration: BoxDecoration(
-        color: Colors.blue.shade200,
-        borderRadius: BorderRadius.circular(90),
-      ),
-      child: Center(
-        child: Text(time),
-      ),
-    );
   }
 }
