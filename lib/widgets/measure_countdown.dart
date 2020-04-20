@@ -1,11 +1,13 @@
 
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:balance_app/routes.dart';
 import 'package:balance_app/res/colors.dart';
 import 'package:balance_app/widgets/circular_countdown.dart';
 import 'package:balance_app/widgets/custom_toggle_button.dart';
-import 'package:flutter/material.dart';
 import 'package:balance_app/floor/measurement_database.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:balance_app/manager/preference_manager.dart';
 
 import 'package:balance_app/dialog/calibrate_device_dialog.dart';
@@ -15,6 +17,7 @@ import 'package:balance_app/dialog/measuring_tutorial_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/countdown_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 
 /// Widget that manage the entire measuring process
 ///
@@ -65,12 +68,23 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
     return BlocProvider<CountdownBloc>.value(
       value: _bloc,
       child: BlocConsumer<CountdownBloc, CountdownState>(
-        //listenWhen: (previous, current) => current != previous,
         listener: (_, state) {
           print("listen $state");
-          state == CountdownState.measure? _measuring = true: _measuring = false;
+          state is CountdownMeasureState? _measuring = true: _measuring = false;
+          // Start/Stop the vibration
+          if (state is CountdownPreMeasureState)
+            Vibration.vibrate(pattern: [0, 300, 700, 300, 700, 300, 700, 300, 700, 300, 700, 300, 700]);
+          else if (state is CountdownMeasureState || state is CountdownCompleteState)
+            Vibration.vibrate(duration: 800);
+          else
+            Vibration.cancel();
         },
         builder: (context, state) {
+          // Open the result page
+          if (state is CountdownCompleteState)
+            SchedulerBinding.instance.addPostFrameCallback((_) =>
+              Navigator.of(context).pushNamed(Routes.result));
+          // Build the ui based on the new state
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -78,7 +92,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
               SizedBox(height: 0),
               RaisedButton(
                 onPressed: () async{
-                  if (state == CountdownState.idle) {
+                  if (state is CountdownIdleState || state is CountdownCompleteState) {
                     /*
                    * Every time the user presses the start button we need to check
                    * two conditions:
@@ -97,16 +111,16 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
                     else
                       context.bloc<CountdownBloc>().add(CountdownEvents.startPreMeasure);
                   }
-                  else if (state == CountdownState.preMeasure)
+                  else if (state is CountdownPreMeasureState)
                     // Stop the pre measure countdown
                     context.bloc<CountdownBloc>().add(CountdownEvents.stopPreMeasure);
-                  else if (state == CountdownState.measure)
+                  else if (state is CountdownMeasureState)
                     // Stop the measurement
                     context.bloc<CountdownBloc>().add(CountdownEvents.stopMeasure);
                 },
                 color: BColors.colorAccent,
                 child: Text(
-                  state == CountdownState.idle ? "START TEST" : "STOP TEST",
+                  state is CountdownIdleState || state is CountdownCompleteState? "START TEST" : "STOP TEST",
                   style: Theme.of(context).textTheme.button.copyWith(color: Colors.white),
                 ),
               ),
@@ -129,12 +143,10 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
 
   /// Return the correct widget based on the current state
   Widget _buildWidgetForState(BuildContext context, CountdownState state) {
-    switch(state) {
-      case CountdownState.preMeasure:
-        return _buildMeasure(context, "pre");
-      case CountdownState.measure:
-        return _buildMeasure(context, "meas");
-      default:
+    if (state is CountdownPreMeasureState || state is CountdownMeasureState)
+        return CircularCounter(state: state);
+    else
+        // Circular logo of the app
         return Container(
           margin: const EdgeInsets.all(20),
           width: 180,
@@ -143,6 +155,5 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
             child: Image.asset("assets/logo.png"),
           ),
         );
-    }
   }
 }
