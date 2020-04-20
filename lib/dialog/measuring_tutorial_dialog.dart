@@ -38,7 +38,7 @@ class _TutorialDialogState extends State<TutorialDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: double.maxFinite,
@@ -59,20 +59,25 @@ class _TutorialDialogState extends State<TutorialDialog> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CircularCheckBox(
-                  value: _neverShowAgainCheck,
-                  onChanged: (value) {
-                    setState(() => _neverShowAgainCheck = value);
-                  },
-                  activeColor: Colors.blue,
-                ),
-                SizedBox(width: 8),
-                Text("Never show again"),
-              ],
+            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            child: GestureDetector(
+              onTap: () {
+                setState(() => _neverShowAgainCheck = !_neverShowAgainCheck);
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularCheckBox(
+                    value: _neverShowAgainCheck,
+                    onChanged: (value) {
+                      setState(() => _neverShowAgainCheck = value);
+                    },
+                    activeColor: Colors.blue,
+                  ),
+                  SizedBox(width: 8),
+                  Text("Never show again"),
+                ],
+              ),
             ),
           )
         ],
