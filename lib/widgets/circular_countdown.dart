@@ -1,35 +1,25 @@
+
 import 'package:balance_app/bloc/states/countdown_state.dart';
+import 'package:balance_app/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as Math;
 
-class FakeCounter extends StatelessWidget {
-  final int timeLeft;
-  FakeCounter(this.timeLeft);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 220,
-      height: 220,
-      child: Center(
-        child: Text("$timeLeft sec."),
-      ),
-    );
-  }
-}
 /// Enum class representing the direction
 /// (mode) in which the CircularCounter
 /// will fill
 ///
 /// - normal, fill from left to right
 /// - reverse, fill from right to left
-enum FillMode {NORMAL, REVERSE}
+enum FillMode { normal, reverse }
 
 /// Widget containing the logic for the circular counter
 class CircularCounter extends StatefulWidget {
-  final CountdownState countdownState;
+  final CountdownState state;
 
-  CircularCounter({this.countdownState});
+  CircularCounter({
+    Key key,
+    this.state,
+  }): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -40,77 +30,27 @@ class CircularCounter extends StatefulWidget {
 /// State of the CircularCounter widget
 class _CircularCounterState extends State<CircularCounter> with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  FillMode _fillMode;
 
   @override
   void initState() {
-    _fillMode = (widget.countdownState == CountdownState.measure)? FillMode.NORMAL: FillMode.REVERSE;
+    super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 5)
+      duration: _duration
     );
-    super.initState();
+    _controller.forward();
   }
 
   @override
   void didUpdateWidget(CircularCounter oldWidget) {
-    print("_CircularCounterState.didUpdateWidget: $oldWidget");
-    // Change the fill mode and duration of the animation accordingly to the state
-    _fillMode = (widget.countdownState == CountdownState.measure)? FillMode.NORMAL: FillMode.REVERSE;
-    _controller.duration = Duration(seconds: (widget.countdownState == CountdownState.measure)? 32: 5);
-    // Start/Stop the progress animation accordingly to the state
-    if (widget.countdownState == CountdownState.idle) {
-      _controller.reset();
-      print("Stop Counter Animation!");
-    }
-    else {
-      _controller.forward();
-      print("Start Counter Animation!");
-    }
     super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    ThemeData themeData = Theme.of(context);
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        FittedBox(
-          child: SizedBox(
-            width: 220,
-            height: 220,
-            child: CustomPaint(
-              painter: TimerPainter(
-                animation: _controller,
-                bgColor: themeData.scaffoldBackgroundColor,
-                color: themeData.primaryColor,
-                fillMode: FillMode.REVERSE,
-              ),
-            ),
-          ),
-        ),
-        AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) => RichText(
-            text: TextSpan(
-              text: timeString,
-              style: themeData.textTheme.headline2.copyWith(
-                color: themeData.primaryColor
-              ),
-              children: [
-                TextSpan(
-                  text: " sec",
-                  style: themeData.textTheme.headline6.copyWith(
-                    color: themeData.primaryColor
-                  )
-                )
-              ]
-            )
-          )
-        )
-      ]
-    );
+    if (oldWidget.state != widget.state) {
+      print("Update");
+      _controller.duration = _duration;
+      _controller.reset();
+      _controller.forward();
+    }
+    print("aa");
   }
 
   @override
@@ -119,18 +59,93 @@ class _CircularCounterState extends State<CircularCounter> with SingleTickerProv
     super.dispose();
   }
 
-  /// Return the formatted string to display in the counter text
-  String get timeString {
-    Duration duration = _fillMode == FillMode.REVERSE?
-    (Duration(seconds: 1) + _controller.duration) - _controller.duration * _controller.value:
-    _controller.duration * _controller.value;
-    // TODO: 22/02/20 If the seconds are more than 60 the string will wrap back to 0
-    return "${(duration.inSeconds % 60).toString().padLeft(2, "0")}";
+  FillMode get _fillMode => widget.state is CountdownMeasureState
+    ? FillMode.normal
+    : FillMode.reverse;
+
+  Duration get _duration => Duration(
+    milliseconds: widget.state is CountdownMeasureState
+      ? 8000
+      : 6000
+  );
+
+  String get _timeString {
+    Duration dT = _fillMode == FillMode.reverse
+      ? (_controller.duration * (1-_controller.value))
+      : Duration(seconds: 1) + _controller.duration * _controller.value;
+    return "${(dT.inSeconds % 60).toString().padLeft(2, "0")}";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData themeData = Theme.of(context);
+    bool isLightTheme = themeData.brightness == Brightness.light;
+
+    Color textColor = isLightTheme
+      ? Colors.black
+      : Colors.white;
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        FittedBox(
+          child: SizedBox(
+            width: 220,
+            height: 220,
+            child: CustomPaint(
+              painter: ArcPainter(
+                animation: _controller,
+                bgColor: themeData.scaffoldBackgroundColor,
+                color: BColors.colorPrimary,
+                fillMode: _fillMode,
+              ),
+            ),
+          ),
+        ),
+        AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) => Column(
+            children: [
+              Text(
+                widget.state is CountdownMeasureState
+                  ? "MEASURING"
+                  : "GET READY",
+                style: TextStyle(
+                  color: BColors.textColor,
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 8),
+              RichText(
+                text: TextSpan(
+                  text: _timeString,
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 40,
+                    fontWeight: FontWeight.w300,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: " s",
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                      )
+                    )
+                  ]
+                )
+              ),
+            ],
+          )
+        )
+      ]
+    );
   }
 }
 
-/// Class representing the Circular Counter
-class TimerPainter extends CustomPainter {
+/// Painter class for the countdown arc
+class ArcPainter extends CustomPainter {
   /// Start position of the arc in radians
   static const START_RAD = 2.35619;
   /// Length of the arc in radians
@@ -144,38 +159,41 @@ class TimerPainter extends CustomPainter {
   final Color color;
   /// Represent the chosen fill mode
   final FillMode fillMode;
+  
+  // Paint object for the timer
+  final _paint = Paint()
+    ..strokeWidth = 10.0
+    .. strokeCap = StrokeCap.round
+    ..style = PaintingStyle.stroke;
 
-  TimerPainter({
+  ArcPainter({
     this.animation,
     this.bgColor,
     this.color,
-    this.fillMode = FillMode.NORMAL,
+    this.fillMode = FillMode.normal,
   }): super(repaint: animation);
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = bgColor
-      ..strokeWidth = 10.0
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
+    _paint.color = bgColor;
 
     final radius = Math.min(size.width, size.height) / 2;
     final center = Offset(size.width / 2, size.height / 2);
     final rect = Rect.fromCircle(center: center, radius: radius);
 
     // Draw the background arc
-    canvas.drawArc(rect, START_RAD, SWIPE_RAD, false, paint);
-    paint.color = color;
-    // Compute the current sweep angle and draw the main arc
-    double progress = (this.fillMode == FillMode.NORMAL)?
-    SWIPE_RAD * animation.value :
-    SWIPE_RAD - SWIPE_RAD * animation.value;
-    canvas.drawArc(rect, START_RAD, progress, false, paint);
+    canvas.drawArc(rect, START_RAD, SWIPE_RAD, false, _paint);
+    // Compute the current sweep angle
+    double progress = (this.fillMode == FillMode.normal)
+      ? SWIPE_RAD * animation.value
+      : SWIPE_RAD - (SWIPE_RAD * animation.value);
+    // Draw the progress arc
+    _paint.color = color;
+    canvas.drawArc(rect, START_RAD, progress, false, _paint);
   }
 
   @override
-  bool shouldRepaint(TimerPainter old) {
+  bool shouldRepaint(ArcPainter old) {
     return animation.value != old.animation.value ||
       color != old.color ||
       bgColor != old.bgColor ||
