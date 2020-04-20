@@ -9,6 +9,7 @@ import 'package:balance_app/bloc/events/countdown_events.dart';
 import 'package:balance_app/bloc/states/countdown_state.dart';
 import 'package:balance_app/sensors/sensor_monitor.dart';
 
+/// Class implementing the bloc pattern for the measure countdown
 class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
   CountdownTimer _countdownTimer;
   bool _isCountdownCancelled;
@@ -78,7 +79,6 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
         break;
       // Save the new test into the database
       case CountdownEvents.measureComplete:
-        // TODO: 18/04/20 return the entire Measurement and do some error handling
         try {
          final newId = await _repository.createNewMeasurement(_sensorMonitor.result, _eyesOpen);
          print("CountdownBloc.mapEventToState: Measurement $newId created with ${_sensorMonitor.result.length} raw data");
@@ -94,7 +94,6 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
 
   @override
   Future<void> close() {
-    print("Close bloc");
     // Stop the countdown timer
     _isCountdownCancelled = true;
     _countdownTimer?.cancel();

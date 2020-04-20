@@ -27,7 +27,6 @@ class CircularCounter extends StatefulWidget {
   }
 }
 
-/// State of the CircularCounter widget
 class _CircularCounterState extends State<CircularCounter> with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
@@ -45,12 +44,10 @@ class _CircularCounterState extends State<CircularCounter> with SingleTickerProv
   void didUpdateWidget(CircularCounter oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.state != widget.state) {
-      print("Update");
       _controller.duration = _duration;
       _controller.reset();
       _controller.forward();
     }
-    print("aa");
   }
 
   @override
