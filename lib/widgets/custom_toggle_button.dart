@@ -8,13 +8,13 @@ import 'package:flutter/rendering.dart';
 class CustomToggleButton extends StatefulWidget {
   final Text leftText;
   final Text rightText;
-  final SelectedToggle selected;
+  final SelectedToggle initial;
   final ValueChanged<SelectedToggle> onChanged;
 
   CustomToggleButton({
     this.leftText,
     this.rightText,
-    this.selected,
+    this.initial,
     this.onChanged,
   });
 
@@ -26,6 +26,14 @@ class CustomToggleButton extends StatefulWidget {
 enum SelectedToggle { left, right }
 
 class _CustomToggleButtonState extends State<CustomToggleButton> {
+  SelectedToggle _selected;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = widget.initial;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,7 +54,7 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
   }
 
   Widget _buildButton(SelectedToggle buttonPosition) {
-    bool isSelected = widget.selected == buttonPosition;
+    bool isSelected = _selected == buttonPosition;
     ToggleButtonsThemeData toggleTheme = Theme.of(context).toggleButtonsTheme;
 
     BorderRadius themeBorderRadius = toggleTheme.borderRadius ?? BorderRadius.all(Radius.circular(0.0));
@@ -83,8 +91,10 @@ class _CustomToggleButtonState extends State<CustomToggleButton> {
         ),
         child: InkWell(
           onTap: () {
-            if (widget.selected != buttonPosition)
+            if (_selected != buttonPosition) {
+              setState(() => _selected = buttonPosition);
               widget.onChanged(buttonPosition);
+            }
           },
           borderRadius: _getBorderRadiusForButton(buttonPosition, themeBorderRadius),
           child: Padding(

@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:balance_app/res/colors.dart';
+import 'package:balance_app/widgets/circular_countdown.dart';
 import 'package:balance_app/widgets/custom_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/floor/measurement_database.dart';
@@ -30,7 +31,6 @@ class MeasureCountdown extends StatefulWidget {
 class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBindingObserver {
   CountdownBloc _bloc;
   CountdownState _state;
-  bool _eyesOpen = true;
 
   @override
   void initState() {
@@ -38,6 +38,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
     // Create aCountdownBloc with an instance of the database
     _bloc = CountdownBloc
       .create(Provider.of<MeasurementDatabase>(context, listen: false));
+    _bloc.eyesOpen = true;
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -118,14 +119,10 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
               ),
               SizedBox(height: 30),
               CustomToggleButton(
-                selected: _eyesOpen? SelectedToggle.left: SelectedToggle.right,
+                initial: SelectedToggle.left,
                 onChanged: (selected) {
-                  setState(() {
-                    selected == SelectedToggle.left
-                      ? _eyesOpen = true
-                      : _eyesOpen = false;
-                    context.bloc<CountdownBloc>().eyesOpen = _eyesOpen;
-                  });
+                  context.bloc<CountdownBloc>().eyesOpen =
+                    selected == SelectedToggle.left? true: false;
                 },
                 leftText: Text("Eyes open"),
                 rightText: Text("Eyes closed"),
