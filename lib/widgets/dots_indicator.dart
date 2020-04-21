@@ -12,6 +12,7 @@ class DotsIndicator extends StatelessWidget {
     this.selected = 0
   }): assert(size > 0),
     assert(selected >= 0),
+    assert(selected < size),
     super(key: key);
 
   @override
