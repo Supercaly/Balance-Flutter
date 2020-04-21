@@ -126,11 +126,8 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
               ),
               SizedBox(height: 30),
               CustomToggleButton(
-                initial: SelectedToggle.left,
-                onChanged: (selected) {
-                  context.bloc<CountdownBloc>().eyesOpen =
-                    selected == SelectedToggle.left? true: false;
-                },
+                onChanged: (selected) => context.bloc<CountdownBloc>()
+                  .eyesOpen = (selected == 0)? true: false,
                 leftText: Text("Eyes open"),
                 rightText: Text("Eyes closed"),
               )

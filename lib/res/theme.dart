@@ -119,11 +119,12 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(9)))
   ),
   toggleButtonsTheme: ToggleButtonsThemeData(
-    color: BColors.textColor,
-    selectedColor: Colors.white,
-    fillColor: BColors.colorPrimary,
-    borderRadius: BorderRadius.all(Radius.circular(9)),
+    color: Colors.grey,
+    selectedColor: BColors.colorPrimary,
+    fillColor: BColors.colorPrimary.shade50,
+    borderRadius: BorderRadius.all(Radius.circular(9.0)),
     borderColor: Colors.grey,
+    selectedBorderColor: BColors.colorPrimary
   ),
 );
 
@@ -237,8 +238,11 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   toggleButtonsTheme: ToggleButtonsThemeData(
     color: BColors.textColor,
     selectedColor: Colors.white,
-    fillColor: BColors.colorPrimary,
-    borderRadius: BorderRadius.all(Radius.circular(9)),
+    fillColor: Colors.white24,
+    borderRadius: BorderRadius.all(Radius.circular(9.0)),
     borderColor: Colors.grey,
+    selectedBorderColor: Colors.white,
+    borderWidth: 1.0,
+
   ),
 );
