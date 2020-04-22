@@ -1,4 +1,5 @@
-import 'package:balance_app/model/measurement.dart';
+
+import 'package:balance_app/floor/test_database_view.dart';
 
 /// Base State of the measurements page
 abstract class MeasurementsState {
@@ -13,8 +14,8 @@ class MeasurementsLoading extends MeasurementsState {}
 
 /// State for when the data is retrieved successfully
 class MeasurementsSuccess extends MeasurementsState {
-  final List<Measurement> measurements;
-  const MeasurementsSuccess(this.measurements);
+  final List<Test> tests;
+  const MeasurementsSuccess(this.tests);
 }
 
 /// State for when there is an error

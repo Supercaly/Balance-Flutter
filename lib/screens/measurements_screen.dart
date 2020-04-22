@@ -2,7 +2,7 @@
 import 'package:balance_app/bloc/measurements_bloc.dart';
 import 'package:balance_app/bloc/states/measurements_state.dart';
 import 'package:balance_app/floor/measurement_database.dart';
-import 'package:balance_app/model/measurement.dart';
+import 'package:balance_app/floor/test_database_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,8 +24,8 @@ class MeasurementsScreen extends StatelessWidget {
             return ListView.builder(
               padding: EdgeInsets.symmetric(vertical: 8),
               itemBuilder: (context, index) =>
-                _measurementItemTemplate(context, state.measurements[index]),
-              itemCount: state.measurements.length,
+                _measurementItemTemplate(context, state.tests[index]),
+              itemCount: state.tests.length,
             );
           return _loadingScreen(context);
         }
@@ -85,14 +85,14 @@ class MeasurementsScreen extends StatelessWidget {
   );
 
   /// Returns a [Widget] with a measurement item
-  Widget _measurementItemTemplate(BuildContext context, Measurement measurement) {
+  Widget _measurementItemTemplate(BuildContext context, Test test) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: InkWell(
         onTap: () => Navigator.pushNamed(
           context,
           Routes.result,
-          arguments: measurement
+          arguments: test
         ),
         child: Padding(
           padding: EdgeInsets.all(16),
@@ -100,7 +100,7 @@ class MeasurementsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
-                "Test ${measurement.id}",
+                "Test ${test.id}",
                 style: Theme.of(context).textTheme.headline4.copyWith(
                   fontSize: 28,
                   fontWeight: FontWeight.w500
@@ -111,20 +111,21 @@ class MeasurementsScreen extends StatelessWidget {
                 Icon(Icons.calendar_today),
                 SizedBox(width: 16),
                 Text(
-                  measurement.creationDate.toString(),
+                  // TODO: 22/04/20 Fix date problem
+                  DateTime.fromMicrosecondsSinceEpoch(test.creationDate).toUtc().toString(),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ]),
               SizedBox(height: 8),
               Row(children: <Widget>[
                 Icon(
-                  measurement.eyesOpen?
+                  test.eyesOpen?
                     Icons.remove_red_eye:
                     Icons.panorama_fish_eye,
                 ),
                 SizedBox(width: 16),
                 Text(
-                  measurement.eyesOpen? "Eyes Open": "Eyes Closed",
+                  test.eyesOpen? "Eyes Open": "Eyes Closed",
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ]),

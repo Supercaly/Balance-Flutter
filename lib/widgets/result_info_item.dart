@@ -1,15 +1,15 @@
 
-import 'package:balance_app/model/measurement.dart';
+import 'package:balance_app/floor/test_database_view.dart';
 import 'package:flutter/material.dart';
 
 /// Widget that represent a single result info item
 ///
 /// This Widget displays a Card containing the date and
-/// eye information of a given [Measurement]
+/// eye information of a given [Test]
 class ResultInfoItem extends StatelessWidget {
-  final Measurement measurement;
+  final Test test;
 
-  ResultInfoItem(this.measurement);
+  ResultInfoItem(this.test);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ResultInfoItem extends StatelessWidget {
                 SizedBox(width: 16),
                 Text(
                   // TODO: 05/04/20 Fix how to display the error
-                  DateTime.fromMicrosecondsSinceEpoch(measurement?.creationDate ?? 0).toString(),
+                  DateTime.fromMicrosecondsSinceEpoch(test?.creationDate ?? 0).toString(),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ],
@@ -37,12 +37,12 @@ class ResultInfoItem extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   // TODO: 05/04/20 Fix the error icon
-                  (measurement != null)? measurement.eyesOpen? Icons.remove_red_eye: Icons.panorama_fish_eye: Icons.error,
+                  (test != null)? test.eyesOpen? Icons.remove_red_eye: Icons.panorama_fish_eye: Icons.error,
                 ),
                 SizedBox(width: 16),
                 Text(
                   // TODO: 05/04/20 Fix the error text
-                  (measurement != null)? measurement.eyesOpen? "Eyes Open": "Eye Closed": "null",
+                  (test != null)? test.eyesOpen? "Eyes Open": "Eye Closed": "null",
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ],

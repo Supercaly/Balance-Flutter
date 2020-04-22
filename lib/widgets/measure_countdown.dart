@@ -39,7 +39,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // Create aCountdownBloc with an instance of the database
+    // Create a CountdownBloc with an instance of the database
     _bloc = CountdownBloc.create(
       Provider.of<MeasurementDatabase>(context, listen: false)
     );
@@ -71,6 +71,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
         listener: (_, state) {
           print("listen $state");
           state is CountdownMeasureState? _measuring = true: _measuring = false;
+          // TODO: 22/04/20 Add the sound
           // Start/Stop the vibration
           if (state is CountdownPreMeasureState)
             Vibration.vibrate(pattern: [0, 300, 700, 300, 700, 300, 700, 300, 700, 300, 700, 300, 700]);
@@ -80,10 +81,14 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
             Vibration.cancel();
         },
         builder: (context, state) {
-          // Open the result page
+          // Open the result page passing the measurement as argument
           if (state is CountdownCompleteState)
-            SchedulerBinding.instance.addPostFrameCallback((_) =>
-              Navigator.of(context).pushNamed(Routes.result));
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              Navigator.of(context).pushNamed(
+                Routes.result,
+                arguments: state.result
+              );
+            });
           // Build the ui based on the new state
           return Column(
             mainAxisSize: MainAxisSize.min,

@@ -1,4 +1,6 @@
 
+import 'package:balance_app/floor/test_database_view.dart';
+
 /// Abstract class representing the state of the countdown
 abstract class CountdownState {
   const CountdownState();
@@ -32,13 +34,13 @@ class CountdownMeasureState extends CountdownState {}
 /// If [error] is non-null it means that an exception was
 /// thrown saving the data in the database.
 class CountdownCompleteState extends CountdownState {
-  final int result;
+  final Test result;
   final Exception error;
 
   const CountdownCompleteState._(this.result, this.error);
 
   /// Creates an instance of [CountdownCompleteState] with the result
-  factory CountdownCompleteState.success(int result) => CountdownCompleteState._(result, null);
+  factory CountdownCompleteState.success(Test result) => CountdownCompleteState._(result, null);
 
   /// Creates an instance of [CountdownCompleteState] with an [Exception]
   factory CountdownCompleteState.error(Exception ex) => CountdownCompleteState._(null, ex);

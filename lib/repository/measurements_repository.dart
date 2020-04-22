@@ -1,4 +1,6 @@
+
 import 'package:balance_app/floor/measurement_database.dart';
+import 'package:balance_app/floor/test_database_view.dart';
 import 'package:balance_app/model/measurement.dart';
 
 /// Repository class for retrieving all the old measurements
@@ -12,7 +14,7 @@ class MeasurementsRepository {
   MeasurementsRepository(this.database);
 
   /// Return all the old measurements
-  Future<List<Measurement>> getMeasurements() {
-    return database.measurementDao.getAllMeasurements();
+  Future<List<Test>> getMeasurements() {
+    return database.measurementDao.getAllTests();
   }
 }

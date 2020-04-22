@@ -80,11 +80,11 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
       // Save the new test into the database
       case CountdownEvents.measureComplete:
         try {
-         final newId = await _repository.createNewMeasurement(_sensorMonitor.result, _eyesOpen);
-         print("CountdownBloc.mapEventToState: Measurement $newId created with ${_sensorMonitor.result.length} raw data");
-         yield CountdownCompleteState.success(newId);
+         final newTest = await _repository.createNewMeasurement(_sensorMonitor.result, _eyesOpen);
+         print("CountdownBloc.mapEventToState: Test $newTest created with ${_sensorMonitor.result.length} raw data");
+         yield CountdownCompleteState.success(newTest);
         } catch(e) {
-          print("$e");
+          print("CountdownBloc.mapEventToState: Error saving the new Measurement: $e");
           yield CountdownCompleteState.error(e);
         } finally {
         }

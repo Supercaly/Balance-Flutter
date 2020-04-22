@@ -1,3 +1,4 @@
+
 import 'package:balance_app/bloc/states/measurements_state.dart';
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/repository/measurements_repository.dart';
@@ -24,11 +25,11 @@ class MeasurementsBloc extends Bloc<MeasurementsEvents, MeasurementsState> {
       // fetch the data from the repository
       case MeasurementsEvents.fetch:
         try {
-          final measurements = await repository.getMeasurements();
-          if (measurements.isEmpty)
+          final tests = await repository.getMeasurements();
+          if (tests.isEmpty)
             yield MeasurementsEmpty();
           else
-            yield MeasurementsSuccess(measurements);
+            yield MeasurementsSuccess(tests);
         } catch(e) {
           yield MeasurementsError(e);
         }
