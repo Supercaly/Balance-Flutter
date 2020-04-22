@@ -22,10 +22,14 @@ class CheckboxGroup extends StatefulWidget {
 
   CheckboxGroup({
     Key key,
-    this.labels,
+    @required this.labels,
     this.selected,
-    this.onChanged,
-  }): super(key: key);
+    @required this.onChanged,
+  }): assert(labels != null),
+    assert(labels.isNotEmpty, "labels sould not be empty!"),
+    assert(selected == null || selected.length == labels.length,
+      "selected must have the same size of labels!"),
+    super(key: key);
 
   @override
   State<StatefulWidget> createState() => _CheckboxGroupState();
@@ -50,7 +54,7 @@ class _CheckboxGroupState extends State<CheckboxGroup> {
           isSelected: _selectedItems[idx],
           onItemSelected: (value) => setState(() {
             _selectedItems[idx] = value;
-            widget.onChanged(_selectedItems);
+            widget.onChanged?.call(_selectedItems);
           }),
         );
       }).toList()
@@ -66,10 +70,11 @@ class CheckboxElement extends StatelessWidget {
 
   CheckboxElement({
     Key key,
-    this.label,
-    this.isSelected: false,
+    @required this.label,
+    @required this.isSelected,
     this.onItemSelected,
   }): assert(label != null),
+    assert(isSelected != null),
     super(key: key);
 
   @override
@@ -82,7 +87,7 @@ class CheckboxElement extends StatelessWidget {
         elevation: isSelected? 8: 4,
         child: InkWell(
           onTap: () {
-            onItemSelected(!isSelected);
+            onItemSelected?.call(!isSelected);
           },
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -94,7 +99,7 @@ class CheckboxElement extends StatelessWidget {
                   checkColor: Color(0xFFF3F3FF),
                   value: isSelected,
                   onChanged: (value) {
-                    onItemSelected(value);
+                    onItemSelected?.call(value);
                   },
                 ),
                 Text(
