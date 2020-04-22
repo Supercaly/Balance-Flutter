@@ -1,5 +1,6 @@
 
 import 'dart:async';
+import 'package:balance_app/floor/test_database_view.dart';
 import 'package:floor/floor.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -17,6 +18,9 @@ part 'measurement_database.g.dart';
   entities: [
     Measurement,
     RawMeasurementData,
+  ],
+  views: [
+    Test
   ]
 )
 abstract class MeasurementDatabase extends FloorDatabase {

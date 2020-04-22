@@ -60,4 +60,43 @@ void main() {
       expect(allMeas, isNotNull);
     });
   });
+
+  group("DatabaseView Tests", () {
+    MeasurementDatabase database;
+    MeasurementDao measurementDao;
+    List<Measurement> prePopulatedData = [
+      Measurement(creationDate: 1, eyesOpen: true),
+      Measurement(creationDate: 2, eyesOpen: false),
+    ];
+
+    setUp(() async{
+      database = await $FloorMeasurementDatabase
+        .inMemoryDatabaseBuilder()
+        .build();
+      measurementDao = database.measurementDao;
+
+      for(var m in prePopulatedData)
+        await measurementDao.insertMeasurement(m);
+    });
+
+    tearDown(() async{
+      await database.close();
+      database = null;
+      measurementDao = null;
+    });
+
+    test("find test by id", () async{
+      final originalMeas = await measurementDao.findMeasurementById(1);
+      final test = await measurementDao.findTestById(1);
+      expect(originalMeas.id, equals(test.id));
+      expect(originalMeas.creationDate, equals(test.creationDate));
+      expect(originalMeas.eyesOpen, equals(test.eyesOpen));
+
+      final originalMeas2 = await measurementDao.findMeasurementById(2);
+      final test2 = await measurementDao.findTestById(2);
+      expect(originalMeas2.id, equals(test2.id));
+      expect(originalMeas2.creationDate, equals(test2.creationDate));
+      expect(originalMeas2.eyesOpen, equals(test2.eyesOpen));
+    });
+  });
 }

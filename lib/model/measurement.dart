@@ -1,3 +1,4 @@
+
 import 'package:floor/floor.dart';
 
 /// Represent one single measurement in the database

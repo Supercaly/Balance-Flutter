@@ -1,3 +1,5 @@
+
+import 'package:balance_app/floor/test_database_view.dart';
 import 'package:balance_app/model/measurement.dart';
 import 'package:floor/floor.dart';
 
@@ -17,4 +19,7 @@ abstract class MeasurementDao {
   @Query("SELECT * FROM measurements WHERE id = :id")
   Future<Measurement> findMeasurementById(int id);
 
+  /// Return a [Test] with the given [id]
+  @Query("SELECT * FROM tests WHERE id = :id")
+  Future<Test> findTestById(int id);
 }
