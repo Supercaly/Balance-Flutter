@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-
   group("Check selected", () {
     testWidgets("only one item selected", (tester) async {
       await tester.pumpWidget(
