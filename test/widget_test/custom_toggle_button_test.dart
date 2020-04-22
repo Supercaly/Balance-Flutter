@@ -3,6 +3,8 @@ import 'package:balance_app/widgets/custom_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'color_match_finder.dart';
+
 void main() {
   testWidgets("Correct initial selected", (tester) async{
     await tester.pumpWidget(
@@ -109,27 +111,4 @@ void main() {
       expect(MaterialHasColor(Colors.transparent), findsNWidgets(2));
     });
   });
-}
-
-/// [MatchFinder] that finds all the [Material]s with
-/// the given [color]
-class MaterialHasColor extends MatchFinder {
-  MaterialHasColor(
-    this.color,
-    { bool skipOffstage = true }
-  ): super(skipOffstage: skipOffstage);
-
-  final Color color;
-
-  @override
-  String get description => 'Material{color: "$color"}';
-
-  @override
-  bool matches(Element candidate) {
-    if (candidate.widget is Material) {
-      final Material materialWidget = candidate.widget;
-      return materialWidget.color == color;
-    }
-    return false;
-  }
 }

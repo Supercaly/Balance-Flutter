@@ -3,6 +3,8 @@ import 'package:balance_app/widgets/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'color_match_finder.dart';
+
 void main() {
   group("Check selected", () {
     testWidgets("only one item selected", (tester) async {
@@ -87,30 +89,4 @@ void main() {
       }
     });
   });
-}
-
-/// [MatchFinder] that finds all the [Container]s with
-/// the given [color]
-class ContainerHasColor extends MatchFinder {
-  ContainerHasColor(
-    this.color,
-    { bool skipOffstage = true }
-    ): super(skipOffstage: skipOffstage);
-
-  final Color color;
-
-  @override
-  String get description => 'Container{color: "$color"}';
-
-  @override
-  bool matches(Element candidate) {
-    if (candidate.widget is Container) {
-      final Container container = candidate.widget;
-      if (container.decoration is BoxDecoration) {
-        final BoxDecoration boxDecoration = container.decoration;
-        return boxDecoration.color == color;
-      }
-    }
-    return false;
-  }
 }
