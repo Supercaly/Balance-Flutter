@@ -98,5 +98,18 @@ void main() {
       expect(originalMeas2.creationDate, equals(test2.creationDate));
       expect(originalMeas2.eyesOpen, equals(test2.eyesOpen));
     });
+
+    test("get all tests", () async{
+      final allTest = await measurementDao.getAllTests();
+
+      expect(allTest, hasLength(2));
+      expect(allTest[0].id, equals(1));
+      expect(allTest[0].creationDate, equals(prePopulatedData[0].creationDate));
+      expect(allTest[0].eyesOpen, equals(prePopulatedData[0].eyesOpen));
+      expect(allTest[1].id, equals(2));
+      expect(allTest[1].creationDate, equals(prePopulatedData[1].creationDate));
+      expect(allTest[1].eyesOpen, equals(prePopulatedData[1].eyesOpen));
+
+    });
   });
 }

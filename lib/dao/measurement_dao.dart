@@ -22,4 +22,8 @@ abstract class MeasurementDao {
   /// Return a [Test] with the given [id]
   @Query("SELECT * FROM tests WHERE id = :id")
   Future<Test> findTestById(int id);
+
+  /// Return all the [Test] inside the database
+  @Query("SELECT * FROM tests")
+  Future<List<Test>> getAllTests();
 }
