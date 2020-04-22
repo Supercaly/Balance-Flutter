@@ -4,7 +4,6 @@ import 'package:balance_app/floor/test_database_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:balance_app/bloc/states/result_states.dart';
 import 'package:balance_app/bloc/result_bloc.dart';
 
 import 'package:balance_app/widgets/result_features_items.dart';
