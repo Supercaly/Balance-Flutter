@@ -1,9 +1,14 @@
 
+import 'package:balance_app/model/measurement.dart';
 import 'package:flutter/material.dart';
 
 /// Widget containing the all the features related
 /// elements of [ResultScreen]
 class ResultFeaturesItems extends StatelessWidget {
+  final Measurement measurement;
+
+  ResultFeaturesItems(this.measurement);
+
   @override
   Widget build(BuildContext context) {
     // TextStyles for the Widget
@@ -140,7 +145,7 @@ class ResultFeaturesItems extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text("Frequency Peack", style: headlineTextStyle,),
+                        Text("Frequency Peak", style: headlineTextStyle,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[

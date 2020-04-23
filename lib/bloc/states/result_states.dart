@@ -9,7 +9,9 @@ class ResultLoading extends ResultState {}
 
 /// State for when the data is retrieved successfully
 class ResultSuccess extends ResultState {
-  const ResultSuccess();
+  final Measurement measurement;
+
+  const ResultSuccess(this.measurement);
 }
 
 /// State for when there is an error

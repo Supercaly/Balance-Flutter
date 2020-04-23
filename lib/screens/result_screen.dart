@@ -44,9 +44,9 @@ class ResultScreen extends StatelessWidget {
   }
 
   /// Build the loading screen
-  Widget _loadingScreen(BuildContext context, Test measurement) => Scaffold(
+  Widget _loadingScreen(BuildContext context, Test test) => Scaffold(
     appBar: AppBar(
-      title: Text("Test ${measurement?.id}"),
+      title: Text("Test ${test?.id}"),
       elevation: 0,
     ),
     body: Column(
@@ -63,7 +63,7 @@ class ResultScreen extends StatelessWidget {
               ),
             ),
             // Result info card
-            ResultInfoItem(measurement)
+            ResultInfoItem(test)
           ]
         ),
         Expanded(
@@ -82,31 +82,31 @@ class ResultScreen extends StatelessWidget {
   /// Build the screen with data
   Widget _successScreen(
     BuildContext context,
-    Test measurement,
+    Test test,
     ResultSuccess success
-    ) => CustomScrollView(slivers: <Widget>[
-      SliverAppBar(
-        title: Text("Test ${measurement?.id}"),
-        floating: false,
-      ),
-      SliverList(
-        delegate: SliverChildListDelegate.fixed([
-          // Result info card and appbar overflow
-          Stack(
-            alignment: AlignmentDirectional.topCenter,
-            children: <Widget>[
-              Positioned.fill(
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 26),
-                  color: Theme.of(context).primaryColor,
-                ),
+  ) => CustomScrollView(slivers: <Widget>[
+    SliverAppBar(
+      title: Text("Test ${test?.id}"),
+      floating: false,
+    ),
+    SliverList(
+      delegate: SliverChildListDelegate.fixed([
+        // Result info card and appbar overflow
+        Stack(
+          alignment: AlignmentDirectional.topCenter,
+          children: <Widget>[
+            Positioned.fill(
+              child: Container(
+                margin: EdgeInsets.only(bottom: 26),
+                color: Theme.of(context).primaryColor,
               ),
-              // Result info card
-              ResultInfoItem(measurement),
-            ]
-          ),
-          ResultFeaturesItems(),
-        ])
-      )
-    ]);
+            ),
+            // Result info card
+            ResultInfoItem(test),
+          ]
+        ),
+        ResultFeaturesItems(success?.measurement),
+      ])
+    )
+  ]);
 }

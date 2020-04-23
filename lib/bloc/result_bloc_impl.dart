@@ -24,9 +24,9 @@ class ResultBloc extends Bloc<ResultEvents, ResultState> {
     if (event is FetchResult) {
       // fetch the data from the repository
       try {
-        await _repository.getResult(event.measurementId);
-        yield ResultSuccess();
-      } catch (e) {
+        final result = await _repository.getResult(event.measurementId);
+        yield ResultSuccess(result);
+      } catch(e) {
         yield ResultError(e);
       }
     }
