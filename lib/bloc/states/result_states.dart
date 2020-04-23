@@ -1,4 +1,6 @@
 
+import 'package:balance_app/model/measurement.dart';
+
 /// Base State of the result page
 abstract class ResultState {
   const ResultState();

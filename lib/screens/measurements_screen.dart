@@ -111,7 +111,7 @@ class MeasurementsScreen extends StatelessWidget {
                 SizedBox(width: 16),
                 Text(
                   // TODO: 22/04/20 Fix date problem
-                  DateTime.fromMicrosecondsSinceEpoch(test.creationDate).toUtc().toString(),
+                  DateTime.fromMillisecondsSinceEpoch(test.creationDate).toString(),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ]),

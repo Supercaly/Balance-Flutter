@@ -26,7 +26,7 @@ class ResultInfoItem extends StatelessWidget {
                 SizedBox(width: 16),
                 Text(
                   // TODO: 05/04/20 Fix how to display the error
-                  DateTime.fromMicrosecondsSinceEpoch(test?.creationDate ?? 0).toString(),
+                  DateTime.fromMillisecondsSinceEpoch(test?.creationDate ?? 0).toString(),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ],
