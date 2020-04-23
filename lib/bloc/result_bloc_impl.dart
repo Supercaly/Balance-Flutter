@@ -32,5 +32,13 @@ class ResultBloc extends Bloc<ResultEvents, ResultState> {
         yield ResultError(e);
       }
     }
+    else if (event is ExportResult) {
+      try {
+        await _repository.exportMeasurement(event.measurement);
+        yield ResultExportSuccess();
+      } catch(e) {
+        yield ResultError(e);
+      }
+    }
   }
 }

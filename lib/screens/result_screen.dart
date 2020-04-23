@@ -23,12 +23,19 @@ class ResultScreen extends StatelessWidget {
           test?.id
         ),
         child: BlocConsumer<ResultBloc, ResultState>(
-          listenWhen: (_, current) => current is ResultError,
+          listenWhen: (_, current) => current is ResultError || current is ResultExportSuccess,
           listener: (context, state) {
             Scaffold.of(context).showSnackBar(SnackBar(
               behavior: SnackBarBehavior.floating,
-              content: Text("An unexpected error occurred!"),
+              content: Text(state is ResultExportSuccess
+                ? "Export success!"
+                : "An unexpected error occurred!"
+              ),
             ));
+          },
+          buildWhen: (previous, current) {
+            return !(current is ResultExportSuccess) &&
+              !(previous is ResultSuccess && current is ResultError);
           },
           builder: (context, state) {
             // Display the loading screen
@@ -88,6 +95,16 @@ class ResultScreen extends StatelessWidget {
     SliverAppBar(
       title: Text("Test ${test?.id}"),
       floating: false,
+      actions: [
+        success != null? IconButton(
+          icon: Icon(Icons.file_download),
+          onPressed: () {
+            print("Esporto il test ${test?.id}");
+            context.bloc<ResultBloc>().add(ExportResult(success?.measurement));
+          },
+          tooltip: "Export",
+        ): Container(),
+      ],
     ),
     SliverList(
       delegate: SliverChildListDelegate.fixed([

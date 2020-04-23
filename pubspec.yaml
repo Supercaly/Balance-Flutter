@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.3
+  path_provider: ^1.6.7
 
   # Bloc dependencies
   flutter_bloc: ^3.2.0
