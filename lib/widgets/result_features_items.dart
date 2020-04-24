@@ -1,6 +1,7 @@
 
-import 'package:balance_app/model/statokinesigram.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_app/model/statokinesigram.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 /// Widget containing the all the features related
 /// elements of [ResultScreen]
@@ -36,12 +37,39 @@ class ResultFeaturesItems extends StatelessWidget {
                   style: titleTextStyle,
                 ),
                 SizedBox(height: 16),
-                Placeholder(
-                  fallbackHeight: 200,
+                Container(
+                  height: 200,
+                  width: double.maxFinite,
+                  child: charts.LineChart(
+                    _createCOGvBallSeries(statokinesigram?.cogv),
+                    animate: true,
+                    behaviors: [
+                      charts.SeriesLegend(
+                        position: charts.BehaviorPosition.bottom
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(height: 8),
-                Placeholder(
-                  fallbackHeight: 200,
+                Container(
+                  height: 200,
+                  width: double.maxFinite,
+                  child: charts.LineChart(
+                    _createCOGvSeries(statokinesigram?.cogv),
+                    animate: true,
+                    customSeriesRenderers: [
+                      charts.LineRendererConfig(
+                        customRendererId: "cogvChartArea",
+                        includeArea: true,
+                        stacked: true
+                      )
+                    ],
+                    behaviors: [
+                      charts.SeriesLegend(
+                        position: charts.BehaviorPosition.bottom,
+                      )
+                    ],
+                  ),
                 )
               ]
             )
@@ -78,13 +106,27 @@ class ResultFeaturesItems extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        Text("0.0 mm/s", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.swayPath, "mm/s"),
+                          style: valueTextStyle,
+                        ),
                         SizedBox(height: 8),
-                        Text("0.0 mm/s", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.meanDisplacement, "mm/s"),
+                          style: valueTextStyle,
+                        ),
                         SizedBox(height: 8),
-                        Text("0.0 mm/s", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.stdDisplacement, "mm/s"),
+                          style: valueTextStyle,
+                        ),
                         SizedBox(height: 8),
-                        Text("[0.0 mm/s - 0.0 mm/s]", style: valueTextStyle,),
+                        Text(
+                          statokinesigram?.minDist != null && statokinesigram?.maxDist != null
+                            ? "[${statokinesigram.minDist.toStringAsFixed(4)} mm/s - ${statokinesigram.maxDist.toStringAsFixed(4)} mm/s]"
+                            : "-",
+                          style: valueTextStyle,
+                        ),
                       ],
                     )
                   ]
@@ -119,8 +161,8 @@ class ResultFeaturesItems extends StatelessWidget {
                               text: TextSpan(
                                 style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "AP:", style: valueBoldTextStyle),
-                                  TextSpan(text: " 0.0 Hz"),
+                                  TextSpan(text: "AP: ", style: valueBoldTextStyle),
+                                  TextSpan(text: _formatFeature(statokinesigram?.meanFrequencyAP, "Hz")),
                                 ]
                               ),
                             ),
@@ -128,8 +170,8 @@ class ResultFeaturesItems extends StatelessWidget {
                               text: TextSpan(
                                 style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "ML:", style: valueBoldTextStyle),
-                                  TextSpan(text: " 0.0 Hz"),
+                                  TextSpan(text: "ML: ", style: valueBoldTextStyle),
+                                  TextSpan(text: _formatFeature(statokinesigram?.meanFrequencyML, "Hz")),
                                 ]
                               ),
                             ),
@@ -153,8 +195,8 @@ class ResultFeaturesItems extends StatelessWidget {
                               text: TextSpan(
                                 style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "AP:", style: valueBoldTextStyle),
-                                  TextSpan(text: " 0.0 Hz"),
+                                  TextSpan(text: "AP: ", style: valueBoldTextStyle),
+                                  TextSpan(text: _formatFeature(statokinesigram?.frequencyPeakAP, "Hz")),
                                 ]
                               ),
                             ),
@@ -162,8 +204,8 @@ class ResultFeaturesItems extends StatelessWidget {
                               text: TextSpan(
                                 style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "ML:", style: valueBoldTextStyle),
-                                  TextSpan(text: " 0.0 Hz"),
+                                  TextSpan(text: "ML: ", style: valueBoldTextStyle),
+                                  TextSpan(text: _formatFeature(statokinesigram?.frequencyPeakML, "Hz")),
                                 ]
                               ),
                             ),
@@ -187,8 +229,8 @@ class ResultFeaturesItems extends StatelessWidget {
                               text: TextSpan(
                                 style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "AP:", style: valueBoldTextStyle),
-                                  TextSpan(text: " 0.0 Hz"),
+                                  TextSpan(text: "AP: ", style: valueBoldTextStyle),
+                                  TextSpan(text: _formatFeature(statokinesigram?.f80AP, "Hz")),
                                 ]
                               ),
                             ),
@@ -196,8 +238,8 @@ class ResultFeaturesItems extends StatelessWidget {
                               text: TextSpan(
                                 style: valueTextStyle,
                                 children: [
-                                  TextSpan(text: "ML:", style: valueBoldTextStyle),
-                                  TextSpan(text: " 0.0 Hz"),
+                                  TextSpan(text: "ML: ", style: valueBoldTextStyle),
+                                  TextSpan(text: _formatFeature(statokinesigram?.f80ML, "Hz")),
                                 ]
                               ),
                             ),
@@ -248,19 +290,39 @@ class ResultFeaturesItems extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        Text("0.0", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.np, ""),
+                          style: valueTextStyle,
+                        ),
                         SizedBox(height: 8),
-                        Text("0.0 s", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.meanTime, " s"),
+                          style: valueTextStyle,),
                         SizedBox(height: 8),
-                        Text("0.0 s", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.stdTime, " s"),
+                          style: valueTextStyle,
+                        ),
                         SizedBox(height: 8),
-                        Text("0.0 mm", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.meanDistance, " mm"),
+                          style: valueTextStyle,
+                        ),
                         SizedBox(height: 8),
-                        Text("0.0 mm", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.stdDistance, " mm"),
+                          style: valueTextStyle,
+                        ),
                         SizedBox(height: 8),
-                        Text("0.0 s", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.meanPeaks, " s"),
+                          style: valueTextStyle,
+                        ),
                         SizedBox(height: 8),
-                        Text("0.0 s", style: valueTextStyle,),
+                        Text(
+                          _formatFeature(statokinesigram?.stdPeaks, " s"),
+                          style: valueTextStyle,
+                        ),
                       ],
                     )
                   ]
@@ -293,8 +355,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "X:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0 degrees/s"),
+                              TextSpan(text: "X: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.grX, "degrees/s")),
                             ]
                           ),
                         ),
@@ -302,8 +364,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Y:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0 degrees/s"),
+                              TextSpan(text: "Y: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.grY, "degrees/s")),
                             ]
                           ),
                         ),
@@ -311,8 +373,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Z:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0 degrees/s"),
+                              TextSpan(text: "Z: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.grZ, "degrees/s")),
                             ]
                           ),
                         ),
@@ -332,8 +394,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "X:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0 degrees/s"),
+                              TextSpan(text: "X: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gmX, "degrees/s")),
                             ]
                           ),
                         ),
@@ -341,8 +403,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Y:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0 degrees/s"),
+                              TextSpan(text: "Y: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gmY, "degrees/s")),
                             ]
                           ),
                         ),
@@ -350,8 +412,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Z:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0 degrees/s"),
+                              TextSpan(text: "Z: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gmZ, "degrees/s")),
                             ]
                           ),
                         ),
@@ -371,8 +433,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "X:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0 degrees/s"),
+                              TextSpan(text: "X: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gvX, "degrees/s")),
                             ]
                           ),
                         ),
@@ -380,8 +442,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Y:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0 degrees/s"),
+                              TextSpan(text: "Y: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gvY, "degrees/s")),
                             ]
                           ),
                         ),
@@ -389,8 +451,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Z:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0 degrees/s"),
+                              TextSpan(text: "Z: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gvZ, "degrees/s")),
                             ]
                           ),
                         ),
@@ -410,8 +472,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "X:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0"),
+                              TextSpan(text: "X: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gkX, "")),
                             ]
                           ),
                         ),
@@ -419,8 +481,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Y:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0"),
+                              TextSpan(text: "Y: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gkY, "")),
                             ]
                           ),
                         ),
@@ -428,8 +490,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Z:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0"),
+                              TextSpan(text: "Z: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gkZ, "")),
                             ]
                           ),
                         ),
@@ -449,8 +511,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "X:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0"),
+                              TextSpan(text: "X: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gsX, "")),
                             ]
                           ),
                         ),
@@ -458,8 +520,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Y:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0"),
+                              TextSpan(text: "Y: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gsY, "")),
                             ]
                           ),
                         ),
@@ -467,8 +529,8 @@ class ResultFeaturesItems extends StatelessWidget {
                           text: TextSpan(
                             style: valueTextStyle,
                             children: [
-                              TextSpan(text: "Z:", style: valueBoldTextStyle),
-                              TextSpan(text: " 0.0"),
+                              TextSpan(text: "Z: ", style: valueBoldTextStyle),
+                              TextSpan(text: _formatFeature(statokinesigram?.gsZ, "")),
                             ]
                           ),
                         ),
@@ -482,5 +544,49 @@ class ResultFeaturesItems extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  /// Creates the data for the COGv ball chart
+  static List<charts.Series<CogV, double>> _createCOGvBallSeries(List<CogV> cogv) {
+    return [
+      charts.Series<CogV, double>(
+        id: "AP x ML",
+        data: cogv,
+        domainFn: (CogV datum, _) => datum.ap,
+        measureFn: (CogV datum, _) => datum.ml,
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+      ),
+    ];
+  }
+
+  /// Creates the data for the COGv chart
+  static List<charts.Series<CogV, double>> _createCOGvSeries(List<CogV> cogv) {
+    return [
+      charts.Series<CogV, double>(
+        id: "AP",
+        data: cogv,
+        domainFn: (datum, index) => index.toDouble(),
+        measureFn: (datum, _) => datum.ap,
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+      )..setAttribute(charts.rendererIdKey, "cogvChartArea"),
+      charts.Series<CogV, double>(
+        id: "ML",
+        data: cogv,
+        domainFn: (datum, index) => index.toDouble(),
+        measureFn: (datum, _) => datum.ml,
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+      )..setAttribute(charts.rendererIdKey, "cogvChartArea"),
+    ];
+  }
+
+  /// Static method to correctly format a feature [String]
+  static String _formatFeature(double feature, String unit) {
+    if (feature != null)
+      if (!unit.isEmpty)
+        return "${feature.toStringAsFixed(4)} $unit";
+      else
+        return "${feature.toStringAsFixed(4)}";
+    else
+      return "-";
   }
 }
