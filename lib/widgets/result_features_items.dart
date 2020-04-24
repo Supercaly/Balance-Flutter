@@ -551,7 +551,7 @@ class ResultFeaturesItems extends StatelessWidget {
     return [
       charts.Series<CogV, double>(
         id: "AP x ML",
-        data: cogv,
+        data: cogv?? [],
         domainFn: (CogV datum, _) => datum.ap,
         measureFn: (CogV datum, _) => datum.ml,
         colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
@@ -564,14 +564,14 @@ class ResultFeaturesItems extends StatelessWidget {
     return [
       charts.Series<CogV, double>(
         id: "AP",
-        data: cogv,
+        data: cogv?? [],
         domainFn: (datum, index) => index.toDouble(),
         measureFn: (datum, _) => datum.ap,
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
       )..setAttribute(charts.rendererIdKey, "cogvChartArea"),
       charts.Series<CogV, double>(
         id: "ML",
-        data: cogv,
+        data: cogv?? [],
         domainFn: (datum, index) => index.toDouble(),
         measureFn: (datum, _) => datum.ml,
         colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
