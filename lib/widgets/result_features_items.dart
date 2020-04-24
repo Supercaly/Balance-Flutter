@@ -1,13 +1,13 @@
 
-import 'package:balance_app/model/measurement.dart';
+import 'package:balance_app/model/statokinesigram.dart';
 import 'package:flutter/material.dart';
 
 /// Widget containing the all the features related
 /// elements of [ResultScreen]
 class ResultFeaturesItems extends StatelessWidget {
-  final Measurement measurement;
+  final Statokinesigram statokinesigram;
 
-  ResultFeaturesItems(this.measurement);
+  ResultFeaturesItems(this.statokinesigram);
 
   @override
   Widget build(BuildContext context) {

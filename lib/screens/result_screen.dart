@@ -105,7 +105,7 @@ class ResultScreen extends StatelessWidget {
             ResultInfoItem(test),
           ]
         ),
-        ResultFeaturesItems(success?.measurement),
+        ResultFeaturesItems(success?.statokinesigram),
       ])
     )
   ]);
