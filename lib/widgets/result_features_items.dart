@@ -554,7 +554,7 @@ class ResultFeaturesItems extends StatelessWidget {
         data: cogv?? [],
         domainFn: (CogV datum, _) => datum.ap,
         measureFn: (CogV datum, _) => datum.ml,
-        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
       ),
     ];
   }
@@ -567,14 +567,14 @@ class ResultFeaturesItems extends StatelessWidget {
         data: cogv?? [],
         domainFn: (datum, index) => index.toDouble(),
         measureFn: (datum, _) => datum.ap,
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.deepOrange.shadeDefault,
       )..setAttribute(charts.rendererIdKey, "cogvChartArea"),
       charts.Series<CogV, double>(
         id: "ML",
         data: cogv?? [],
         domainFn: (datum, index) => index.toDouble(),
         measureFn: (datum, _) => datum.ml,
-        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        colorFn: (_, __) => charts.MaterialPalette.cyan.shadeDefault,
       )..setAttribute(charts.rendererIdKey, "cogvChartArea"),
     ];
   }
