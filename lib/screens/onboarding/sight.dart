@@ -56,7 +56,7 @@ class _SightScreenState extends State<SightScreen> {
         print("_SightScreenState.build: Sight and Hearing info are ${isValid? "valid": "invalid"}");
       },
       child: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Form(
             key: _formKey,
@@ -108,6 +108,7 @@ class _SightScreenState extends State<SightScreen> {
                   validator: (_) => null,
                   onSaved: (newValue) => PreferenceManager.update(hearingProblems: newValue ?? 0),
                 ),
+                SizedBox(height: 105),
               ],
             ),
           ),

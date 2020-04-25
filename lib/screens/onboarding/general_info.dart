@@ -156,7 +156,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                             }
                         },
                       ),
-                      SizedBox(height: 70),
+                      SizedBox(height: 75),
                     ],
                   ),
                 ),

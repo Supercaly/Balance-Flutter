@@ -88,47 +88,57 @@ class ResultFeaturesItems extends StatelessWidget {
                   style: titleTextStyle,
                 ),
                 SizedBox(height: 16),
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Sway Path", style: headlineTextStyle,),
-                        SizedBox(height: 8),
-                        Text("Mean Displacement", style: headlineTextStyle,),
-                        SizedBox(height: 8),
-                        Text("STD Displacement", style: headlineTextStyle,),
-                        SizedBox(height: 8),
-                        Text("Range", style: headlineTextStyle,),
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Sway Path", style: headlineTextStyle),
                         Text(
                           _formatFeature(statokinesigram?.swayPath, "mm/s"),
                           style: valueTextStyle,
                         ),
-                        SizedBox(height: 8),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Mean Displacement", style: headlineTextStyle),
                         Text(
                           _formatFeature(statokinesigram?.meanDisplacement, "mm/s"),
                           style: valueTextStyle,
                         ),
-                        SizedBox(height: 8),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("STD Displacement", style: headlineTextStyle),
                         Text(
                           _formatFeature(statokinesigram?.stdDisplacement, "mm/s"),
                           style: valueTextStyle,
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          statokinesigram?.minDist != null && statokinesigram?.maxDist != null
-                            ? "[${statokinesigram.minDist.toStringAsFixed(4)} mm/s - ${statokinesigram.maxDist.toStringAsFixed(4)} mm/s]"
-                            : "-",
-                          style: valueTextStyle,
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Range", style: headlineTextStyle),
+                        Flexible(
+                          child: Text(
+                            statokinesigram?.minDist != null && statokinesigram?.maxDist != null
+                              ? "[${statokinesigram.minDist.toStringAsFixed(4)} mm/s - ${statokinesigram.maxDist.toStringAsFixed(4)} mm/s]"
+                              : "-",
+                            style: valueTextStyle,
+                            //textScaleFactor: 1.0,
+                          ),
                         ),
                       ],
-                    )
+                    ),
                   ]
                 )
               ],

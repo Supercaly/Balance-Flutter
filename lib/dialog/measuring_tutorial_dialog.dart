@@ -55,7 +55,8 @@ class _TutorialDialogState extends State<TutorialDialog> {
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
                 "Scelerisque eu ultricies aliquet quis a fermentum, dignissim"
                 " facilisi a. Egestas mattis sem eget aliquam molestie ac. "
-                "Augue mi sit hac."
+                "Augue mi sit hac.",
+              textScaleFactor: 1.0,
             ),
           ),
           Padding(
@@ -75,7 +76,10 @@ class _TutorialDialogState extends State<TutorialDialog> {
                     activeColor: Colors.blue,
                   ),
                   SizedBox(width: 8),
-                  Text("Never show again"),
+                  Text(
+                    "Never show again",
+                    textScaleFactor: 1.0,
+                  ),
                 ],
               ),
             ),

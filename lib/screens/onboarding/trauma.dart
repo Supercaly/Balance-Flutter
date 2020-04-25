@@ -49,38 +49,36 @@ class _TraumaScreenState extends State<TraumaScreen> {
         }
         print("_TraumaScreenState.build: Trauma info are ${isValid? "valid": "invalid"}");
       },
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 40),
-              Text(
-                "Altri precedenti traumatici?",
-                style: Theme.of(context).textTheme.headline4.copyWith(
-                  fontSize: 36,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 40),
+            Text(
+              "Altri precedenti traumatici?",
+              style: Theme.of(context).textTheme.headline4.copyWith(
+                fontSize: 36,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+            Form(
+              key: _formKey,
+              child: CheckboxGroupFormField(
+                items: _otherTrauma,
+                value: _selectedTrauma,
+                onChanged: (value) {
+                  setState(() =>_selectedTrauma = value);
+                },
+                validator: (value) => null,
+                onSaved: (newValue) => PreferenceManager.update(
+                  otherTrauma: newValue?? List.filled(5, false)
                 ),
               ),
-              Form(
-                key: _formKey,
-                child: CheckboxGroupFormField(
-                  items: _otherTrauma,
-                  value: _selectedTrauma,
-                  onChanged: (value) {
-                    setState(() =>_selectedTrauma = value);
-                  },
-                  validator: (value) => null,
-                  onSaved: (newValue) => PreferenceManager.update(
-                    otherTrauma: newValue?? List.filled(5, false)
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

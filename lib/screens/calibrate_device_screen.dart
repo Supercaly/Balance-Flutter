@@ -38,12 +38,11 @@ class CalibrateDeviceScreen extends StatelessWidget {
                     flex: 4,
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      // TODO: 24/02/20 Animate the Picture during the calibration
                       child: SvgPicture.asset("assets/icons/calibration_phone.svg", height: 200)
                     )
                   ),
                   Expanded(child: SizedBox(height: 24)),
-                  Expanded(
+                  Flexible(
                     flex: 2,
                     child: _makeTextElements(context, state),
                   ),
@@ -91,7 +90,8 @@ class CalibrateDeviceScreen extends StatelessWidget {
               SizedBox(height: 8),
               Text(
                 BStrings.do_not_move_the_device_txt,
-                style: Theme.of(context).textTheme.bodyText1
+                style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
               ),
             ],
           ),

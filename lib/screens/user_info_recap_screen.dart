@@ -181,10 +181,12 @@ class UserInfoRecapScreen extends StatelessWidget {
                             "Postural problems",
                             style: headlineTextStyle,
                           ),
-                          Text(
-                            _getPostureString(userInfo?.posturalProblems),
-                            style: valueTextStyle,
-                            textAlign: TextAlign.end,
+                          Flexible(
+                            child: Text(
+                              _getPostureString(userInfo?.posturalProblems),
+                              style: valueTextStyle,
+                              textAlign: TextAlign.end,
+                            ),
                           ),
                         ],
                       ),
@@ -278,10 +280,12 @@ class UserInfoRecapScreen extends StatelessWidget {
                             "Difetti visivi",
                             style: headlineTextStyle,
                           ),
-                          Text(
-                            _getSightString(userInfo?.sightProblems),
-                            style: valueTextStyle,
-                            textAlign: TextAlign.end,
+                          Flexible(
+                            child: Text(
+                              _getSightString(userInfo?.sightProblems),
+                              style: valueTextStyle,
+                              textAlign: TextAlign.end,
+                            ),
                           ),
                         ],
                       ),
