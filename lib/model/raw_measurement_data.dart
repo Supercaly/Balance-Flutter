@@ -65,7 +65,7 @@ class RawMeasurementData {
     "accelerometerZ=$accelerometerZ, "
     "gyroscopeX=$gyroscopeX, "
     "gyroscopeY=$gyroscopeY, "
-    "gyroscopeZ,=$gyroscopeZ)";
+    "gyroscopeZ=$gyroscopeZ)";
 
   @override
   int get hashCode {

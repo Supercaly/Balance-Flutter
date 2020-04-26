@@ -1,4 +1,5 @@
 
+import 'package:balance_app/model/cogv_data.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/model/statokinesigram.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
@@ -557,29 +558,29 @@ class ResultFeaturesItems extends StatelessWidget {
   }
 
   /// Creates the data for the COGv ball chart
-  static List<charts.Series<CogV, double>> _createCOGvBallSeries(List<CogV> cogv) {
+  static List<charts.Series<CogvData, double>> _createCOGvBallSeries(List<CogvData> cogv) {
     return [
-      charts.Series<CogV, double>(
+      charts.Series<CogvData, double>(
         id: "AP x ML",
         data: cogv?? [],
-        domainFn: (CogV datum, _) => datum.ap,
-        measureFn: (CogV datum, _) => datum.ml,
+        domainFn: (CogvData datum, _) => datum.ap,
+        measureFn: (CogvData datum, _) => datum.ml,
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
       ),
     ];
   }
 
   /// Creates the data for the COGv chart
-  static List<charts.Series<CogV, double>> _createCOGvSeries(List<CogV> cogv) {
+  static List<charts.Series<CogvData, double>> _createCOGvSeries(List<CogvData> cogv) {
     return [
-      charts.Series<CogV, double>(
+      charts.Series<CogvData, double>(
         id: "AP",
         data: cogv?? [],
         domainFn: (datum, index) => index.toDouble(),
         measureFn: (datum, _) => datum.ap,
         colorFn: (_, __) => charts.MaterialPalette.deepOrange.shadeDefault,
       )..setAttribute(charts.rendererIdKey, "cogvChartArea"),
-      charts.Series<CogV, double>(
+      charts.Series<CogvData, double>(
         id: "ML",
         data: cogv?? [],
         domainFn: (datum, index) => index.toDouble(),

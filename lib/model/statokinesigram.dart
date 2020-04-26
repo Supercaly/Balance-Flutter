@@ -1,4 +1,6 @@
 
+import 'package:balance_app/model/cogv_data.dart';
+
 /// Class representing a statokinesigram
 ///
 /// This model class contains all the computed
@@ -6,7 +8,7 @@
 /// domain features, frequency domain features,
 /// structural features and gyroscopic features.p
 class Statokinesigram {
-  final List<CogV> cogv;
+  final List<CogvData> cogv;
 
   final double swayPath;
   final double meanDisplacement;
@@ -53,11 +55,4 @@ class Statokinesigram {
     this.grY, this.grZ, this.gmX, this.gmY, this.gmZ, this.gvX, this.gvY, this.gvZ, this.gkX,
     this.gkY, this.gkZ, this.gsX, this.gsY, this.gsZ
   });
-}
-
-class CogV {
-  final double ap;
-  final double ml;
-
-  CogV(this.ap, this.ml);
 }
