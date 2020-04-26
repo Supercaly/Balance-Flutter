@@ -17,12 +17,12 @@ class MeasureCountdownRepository {
 
     try {
       final newMeasId = await measurementDao.insertMeasurement(
-        Measurement(
+        Measurement.simple(
           creationDate: DateTime
             .now()
             .millisecondsSinceEpoch,
           eyesOpen: eyesOpen,
-        )
+        ),
       );
 
       await rawMeasDataDao.insertRawMeasurements(

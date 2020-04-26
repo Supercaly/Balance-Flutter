@@ -59,6 +59,25 @@ void main() {
       final allMeas = await measurementDao.getAllMeasurements();
       expect(allMeas, isNotNull);
     });
+
+    test("ignore dupllicate data", () async{
+      await measurementDao.insertMeasurement(Measurement.simple(
+        creationDate: DateTime.now().millisecondsSinceEpoch,
+        eyesOpen: true,
+      ));
+
+      // Insert a duplicate Measurement
+      await measurementDao.insertMeasurement(
+        Measurement(
+          id: 1,
+          creationDate: DateTime.now().millisecondsSinceEpoch,
+          eyesOpen: false
+        )
+      );
+
+      // If the insertion is ignored the Measurement will have eyesOpen true
+      expect((await measurementDao.findMeasurementById(1)).eyesOpen, isTrue);
+    });
   });
 
   group("DatabaseView Tests", () {
@@ -111,5 +130,57 @@ void main() {
       expect(allTest[1].eyesOpen, equals(prePopulatedData[1].eyesOpen));
 
     });
+  });
+
+  group("Measuremet Tests", () {
+    test("hasFeatures returns false", () {
+      final noFeatMeas = Measurement.simple(
+        creationDate: 2,
+        eyesOpen: true,
+      );
+      expect(noFeatMeas.hasFeatures, isFalse);
+    });
+    test("hasFeatures returns true", () {
+      final noFeatMeas = Measurement(
+        id: 1,
+        creationDate: 2,
+        eyesOpen: true,
+        swayPath: 1.0,
+        stdTime: 1.0,
+        stdPeaks: 1.0,
+        stdDistance: 1.0,
+        stdDisplacement: 1.0,
+        np: 1.0,
+        minDist: 1.0,
+        meanTime: 1.0,
+        meanPeaks: 1.0,
+        meanFrequencyML: 1.0,
+        meanFrequencyAP: 1.0,
+        meanDistance: 1.0,
+        meanDisplacement: 1.0,
+        maxDist: 1.0,
+        gvZ: 1.0,
+        gvY: 1.0,
+        gvX: 1.0,
+        gsZ: 1.0,
+        gsY: 1.0,
+        gsX: 1.0,
+        grZ: 1.0,
+        grY: 1.0,
+        grX: 1.0,
+        gmZ: 1.0,
+        gmY: 1.0,
+        gmX: 1.0,
+        gkZ: 1.0,
+        gkY: 1.0,
+        gkX: 1.0,
+        frequencyPeakML: 1.0,
+        frequencyPeakAP: 1.0,
+        f80ML: 1.0,
+        f80AP: 1.0,
+      );
+      expect(noFeatMeas.hasFeatures, isTrue);
+    });
+
   });
 }

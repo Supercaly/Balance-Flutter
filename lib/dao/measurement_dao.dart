@@ -6,7 +6,6 @@ import 'package:floor/floor.dart';
 /// DAO class declaring the database operations for [Measurement]
 @dao
 abstract class MeasurementDao {
-
   /// Insert a new [Measurement] into the database
   @Insert(onConflict: OnConflictStrategy.IGNORE)
   Future<int> insertMeasurement(Measurement measurement);
