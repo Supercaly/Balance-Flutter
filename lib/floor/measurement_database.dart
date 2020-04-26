@@ -34,7 +34,7 @@ abstract class MeasurementDatabase extends FloorDatabase {
   static Future<MeasurementDatabase> getDatabase() async {
     if (_dbInstance == null)
       _dbInstance = await $FloorMeasurementDatabase
-        .databaseBuilder("measurements_database")
+        .databaseBuilder("measurement_database.db")
         .build();
     return _dbInstance;
   }

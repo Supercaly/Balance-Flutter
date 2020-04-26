@@ -16,6 +16,7 @@ import 'package:floor/floor.dart';
 ///  * [Measurement]
 @DatabaseView("SELECT id, creation_date, eyes_open FROM measurements", viewName: "tests")
 class Test {
+  @ColumnInfo(name: "id")
   final int id;
   @ColumnInfo(name: "creation_date")
   final int creationDate;
@@ -31,7 +32,14 @@ class Test {
     other.eyesOpen == eyesOpen;
 
   @override
-  int get hashCode => id.hashCode^creationDate.hashCode^eyesOpen.hashCode;
+  int get hashCode {
+    final prime = 31;
+    int result = 1;
+    result = prime * result + id.hashCode;
+    result = prime * result + creationDate.hashCode;
+    result = prime * result + eyesOpen.hashCode;
+    return result;
+  }
 
   @override
   String toString() => "Test(id=$id, creationDate=$creationDate, eyesOpen=$eyesOpen)";

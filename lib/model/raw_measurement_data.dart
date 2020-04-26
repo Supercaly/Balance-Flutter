@@ -4,7 +4,7 @@ import 'package:balance_app/model/measurement.dart';
 import 'package:balance_app/model/sensor_data.dart';
 
 @Entity(
-  tableName: "measurements_data",
+  tableName: "raw_measurements_data",
   foreignKeys: [
     ForeignKey(
       entity: Measurement,
