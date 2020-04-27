@@ -62,8 +62,8 @@ class _CircularCounterState extends State<CircularCounter> with SingleTickerProv
 
   Duration get _duration => Duration(
     milliseconds: widget.state is CountdownMeasureState
-      ? 32000
-      : 6000
+      ? 31000
+      : 5000
   );
 
   String get _timeString {
