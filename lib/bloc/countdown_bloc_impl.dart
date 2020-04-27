@@ -25,7 +25,7 @@ class CountdownBloc extends Bloc<CountdownEvents, CountdownState> {
   CountdownBloc._(MeasurementDatabase db):
     _repository = MeasureCountdownRepository(db),
     _isCountdownCancelled = false,
-    _sensorMonitor = SensorMonitor(Duration(milliseconds: 8000));
+    _sensorMonitor = SensorMonitor(Duration(milliseconds: 32000));
 
   /// Factory method for creating an instance of [CountdownBloc]
   factory CountdownBloc.create(MeasurementDatabase db) => CountdownBloc._(db);
