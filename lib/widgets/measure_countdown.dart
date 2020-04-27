@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:balance_app/manager/vibration_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/res/colors.dart';
@@ -17,7 +18,6 @@ import 'package:balance_app/dialog/measuring_tutorial_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/countdown_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:vibration/vibration.dart';
 
 /// Widget that manage the entire measuring process
 ///
@@ -34,6 +34,7 @@ class MeasureCountdown extends StatefulWidget {
 class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBindingObserver {
   CountdownBloc _bloc;
   bool _measuring = false;
+  VibrationManager vibrationManager;
 
   @override
   void initState() {
@@ -44,6 +45,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
       Provider.of<MeasurementDatabase>(context, listen: false)
     );
     _bloc.eyesOpen = true;
+    vibrationManager = VibrationManager();
   }
 
   @override
@@ -69,16 +71,14 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
       value: _bloc,
       child: BlocConsumer<CountdownBloc, CountdownState>(
         listener: (_, state) {
-          print("listen $state");
           state is CountdownMeasureState? _measuring = true: _measuring = false;
-          // TODO: 22/04/20 Add the sound
           // Start/Stop the vibration
           if (state is CountdownPreMeasureState)
-            Vibration.vibrate(pattern: [0, 300, 700, 300, 700, 300, 700, 300, 700, 300, 700, 300, 700]);
+            vibrationManager.playPattern();
           else if (state is CountdownMeasureState || state is CountdownCompleteState)
-            Vibration.vibrate(duration: 800);
+            vibrationManager.playSingle();
           else
-            Vibration.cancel();
+            vibrationManager.cancel();
         },
         builder: (context, state) {
           // Open the result page passing the measurement as argument
