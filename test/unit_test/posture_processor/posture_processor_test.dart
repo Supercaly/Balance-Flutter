@@ -22,7 +22,7 @@ void main() {
     Matrix detrendedData;
     Matrix droppedData;
 
-    setUp(() {
+    setUpAll(() {
       // Get test data from file
       testDataMatrix = loadMatrixFromResource("test_data.txt");
 
@@ -39,7 +39,7 @@ void main() {
       droppedData = loadMatrixFromResource("dropped_data.txt")?.transpose();
     });
 
-    tearDown(() {
+    tearDownAll(() {
       testDataMatrix = null;
       dataToRotate = null;
       dataToFilter = null;
@@ -99,13 +99,11 @@ void main() {
   });
 }
 
+/// Load a [Matrix] from the [test_resources] directory
 Matrix loadMatrixFromResource(String fileName) {
-  File file;
-  try {
-    file = File("test_resources/"+fileName);
-  } catch(e) {
-    file = File("../../../test_resources/"+fileName);
-  }
+  File file = Directory.current.path.endsWith("test")
+    ? File("test_resources/"+fileName)
+    : File("test/test_resources/"+fileName);
 
   final List<double> result = [];
   final testDataLines = file.readAsLinesSync();
