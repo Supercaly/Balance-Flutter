@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/model/cogv_data.dart';
 import 'package:balance_app/model/statokinesigram.dart';
+import 'package:balance_app/posture_processor/posture_processor.dart';
 
 /// Repository of the result screen
 class ResultRepository {
@@ -21,6 +22,8 @@ class ResultRepository {
     // 2. Check if the features are present and compute them if not
     if (!measurement.hasFeatures) {
       print("Computing the features...");
+      final rawMeasurementData = await database.rawMeasurementDataDao.findAllRawMeasDataForId(measurementId);
+      await PostureProcessor.computeFromData(rawMeasurementData);
     }
     // 3. Return a Statokinesigram with the features
     return Future.delayed(Duration(seconds: 4), () {
