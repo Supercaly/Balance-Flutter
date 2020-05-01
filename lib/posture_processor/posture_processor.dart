@@ -6,6 +6,7 @@ import 'package:balance_app/posture_processor/math/matrix.dart';
 import 'package:balance_app/posture_processor/math/vactor3.dart';
 import 'package:flutter/foundation.dart';
 import 'package:balance_app/model/raw_measurement_data.dart';
+import 'package:iirjdart/butterworth.dart';
 
 class PostureProcessor {
   /// Value of the g force
@@ -129,16 +130,18 @@ Matrix rotateAxis(List<double> accX, List<double> accY, List<double> accZ) {
 /// This method applies a 4th order Butterworth low-pass
 /// filter with a cutoff frequency of 1Hz to the two
 /// coordinates separately.
+@visibleForTesting
 Matrix filterData(Matrix dataToFilter) {
-  // TODO: 28/04/20 apply the butterworth filter
-//  final butterworthX = Butterworth().apply {lowPass(4, 100.0, 1.0)}
-//  final butterworthZ = Butterworth().apply {lowPass(4, 100.0, 1.0)}
-//
-//  return dataToFilter.mapIndexed((row, _, value) {
-//    if (row == 0)
-//      return butterworthX.filter(value);
-//    return butterworthZ.filter(value);
-//  });
+  final butterworthX = Butterworth();
+  butterworthX.lowPass(4, 100.0, 1.0);
+  final butterworthZ = Butterworth();
+  butterworthZ.lowPass(4, 100.0, 1.0);
+
+  return dataToFilter.mapIndexed((row, _, value) {
+    if (row == 0)
+      return butterworthX.filter(value);
+    return butterworthZ.filter(value);
+  });
 return dataToFilter;
 }
 
@@ -147,6 +150,7 @@ return dataToFilter;
 /// Given list of data sampled at 100Hz this method will downsample
 /// it to 50Hz, this is achieved by simply removing one sample every
 /// two, so the final size is half the original.
+@visibleForTesting
 Matrix downsample(Matrix dataToDownsample) {
   final List<double> downsampledXList = [];
   final List<double> downsampledZList = [];
@@ -167,6 +171,7 @@ Matrix downsample(Matrix dataToDownsample) {
 /// The matrix is divided in two lists (Ml ans Ap),
 /// each one is averaged and that average is subtracted
 /// from each value.
+@visibleForTesting
 Matrix detrend(Matrix dataToDetrend) {
   // Compute the average of COGvAP and COGvML
   var xMean = 0.0;
@@ -193,6 +198,7 @@ Matrix detrend(Matrix dataToDetrend) {
 ///
 /// Remove the first two seconds of data from the given matrix, with
 /// a sampling rate of 50Hz that means removing 100 samples to each axes.
+@visibleForTesting
 Matrix removeFirstTwoSecond(Matrix dataToDrop) {
   final List<List<double>> rows = dataToDrop.extractRows();
   return matrix2xMOf(

@@ -62,14 +62,14 @@ void main() {
         expect(value, within(distance: 0000000000000002, from: rotatedData.get(row, col))));
     });
 
-//    test("filter data", () {
-//      final filteredMatrix = filterData(dataToFilter);
-//
-//      expect(filteredMatrix.rows, equals(2));
-//      expect(filteredMatrix.cols, equals(3093));
-//      filteredMatrix.forEachIndexed((r,c,v) =>
-//        expect(v, within(distance: 0.000000001, from: filteredData.get(r,c)));
-//    });
+    test("filter data", () {
+      final filteredMatrix = filterData(dataToFilter);
+
+      expect(filteredMatrix.rows, equals(2));
+      expect(filteredMatrix.cols, equals(3093));
+      filteredMatrix.forEachIndexed((r,c,v) =>
+        expect(v, within(distance: 0.000000001, from: filteredData.get(r,c))));
+    });
 
     test("downsample data",() {
       final downsampledMatrix = downsample(dataToDownsample);
