@@ -12,10 +12,10 @@ void main() {
     testData = loadMatrixFromResource("dropped_data.txt").transpose();
   });
 
-  test("compute sda", () {
+  test("compute sda", () async{
     expect(testData, isNotNull);
     final rows = testData.extractRows();
-    Map param = computeSwayDensityAnalysis(rows[0], rows[1], 0.5);
+    Map param = await swayDensityAnalysis(rows[0], rows[1], 0.5);
 
     expect(param["numMax"], equals(0.5));
 
@@ -31,9 +31,9 @@ void main() {
 
   test("throws error when passed wrong args", (){
     // Throws an exception when the radius is 0?
-    expect(() => computeSwayDensityAnalysis([1.0, 2.0, 3.0], [4.0, 5.0, 6.0], 0.0), throwsAssertionError);
+    expect(() => swayDensityAnalysis([1.0, 2.0, 3.0], [4.0, 5.0, 6.0], 0.0), throwsAssertionError);
 
     // Throws an exception when the lists have different size?
-    expect(() => computeSwayDensityAnalysis([1.0, 2.0], [3.0, 4.0, 5.0], 0.2), throwsAssertionError);
+    expect(() => swayDensityAnalysis([1.0, 2.0], [3.0, 4.0, 5.0], 0.2), throwsAssertionError);
   });
 }

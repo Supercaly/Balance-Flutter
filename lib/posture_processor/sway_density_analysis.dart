@@ -23,7 +23,7 @@ import 'package:iirjdart/butterworth.dart';
 /// - SP standard deviation of MP (seconds)
 /// - MD mean distance between successive peaks (millimeters)
 /// - SD standard deviation of MD (millimeters)
-Map<String, double> computeSwayDensityAnalysis(List<double> ap, List<double> ml, double radius) {
+Future<Map<String, double>> swayDensityAnalysis(List<double> ap, List<double> ml, double radius) {
   assert(ml.length == ap.length, "ml and ap lists must have same size!");
   assert(radius > 0.0, "radius must be gather than zero!");
 
@@ -84,7 +84,7 @@ Map<String, double> computeSwayDensityAnalysis(List<double> ap, List<double> ml,
   double sp = valueOfPeaks.std();
   double sd = distances.std();
 
-  return {
+  return Future.value({
     "numMax": numMax,
     "meanDistance": md,
     "stdDistance": sd,
@@ -92,7 +92,7 @@ Map<String, double> computeSwayDensityAnalysis(List<double> ap, List<double> ml,
     "stdTime": st,
     "meanPeaks": mp,
     "stdPeaks": sp,
-  };
+  });
 }
 
 extension _StdDouble on List<double> {
