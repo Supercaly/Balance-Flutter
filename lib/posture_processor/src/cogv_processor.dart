@@ -10,7 +10,7 @@ import 'package:iirjdart/butterworth.dart';
 /// Value of the g force
 const double _gForce = 9.807;
 
-Future<void> computeCogv(List<RawMeasurementData> data, double dFactor) {
+Future<Matrix> computeCogv(List<RawMeasurementData> data, double dFactor) {
   // The algorithm for computing the COGv data is divided in 5 steps:
   // Step 1. Map the data from RawMeasurementData
   final accXWithG = data.map((e) => e.accelerometerX / _gForce);
@@ -22,10 +22,8 @@ Future<void> computeCogv(List<RawMeasurementData> data, double dFactor) {
   final filteredData = filterData(rotatedData * dFactor);
   // Step 4. Down-sample and drop first two seconds
   final droppedData = removeFirstTwoSecond(detrend(downsample(filteredData)));
-  // Step 5. Convert the result from matrix to lists
-  final droppedDataList = droppedData.extractRows();
 
-
+  return Future.value(droppedData);
 }
 
 /// Method that rotate the axis till the y component is parallel to the gravity

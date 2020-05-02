@@ -1,5 +1,5 @@
 
-import 'package:balance_app/posture_processor/cogv_processor.dart';
+import 'package:balance_app/posture_processor/src/cogv_processor.dart';
 import 'package:balance_app/posture_processor/src/math/matrix.dart';
 import 'package:flutter_test/flutter_test.dart';
 
