@@ -10,6 +10,10 @@ abstract class MeasurementDao {
   @Insert(onConflict: OnConflictStrategy.IGNORE)
   Future<int> insertMeasurement(Measurement measurement);
 
+  /// Updates an already existing [Measurement]
+  @Update(onConflict: OnConflictStrategy.IGNORE)
+  Future<int> updateMeasurement(Measurement measurement);
+
   /// Returns a [Future] with a [List] of all the [Measurement]s inside the database
   @Query("SELECT * FROM measurements")
   Future<List<Measurement>> getAllMeasurements();

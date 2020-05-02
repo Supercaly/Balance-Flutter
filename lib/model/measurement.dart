@@ -53,21 +53,21 @@ class Measurement {
   @ColumnInfo(name: "std_peaks")
   final double stdPeaks;
 
-  @ColumnInfo() final double grX;
-  @ColumnInfo() final double grY;
-  @ColumnInfo() final double grZ;
-  @ColumnInfo() final double gmX;
-  @ColumnInfo() final double gmY;
-  @ColumnInfo() final double gmZ;
-  @ColumnInfo() final double gvX;
-  @ColumnInfo() final double gvY;
-  @ColumnInfo() final double gvZ;
-  @ColumnInfo() final double gkX;
-  @ColumnInfo() final double gkY;
-  @ColumnInfo() final double gkZ;
-  @ColumnInfo() final double gsX;
-  @ColumnInfo() final double gsY;
-  @ColumnInfo() final double gsZ;
+  @ColumnInfo(name: "gr_x") final double grX;
+  @ColumnInfo(name: "gr_y") final double grY;
+  @ColumnInfo(name: "gr_z") final double grZ;
+  @ColumnInfo(name: "gm_x") final double gmX;
+  @ColumnInfo(name: "gm_y") final double gmY;
+  @ColumnInfo(name: "gm_z") final double gmZ;
+  @ColumnInfo(name: "gv_x") final double gvX;
+  @ColumnInfo(name: "gv_y") final double gvY;
+  @ColumnInfo(name: "gv_z") final double gvZ;
+  @ColumnInfo(name: "gk_x") final double gkX;
+  @ColumnInfo(name: "gk_y") final double gkY;
+  @ColumnInfo(name: "gk_z") final double gkZ;
+  @ColumnInfo(name: "gs_x") final double gsX;
+  @ColumnInfo(name: "gs_y") final double gsY;
+  @ColumnInfo(name: "gs_z") final double gsZ;
 
   Measurement({
     this.id,
