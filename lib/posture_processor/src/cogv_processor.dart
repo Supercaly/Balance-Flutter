@@ -9,17 +9,19 @@ import 'package:iirjdart/butterworth.dart';
 
 /// Value of the g force
 const double _gForce = 9.807;
+/// Factor of conversion used to obtain d from the user height in cm
+const double _heightConversionFactor = 0.530 * 10;
 
-Future<Matrix> computeCogv(List<RawMeasurementData> data, double dFactor) {
+Future<Matrix> computeCogv(List<RawMeasurementData> data, double height) {
   // The algorithm for computing the COGv data is divided in 5 steps:
   // Step 1. Map the data from RawMeasurementData
-  final accXWithG = data.map((e) => e.accelerometerX / _gForce);
-  final accYWithG = data.map((e) => e.accelerometerY / _gForce);
-  final accZWithG = data.map((e) => e.accelerometerZ / _gForce);
+  final accXWithG = data.map((e) => e.accelerometerX / _gForce).toList();
+  final accYWithG = data.map((e) => e.accelerometerY / _gForce).toList();
+  final accZWithG = data.map((e) => e.accelerometerZ / _gForce).toList();
   // Step 2. Rotate the axis
   final rotatedData = rotateAxis(accXWithG, accYWithG, accZWithG);
   // Step 3. Filter the data
-  final filteredData = filterData(rotatedData * dFactor);
+  final filteredData = filterData(rotatedData * (height * _heightConversionFactor));
   // Step 4. Down-sample and drop first two seconds
   final droppedData = removeFirstTwoSecond(detrend(downsample(filteredData)));
 

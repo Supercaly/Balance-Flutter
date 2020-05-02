@@ -1,4 +1,5 @@
 
+import 'package:balance_app/model/cogv_data.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:balance_app/manager/preference_manager.dart';
@@ -14,8 +15,6 @@ import 'package:balance_app/posture_processor/src/time_domain_features.dart';
 
 class PostureProcessor {
   static const double _defaultHeight = 165.0;
-  /// Factor of conversion used to obtain d from the user height in cm
-  static const double _heightConversionFactor = 0.530 * 10;
 
   static Future<Statokinesigram> computeFromData(List<RawMeasurementData> data) async{
     double userHeight = (await PreferenceManager.userInfo).height;
@@ -23,10 +22,9 @@ class PostureProcessor {
   }
 
   static Future<Statokinesigram> _computeFromDataImpl(Map<String, Object> args) async{
-    final double dFactor = ((args["height"] ?? _defaultHeight) as double) * _heightConversionFactor;
     final List<RawMeasurementData> data = args["data"];
 
-    Matrix cogvMatrix = await computeCogv(data, dFactor);
+    Matrix cogvMatrix = await computeCogv(data, ((args["height"] ?? _defaultHeight) as double));
     // Convert the result from matrix to lists
     final droppedDataList = cogvMatrix.extractRows();
     final List<double> cogvAp = droppedDataList[0];
