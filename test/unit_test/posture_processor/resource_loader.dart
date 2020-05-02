@@ -1,7 +1,7 @@
 
 import 'dart:io';
 
-import 'package:balance_app/posture_processor/math/matrix.dart';
+import 'package:balance_app/posture_processor/src/math/matrix.dart';
 
 /// Load a [Matrix] from the [test_resources] directory
 Matrix loadMatrixFromResource(String fileName) {
