@@ -48,48 +48,58 @@ void main() {
       droppedData = null;
     });
 
-    test("rotate axis", () {
+    test("rotate axis", () async {
       final extracted = dataToRotate.extractRows();
       final rotatedDataMatrix = rotateAxis(extracted[0], extracted[1], extracted[2]);
       expect(rotatedDataMatrix.rows, equals(2));
       expect(rotatedDataMatrix.cols, equals(3093));
       rotatedDataMatrix.forEachIndexed((row, col, value) =>
         expect(value, within(distance: 0000000000000002, from: rotatedData.get(row, col))));
+
+      await writeMatrixToFile(rotatedDataMatrix.transpose(), "rotated_data.txt");
     });
 
-    test("filter data", () {
+    test("filter data", () async {
       final filteredMatrix = filterData(dataToFilter);
 
       expect(filteredMatrix.rows, equals(2));
       expect(filteredMatrix.cols, equals(3093));
       filteredMatrix.forEachIndexed((r,c,v) =>
         expect(v, within(distance: 0.000000001, from: filteredData.get(r,c))));
+
+      await writeMatrixToFile(filteredMatrix.transpose(), "filtered_data.txt");
     });
 
-    test("downsample data",() {
+    test("downsample data",() async {
       final downsampledMatrix = downsample(dataToDownsample);
 
       expect(downsampledMatrix.rows, equals(2));
       expect(downsampledMatrix.cols, equals(1547));
       downsampledMatrix.forEachIndexed((r, c, v) =>
         expect(v, equals(downsampledData.get(r,c))));
+
+      await writeMatrixToFile(downsampledMatrix.transpose(), "downsampled_data.txt");
     });
 
-    test("detrend data", () {
+    test("detrend data", () async {
       final detrendedMatrix = detrend(dataToDetrend);
 
       expect(detrendedMatrix.rows, equals(2));
       expect(detrendedMatrix.cols, equals(1547));
       detrendedMatrix.forEachIndexed((r, c, v) =>
         expect(v, within(distance: 0.00000000000005, from: detrendedData.get(r, c))));
+
+      await writeMatrixToFile(detrendedMatrix.transpose(), "detrended_data.txt");
     });
 
-    test("drop first two seconds", () {
+    test("drop first two seconds", () async {
       final droppedMatrix = removeFirstTwoSecond(dataToDrop);
 
       expect(droppedMatrix.rows, equals(2));
       expect(droppedMatrix.cols, equals(dataToDrop.cols - 100));
       droppedMatrix.forEachIndexed((r, c, v) => expect(v, equals(droppedData.get(r,c))));
+
+      await writeMatrixToFile(droppedMatrix.transpose(), "dropped_data.txt");
     });
   });
 }
