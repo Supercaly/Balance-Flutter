@@ -24,7 +24,12 @@ class ResultRepository {
     // 2. Check if the features are present and compute them if not
     if (!measurement.hasFeatures) {
       final rawMeasurementData = await database.rawMeasurementDataDao.findAllRawMeasDataForId(measurementId);
-      Statokinesigram computed = await PostureProcessor.computeFromData(measurementId, rawMeasurementData);
+      Statokinesigram computed;
+      try {
+        computed = await PostureProcessor.computeFromData(measurementId, rawMeasurementData);
+      } catch(e) {
+        print("Error computing $e");
+      }
       // Update the measurement with the computed features
       database.measurementDao.updateMeasurement(
         Measurement(
