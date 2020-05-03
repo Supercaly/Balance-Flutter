@@ -16,7 +16,7 @@ import 'package:floor/floor.dart';
 )
 class CogvData {
   @PrimaryKey(autoGenerate: true) final int id;
-  @ColumnInfo(name: "measurement_id") final int measurementId;
+  @ColumnInfo(name: "measurement_id", nullable: false) final int measurementId;
   @ColumnInfo() final double ap;
   @ColumnInfo() final double ml;
 

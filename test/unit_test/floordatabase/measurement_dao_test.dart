@@ -41,7 +41,7 @@ void main() {
       expect(allMeas, hasLength(1));
       expect(allMeas[0], equals(newMeas));
     });
-    
+
     test("read one measurement", () async {
       final newMeas = Measurement(
         id: 2,
@@ -77,6 +77,33 @@ void main() {
 
       // If the insertion is ignored the Measurement will have eyesOpen true
       expect((await measurementDao.findMeasurementById(1)).eyesOpen, isTrue);
+    });
+
+    test("update existing measurement", () async{
+      int id = await measurementDao.insertMeasurement(Measurement(
+        id: 1,
+        creationDate: DateTime.now().millisecondsSinceEpoch,
+        eyesOpen: true,
+      ));
+
+      final meas = await measurementDao.findMeasurementById(id);
+      expect(meas.eyesOpen, isTrue);
+      expect(meas.swayPath, isNull);
+      expect(meas.f80AP, isNull);
+
+      // Update the measurement
+      int updateId = await measurementDao.updateMeasurement(Measurement(
+        id: id,
+        creationDate: DateTime.now().millisecondsSinceEpoch,
+        eyesOpen: false,
+        swayPath: 12.0,
+        f80AP: 5.0,
+      ));
+      expect(updateId, equals(id));
+      final updateMeas = await measurementDao.findMeasurementById(updateId);
+      expect(updateMeas.eyesOpen, isFalse);
+      expect(updateMeas.swayPath, isNotNull);
+      expect(updateMeas.f80AP, isNotNull);
     });
   });
 
@@ -140,8 +167,9 @@ void main() {
       );
       expect(noFeatMeas.hasFeatures, isFalse);
     });
+
     test("hasFeatures returns true", () {
-      final noFeatMeas = Measurement(
+      final featMeas = Measurement(
         id: 1,
         creationDate: 2,
         eyesOpen: true,
@@ -179,7 +207,7 @@ void main() {
         f80ML: 1.0,
         f80AP: 1.0,
       );
-      expect(noFeatMeas.hasFeatures, isTrue);
+      expect(featMeas.hasFeatures, isTrue);
     });
 
   });

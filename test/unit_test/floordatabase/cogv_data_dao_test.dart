@@ -56,8 +56,19 @@ void main() {
       final allData = await cogvDataDao.getAllData();
       expect(allData, hasLength(6));
     });
+
+    test("inserting cogv data with null measurementId will fail", () async{
+      final wrongData = [
+        CogvData(ml: 1, ap: 4),
+        CogvData(ml: 2, ap: 5),
+        CogvData(ml: 3, ap: 6),
+      ];
+
+      cogvDataDao.insertCogvData(wrongData);
+      expect(await cogvDataDao.getAllData(), isEmpty);
+    });
     
-    test("read cogv data for a given measurement", () async {
+    test("read cogv data for a given measurement", () async{
       await cogvDataDao.insertCogvData(cogvList);
 
       // Find the all the data related to a measurement
