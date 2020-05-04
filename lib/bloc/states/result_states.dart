@@ -22,4 +22,5 @@ class ResultError extends ResultState {
   const ResultError(this.error);
 }
 
+/// State for when the export is completed successfully
 class ResultExportSuccess extends ResultState {}

@@ -13,7 +13,7 @@ const double _gForce = 9.807;
 const double _heightConversionFactor = 0.530 * 10;
 
 Future<Matrix> computeCogv(List<RawMeasurementData> data, double height) {
-  // The algorithm for computing the COGv data is divided in 5 steps:
+  // The algorithm for computing the COGv data is divided in 4 steps:
   // Step 1. Map the data from RawMeasurementData
   final accXWithG = data.map((e) => e.accelerometerX / _gForce).toList();
   final accYWithG = data.map((e) => e.accelerometerY / _gForce).toList();

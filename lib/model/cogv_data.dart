@@ -27,6 +27,14 @@ class CogvData {
     this.ml,
   });
 
+  /// Maps this object to json
+  Map toJson() => {
+      "id": this.id,
+      "measurementId": this.measurementId,
+      "ap": this.ap,
+      "ml": this.ml,
+    };
+
   @override
   bool operator ==(other) => other is CogvData &&
     this.id == other.id &&

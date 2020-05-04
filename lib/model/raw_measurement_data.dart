@@ -54,6 +54,20 @@ class RawMeasurementData {
     );
   }
 
+  /// Maps this object to json
+  Map toJson() => {
+      "id": this.id,
+      "measurementId": this.measurementId,
+      "timestamp": this.timestamp,
+      "accuracy": this.accuracy,
+      "accelerometerX": this.accelerometerX,
+      "accelerometerY": this.accelerometerY,
+      "accelerometerZ": this.accelerometerZ,
+      "gyroscopeX": this.gyroscopeX,
+      "gyroscopeY": this.gyroscopeY,
+      "gyroscopeZ": this.gyroscopeZ,
+    };
+
   @override
   String toString() => "RawMeasurement("
     "id=$id, "

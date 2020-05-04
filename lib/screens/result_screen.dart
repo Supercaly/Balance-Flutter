@@ -27,10 +27,9 @@ class ResultScreen extends StatelessWidget {
           listener: (context, state) {
             Scaffold.of(context).showSnackBar(SnackBar(
               behavior: SnackBarBehavior.floating,
-              content: Text(state is ResultExportSuccess
-                ? "Export success!"
-                : "An unexpected error occurred!"
-              ),
+              content: state is ResultExportSuccess
+                ? Text("Export success!")
+                : Text("An unexpected error occurred!")
             ));
           },
           buildWhen: (previous, current) {
@@ -96,11 +95,11 @@ class ResultScreen extends StatelessWidget {
       title: Text("Test ${test?.id}"),
       floating: false,
       actions: [
-        success != null? IconButton(
+        success != null ? IconButton(
           icon: Icon(Icons.file_download),
           onPressed: () {
             print("Esporto il test ${test?.id}");
-            context.bloc<ResultBloc>().add(ExportResult(success?.measurement));
+            context.bloc<ResultBloc>().add(ExportResult(test?.id));
           },
           tooltip: "Export",
         ): Container(),

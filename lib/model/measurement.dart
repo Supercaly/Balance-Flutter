@@ -103,6 +103,33 @@ class Measurement {
     this.gmZ != null && this.gvX != null && this.gvY != null && this.gvZ != null &&
     this.grX != null && this.grY != null && this.grZ != null;
 
+  /// Maps this object to json
+  Map toJson() => {
+      "id": this.id,
+      "creationDate": this.creationDate,
+      "eyesOpen": this.eyesOpen,
+      "swayPath": this.swayPath,
+      "meanDisplacement": this.meanDisplacement,
+      "stdDisplacement": this.stdDisplacement,
+      "minDist": this.minDist,
+      "maxDist": this.maxDist,
+      "frequencyPeakAP": this.frequencyPeakAP,
+      "frequencyPeakML": this.frequencyPeakML,
+      "meanFrequencyML": this.meanFrequencyML,
+      "meanFrequencyAP": this.meanFrequencyAP,
+      "f80ML": this.f80ML,
+      "f80AP": this.f80AP,
+      "np": this.np, "meanTime": this.meanTime,
+      "stdTime": this.stdTime, "meanDistance": this.meanDistance,
+      "stdDistance": this.stdDistance, "meanPeaks": this.meanPeaks,
+      "stdPeaks": this.stdPeaks,
+      "gsX": this.gsX, "gsY": this.gsY, "gsZ": this.gsZ,
+      "gkX": this.gkX, "gkY": this.gkY, "gkZ": this.gkZ,
+      "gmX": this.gmX, "gmY": this.gmY, "gmZ": this.gmZ,
+      "gvX": this.gvX, "gvY": this.gvY, "gvZ": this.gvZ,
+      "grX": this.grX, "grY": this.grY, "grZ": this.grZ,
+    };
+
   @override
   bool operator ==(other) => other is Measurement &&
     this.id == other.id &&

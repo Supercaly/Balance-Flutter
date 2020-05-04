@@ -33,8 +33,9 @@ class ResultBloc extends Bloc<ResultEvents, ResultState> {
       }
     }
     else if (event is ExportResult) {
+      // Export the measurement
       try {
-        await _repository.exportMeasurement(event.measurement);
+        await _repository.exportMeasurement(event.measurementId);
         yield ResultExportSuccess();
       } catch(e) {
         yield ResultError(e);

@@ -1,6 +1,4 @@
 
-import 'package:balance_app/model/measurement.dart';
-
 /// Base event of the result page
 abstract class ResultEvents {
   const ResultEvents();
@@ -12,7 +10,8 @@ class FetchResult extends ResultEvents {
   const FetchResult(this.measurementId);
 }
 
+/// Event for export a measurement with id [measurementId]
 class ExportResult extends ResultEvents {
-  final Measurement measurement;
-  const ExportResult(this.measurement);
+  final int measurementId;
+  const ExportResult(this.measurementId);
 }

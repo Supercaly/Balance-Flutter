@@ -28,29 +28,35 @@ class ResultRepository {
     return Future.delayed(Duration(seconds: 4), () => meas);
   }
 
-  Future<void> exportMeasurement(Measurement measurement) async{
+  Future<void> exportMeasurement(int measurementId) async{
     try {
-      if (measurement == null)
-        throw Exception("Measurement must not be null");
+      if (measurementId == null)
+        throw Exception("Measurement id must not be null!");
 
       File file;
+      // Create the file based on the platform
       if (Platform.isAndroid) {
         final baseDirectory = await getExternalStorageDirectories(type: StorageDirectory.documents);
-        file = File('${baseDirectory[0].path}/test${measurement.id}.json');
+        file = File('${baseDirectory[0].path}/test$measurementId.json');
       } else if (Platform.isIOS) {
         final baseDirectory = await getApplicationDocumentsDirectory();
-        file = File('$baseDirectory/test${measurement.id}.json');
+        file = File('$baseDirectory/test$measurementId.json');
       } else
-        throw Exception("This Platform is not supported!");
+        throw Exception("This Platform [${Platform.operatingSystem}] is not supported!");
 
       print(file.path);
 
-      final json = jsonEncode({
-        "id": measurement.id,
-        "creationDate": measurement.creationDate,
-        "eyesOpen": measurement.eyesOpen,
-      });
-      file.writeAsString(json);
+      final meas = await database.measurementDao.findMeasurementById(measurementId);
+      final rawData = await database.rawMeasurementDataDao.findAllRawMeasDataForId(measurementId);
+      final cogvData = await database.cogvDataDao.findAllCogvDataForId(measurementId);
+
+      await file.writeAsString(
+        jsonEncode({
+          "measurement": meas.toJson(),
+          "cogv": cogvData?.map((e) => e.toJson())?.toList(),
+          "rawMeasurement": rawData?.map((e) => e.toJson())?.toList(),
+        })
+      );
     } catch(e) {
       print("Erorr: $e");
       return Future.error(e);
