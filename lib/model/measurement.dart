@@ -91,17 +91,20 @@ class Measurement {
     bool eyesOpen,
   }) => Measurement(creationDate: creationDate, eyesOpen: eyesOpen);
 
-  /// Returns true if all the features are non-null
-  bool get hasFeatures => this.swayPath != null && this.meanDisplacement != null &&
-    this.stdDisplacement != null && this.minDist != null && this.maxDist != null &&
-    this.frequencyPeakAP != null && this.frequencyPeakML != null && this.meanFrequencyML != null &&
-    this.meanFrequencyAP != null && this.f80ML != null && this.f80AP != null && this.np != null &&
-    this.meanTime != null && this.stdTime != null && this.meanDistance != null &&
-    this.stdDistance != null && this.meanPeaks != null && this.stdPeaks != null &&
-    this.gsX != null && this.gsY != null && this.gsZ != null && this.gkX != null &&
-    this.gkY != null && this.gkZ != null && this.gmX != null && this.gmY != null &&
-    this.gmZ != null && this.gvX != null && this.gvY != null && this.gvZ != null &&
-    this.grX != null && this.grY != null && this.grZ != null;
+  /// Returns true if at least one feature is non-null
+  ///
+  /// Sometimes can happen that a feature si null, but if at least one
+  /// is not null is clear that the features have been set before.
+  bool get hasFeatures => this.swayPath != null || this.meanDisplacement != null ||
+    this.stdDisplacement != null || this.minDist != null || this.maxDist != null ||
+    this.frequencyPeakAP != null || this.frequencyPeakML != null || this.meanFrequencyML != null ||
+    this.meanFrequencyAP != null || this.f80ML != null || this.f80AP != null || this.np != null ||
+    this.meanTime != null || this.stdTime != null || this.meanDistance != null ||
+    this.stdDistance != null || this.meanPeaks != null || this.stdPeaks != null ||
+    this.gsX != null || this.gsY != null || this.gsZ != null || this.gkX != null ||
+    this.gkY != null || this.gkZ != null || this.gmX != null || this.gmY != null ||
+    this.gmZ != null || this.gvX != null || this.gvY != null || this.gvZ != null ||
+    this.grX != null || this.grY != null || this.grZ != null;
 
   /// Maps this object to json
   Map toJson() => {
