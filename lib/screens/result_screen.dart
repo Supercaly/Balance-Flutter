@@ -95,14 +95,20 @@ class ResultScreen extends StatelessWidget {
       title: Text("Test ${test?.id}"),
       floating: false,
       actions: [
-        success != null ? IconButton(
-          icon: Icon(Icons.file_download),
-          onPressed: () {
-            print("Esporto il test ${test?.id}");
-            context.bloc<ResultBloc>().add(ExportResult(test?.id));
+        PopupMenuButton<String>(
+          onSelected: (selected) {
+            if (selected == "export") {
+              print("Esporto il test ${test?.id}");
+              context.bloc<ResultBloc>().add(ExportResult(test?.id));
+            }
           },
-          tooltip: "Export",
-        ): Container(),
+          itemBuilder: (context) => [
+            PopupMenuItem<String>(
+              value: "export",
+              child: Text("Export"),
+            )
+          ],
+        ),
       ],
     ),
     SliverList(
