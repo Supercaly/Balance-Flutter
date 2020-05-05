@@ -31,13 +31,11 @@ void writeMatrixToFile(Matrix matrix, String fileName) async{
     ? File("test_results/cogv/"+fileName)
     : File("test/test_results/cogv/"+fileName);
   await file.create(recursive: true);
-  final sink = await file.openWrite(mode: FileMode.write);
 
   final rows = matrix.extractRows();
+  String dataString = '';
   for(var row in rows) {
-    sink.writeln(row.join(" "));
+    dataString += "${row.join(" ")}\n";
   }
-
-  await sink.flush();
-  await sink.close();
+  file.writeAsString(dataString.toString());
 }
