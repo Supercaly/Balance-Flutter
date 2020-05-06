@@ -15,18 +15,18 @@ void main() {
   test("compute sda", () async{
     expect(testData, isNotNull);
     final rows = testData.extractRows();
-    Map param = await swayDensityAnalysis(rows[0], rows[1], 0.5);
+    Map param = await swayDensityAnalysis(rows[0], rows[1], 0.02);
 
-    expect(param["numMax"], equals(0.5));
+    expect(param["numMax"], within(distance: 0.00001, from: 0.5));
 
-    expect(param["meanDistance"], within(distance: 0.0005, from: 99.001));
-    expect(param["stdDistance"], within(distance: 0.0001, from: 96.223));
+    expect(param["meanDistance"], within(distance: 0.0005, from: 88.067));
+    expect(param["stdDistance"], within(distance: 0.001, from: 86.968));
 
-    expect(param["meanTime"], equals(99.0));
-    expect(param["stdTime"], within(distance: 0.0003, from: 96.223));
+    expect(param["meanTime"], within(distance: 0.001, from: 88.067));
+    expect(param["stdTime"], within(distance: 0.001, from: 86.968));
 
-    expect(param["meanPeaks"], within(distance: 0.00001, from: 0.43618));
-    expect(param["stdPeaks"], within(distance: 0.0001, from: 0.19870));
+    expect(param["meanPeaks"], within(distance: 0.00001, from: 0.034280));
+    expect(param["stdPeaks"], within(distance: 0.0001, from: 0.031166));
   });
 
   test("throws error when passed wrong args", (){
