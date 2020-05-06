@@ -14,11 +14,16 @@ import 'package:flutter/cupertino.dart';
   final int cols;
   final List<double> _matrixDataList;
 
+  /// Creates a [Matrix] of [rows] by [cols] where
+  /// each element is defined in [_matrixDataList].
+  ///
+  /// The Matrix cannot be empty (with [size] == 0) and
+  /// [_matrixDataList] must have length equal to [size]
   Matrix(
     this.rows,
     this.cols,
     this._matrixDataList
-  ): assert(rows > 0 && cols > 0),
+  ): assert(rows > 0 && cols > 0, "Matrix cannot be empty!"),
     assert(rows * cols == _matrixDataList.length,
     "Wrong number of elements in matrix! "
       "Expecting: ${rows*cols}, Actual: ${_matrixDataList.length}");
