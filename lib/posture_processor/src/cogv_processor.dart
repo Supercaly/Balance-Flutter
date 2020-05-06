@@ -1,20 +1,29 @@
 
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
+
+import 'package:iirjdart/butterworth.dart';
 import 'package:balance_app/model/raw_measurement_data.dart';
 import 'package:balance_app/posture_processor/src/math/matrix.dart';
 import 'package:balance_app/posture_processor/src/math/vactor3.dart';
-import 'package:flutter/material.dart';
-import 'package:iirjdart/butterworth.dart';
+import 'package:balance_app/posture_processor/src/list_extension.dart';
 
 /// Value of the g force
 const double _gForce = 9.807;
 /// Factor of conversion used to obtain d from the user height in cm
 const double _heightConversionFactor = 0.530 * 10;
 
+/// Computes the COGv values form the [RawMeasurementData]
+///
+/// This method return a 2 by M [Matrix] with the computed COGv values.
+/// Param:
+/// * data - list of RawMeasurementData
+/// * height - height of the user
 Future<Matrix> computeCogv(List<RawMeasurementData> data, double height) {
   // The algorithm for computing the COGv data is divided in 4 steps:
   // Step 1. Map the data from RawMeasurementData
+  data.removeWhere((e) => e.accelerometerX == null || e.accelerometerY == null && e.accelerometerZ == null);
   final accXWithG = data.map((e) => e.accelerometerX / _gForce).toList();
   final accYWithG = data.map((e) => e.accelerometerY / _gForce).toList();
   final accZWithG = data.map((e) => e.accelerometerZ / _gForce).toList();
@@ -65,11 +74,12 @@ Future<Matrix> computeCogv(List<RawMeasurementData> data, double height) {
 Matrix rotateAxis(List<double> accX, List<double> accY, List<double> accZ) {
   assert(accX.length == accZ.length && accX.length == accY.length,
   "You must pass 3 lists with equal size!");
+  assert(accX.isNotEmpty && accY.isNotEmpty && accZ.isNotEmpty, "Data must not be empty!");
 
   // Compute the average values for x, y, z
-  final meanX = accX.reduce((a, b) => a + b) / accX.length;
-  final meanY = accY.reduce((a, b) => a + b) / accY.length;
-  final meanZ = accZ.reduce((a, b) => a + b) / accZ.length;
+  final meanX = accX.average();
+  final meanY = accY.average();
+  final meanZ = accZ.average();
 
   final dataMatrix = matrix3xMOf(accX, accZ, accY);
 
@@ -113,6 +123,8 @@ Matrix rotateAxis(List<double> accX, List<double> accY, List<double> accZ) {
 /// coordinates separately.
 @visibleForTesting
 Matrix filterData(Matrix dataToFilter) {
+  assert(dataToFilter.rows == 2, "The input Matrix must have 2 rows!");
+
   final butterworthX = Butterworth();
   butterworthX.lowPass(4, 100.0, 1.0);
   final butterworthZ = Butterworth();
@@ -132,6 +144,8 @@ Matrix filterData(Matrix dataToFilter) {
 /// two, so the final size is half the original.
 @visibleForTesting
 Matrix downsample(Matrix dataToDownsample) {
+  assert(dataToDownsample.rows == 2, "The input Matrix must have 2 rows!");
+
   final List<double> downsampledXList = [];
   final List<double> downsampledZList = [];
   dataToDownsample.forEachColumn((col, values) {
@@ -153,24 +167,17 @@ Matrix downsample(Matrix dataToDownsample) {
 /// from each value.
 @visibleForTesting
 Matrix detrend(Matrix dataToDetrend) {
-  // Compute the average of COGvAP and COGvML
-  var xMean = 0.0;
-  var zMean = 0.0;
-  dataToDetrend.forEachColumn((_, values) {
-    xMean += values[0];
-    zMean += values[1];
-  });
-  xMean /= dataToDetrend.cols;
-  zMean /= dataToDetrend.cols;
+  assert(dataToDetrend.rows == 2, "The input Matrix must have 2 rows!");
 
-  final List<double> xVals = [];
-  final List<double> zVals = [];
-  dataToDetrend.forEachIndexed((row, _, value) {
-    if (row == 0)
-      xVals.add(value - xMean);
-    else
-      zVals.add(value - zMean);
-  });
+  // Compute the average of COGvAP and COGvML
+  final rows = dataToDetrend.extractRows();
+  double xMean = rows[0].average();
+  double zMean = rows[1].average();
+
+  // Remove the mean from every element
+  final xVals = rows[0].map((e) => e - xMean).toList();
+  final zVals = rows[1].map((e) => e - zMean).toList();
+
   return matrix2xMOf(xVals, zVals);
 }
 
@@ -180,6 +187,8 @@ Matrix detrend(Matrix dataToDetrend) {
 /// a sampling rate of 50Hz that means removing 100 samples to each axes.
 @visibleForTesting
 Matrix removeFirstTwoSecond(Matrix dataToDrop) {
+  assert(dataToDrop.rows == 2, "The input Matrix must have 2 rows!");
+
   final List<List<double>> rows = dataToDrop.extractRows();
   return matrix2xMOf(
     rows[0].skip(100).toList(),

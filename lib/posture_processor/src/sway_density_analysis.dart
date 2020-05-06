@@ -2,6 +2,7 @@
 import 'dart:math' as math;
 
 import 'package:iirjdart/butterworth.dart';
+import 'package:balance_app/posture_processor/src/list_extension.dart';
 
 /// Sway Density Analysis
 ///
@@ -32,7 +33,6 @@ Future<Map<String, double>> swayDensityAnalysis(List<double> ap, List<double> ml
    * with the given radius and count how many other points
    * are inside the circle
    */
-  // TODO: 04/12/19 Per ora conto anche il punto stesso, devo escluderlo? basta fare -1?
   List<int> sampleCount = List(ml.length);
   for(var j= 0; j < ml.length; j++) {
     int dotsInsideCircle = 0;
@@ -51,10 +51,13 @@ Future<Map<String, double>> swayDensityAnalysis(List<double> ap, List<double> ml
   filter.lowPass(4, 50.0, 2.5);
   final filteredSDC = sdc.map((e) => filter.filter(e)).toList();
 
-  // Find all peaks larger than the threshold
-  final threshold = 0.001;
+  /*
+   * Find all peaks larger than the threshold
+   * NOTE: Changing the threshold will change the numbers of peaks
+   */
+  final threshold = 0.00001;
   List<int> peaksArr = [];
-  for (var i = 1; i < filteredSDC.length; i++) {
+  for (var i = 1; i < filteredSDC.length - 1; i++) {
     if (filteredSDC[i] - filteredSDC[i - 1] >= threshold &&
       filteredSDC[i] - filteredSDC[i + 1] >= threshold)
       peaksArr.add(i);
@@ -64,20 +67,20 @@ Future<Map<String, double>> swayDensityAnalysis(List<double> ap, List<double> ml
   double numMax = peaksArr.length / 30.0;
 
   // Compute the indicators for every peak
-  List<int> timeIntervals = [];
-  List<double> valueOfPeaks = [];
-  List<double> distances = [];
+  final timeIntervals = List<int>.filled(peaksArr.length, 0);
+  final valueOfPeaks = List<double>.filled(peaksArr.length, 0.0);
+  final distances = List<double>.filled(peaksArr.length, 0.0);
   for (var i = 0; i < peaksArr.length - 1; i++) {
-    timeIntervals.add(peaksArr[i + 1] - peaksArr[i]);
-    valueOfPeaks.add(filteredSDC[peaksArr[i]]);
-    distances.add(math.sqrt(math.pow((peaksArr[i + 1] - peaksArr[i]).toDouble(), 2) +
-      math.pow(filteredSDC[peaksArr[i + 1]] - filteredSDC[peaksArr[i]], 2)));
+    timeIntervals[i] = peaksArr[i + 1] - peaksArr[i];
+    valueOfPeaks[i] = filteredSDC[peaksArr[i]];
+    distances[i] = math.sqrt(math.pow((peaksArr[i + 1] - peaksArr[i]).toDouble(), 2) +
+      math.pow(filteredSDC[peaksArr[i + 1]] - filteredSDC[peaksArr[i]], 2));
   }
 
   // Average the indicators to obtain the SDC Parameters
-  double mt = timeIntervals.avg();
-  double mp = valueOfPeaks.avg();
-  double md = distances.avg();
+  double mt = timeIntervals.average();
+  double mp = valueOfPeaks.average();
+  double md = distances.average();
 
   // Compute the standard deviation of the indicators
   double st = timeIntervals.std();
@@ -93,24 +96,4 @@ Future<Map<String, double>> swayDensityAnalysis(List<double> ap, List<double> ml
     "meanPeaks": mp,
     "stdPeaks": sp,
   });
-}
-
-extension _StdDouble on List<double> {
-  double avg() => this.fold(0.0, (prev, e) => prev + e) / this.length;
-
-  double std() {
-    double mean = this.avg();
-    return math.sqrt(
-      this.fold(0.0, (prev, e) => prev + (math.pow(e, 2) - math.pow(mean, 2))) / (this.length - 1));
-  }
-}
-
-extension _StdInt on List<int> {
-  double avg() => this.fold(0.0, (prev, e) => prev + e) / this.length;
-
-  double std() {
-    double mean = this.avg();
-    return math.sqrt(
-      this.fold(0, (prev, e) => prev + (math.pow(e, 2) - math.pow(mean, 2))) / (this.length - 1));
-  }
 }

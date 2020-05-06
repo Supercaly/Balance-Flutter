@@ -1,6 +1,8 @@
 
 import 'dart:math' as math;
 
+import 'package:balance_app/posture_processor/src/list_extension.dart';
+
 /// Function to compute the time features of COGvML and COGvAP
 ///
 /// This function compute all the time features required for the
@@ -38,19 +40,17 @@ Future<Map<String, double>> timeDomainFeatures(List<double> ap, List<double> ml)
   }
   swayPath /= 32;
 
-  // Compute the Displacement
+  // Compute the Displacement where each element is sqrt(ml^2 + ap^2)
   List<double> displacement = [];
   for (var i = 0; i < ml.length; i++) {
     displacement.add(math.sqrt(math.pow(ml[i], 2) + math.pow(ap[i], 2)));
   }
 
   // Compute the Mean Displacement
-  double meanDisplacement = displacement.reduce((value, e) => value + e) / displacement.length;
+  double meanDisplacement = displacement.average();
 
   // Compute the Standard Deviation
-  var stdDisplacement = displacement.fold(0.0, (prev, curr) => prev + math.pow(curr - meanDisplacement, 2));
-  stdDisplacement /= displacement.length;
-  stdDisplacement = math.sqrt(stdDisplacement);
+  var stdDisplacement = displacement.std();
 
   // Compute the Range
   double minDisplacement = displacement.reduce(math.min);
