@@ -5,7 +5,23 @@ import 'package:balance_app/model/raw_measurement_data.dart';
 
 Future<Map<String, double>> gyroscopicFeatures(List<RawMeasurementData> data) {
   // TODO: 03/05/20 Put real code here
-  return null;
+  return Future.value({
+    "grX": null,
+    "grY": null,
+    "grZ": null,
+    "gmX": null,
+    "gmY": null,
+    "gmZ": null,
+    "gvX": null,
+    "gvY": null,
+    "gvZ": null,
+    "gsX": null,
+    "gsY": null,
+    "gsZ": null,
+    "gkX": null,
+    "gkY": null,
+    "gkZ": null,
+  });
   /*List<double> x = [];
   List<double> y = [];
   List<double> z = [];
