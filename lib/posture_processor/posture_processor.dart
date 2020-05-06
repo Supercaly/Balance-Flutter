@@ -16,6 +16,13 @@ import 'package:flutter/foundation.dart';
 class PostureProcessor {
   static const double _defaultHeight = 165.0;
 
+  /// Compute the [Statokinesigram] form list of [RawMeasurementData].
+  ///
+  /// This method will do the computation in a Flutter Isolate
+  /// to reduce the amount of work done in the main "thread".
+  /// Param:
+  /// * measurementId - id of the measurement to compute
+  /// * data - list of [RawMeasurementData] to compute
   static Future<Statokinesigram> computeFromData(int measurementId, List<RawMeasurementData> data) async{
     double userHeight = (await PreferenceManager.userInfo).height;
     return compute(
@@ -28,6 +35,12 @@ class PostureProcessor {
     );
   }
 
+  /// Method that implements the Statokinesigram computation.
+  ///
+  /// This method is executed inside the new isolate and it's
+  /// the main starting point for the features computation.
+  /// Param:
+  /// * args - a Map with those values: data, id, height
   static Future<Statokinesigram> _computeFromDataImpl(Map<String, Object> args) async{
     final List<RawMeasurementData> data = args["data"];
 
@@ -38,13 +51,13 @@ class PostureProcessor {
     final List<double> cogvMl = droppedDataList[1];
 
     // Compute the time domain features
-    Map tdf = await timeDomainFeatures(cogvAp, cogvMl);
+    Map timeFeat = await timeDomainFeatures(cogvAp, cogvMl);
     // Compute the frequency domain features
-    var fdf = await frequencyDomainFeatures();
+    var freqFeat = await frequencyDomainFeatures();
     // Compute the structural features
-    Map sf = await swayDensityAnalysis(cogvAp, cogvMl, 0.02);
+    Map structFeat = await swayDensityAnalysis(cogvAp, cogvMl, 0.02);
     // Compute the gyroscopic features
-    var gf = await gyroscopicFeatures(data);
+    var gyroFeat = await gyroscopicFeatures(data);
 
     // Generate the CogvData from cogvAp and cogvMl
     final List<CogvData> cogv = [];
@@ -58,24 +71,39 @@ class PostureProcessor {
 
     return Statokinesigram(
       cogv: cogv,
-      swayPath: tdf["swayPath"],
-      meanDisplacement: tdf["meanDisplacement"],
-      stdDisplacement: tdf["stdDisplacement"],
-      minDist: tdf["minDist"],
-      maxDist: tdf["maxDist"],
-      meanFrequencyAP: null,
-      meanFrequencyML: null,
-      frequencyPeakAP: null,
-      frequencyPeakML: null,
-      f80AP: null,
-      f80ML: null,
-      np: sf["numMax"],
-      meanTime: sf["meanTime"],
-      stdTime: sf["stdTime"],
-      meanDistance: sf["meanDistance"],
-      stdDistance: tdf["stdDistance"],
-      meanPeaks: sf["meanPeaks"],
-      stdPeaks: sf["stdPeaks"],
+      swayPath: timeFeat["swayPath"],
+      meanDisplacement: timeFeat["meanDisplacement"],
+      stdDisplacement: timeFeat["stdDisplacement"],
+      minDist: timeFeat["minDist"],
+      maxDist: timeFeat["maxDist"],
+      meanFrequencyAP: freqFeat["meanFrequencyAP"],
+      meanFrequencyML: freqFeat["meanFrequencyML"],
+      frequencyPeakAP: freqFeat["frequencyPeakAP"],
+      frequencyPeakML: freqFeat["frequencyPeakML"],
+      f80AP: freqFeat["f80AP"],
+      f80ML: freqFeat["f80ML"],
+      np: structFeat["numMax"],
+      meanTime: structFeat["meanTime"],
+      stdTime: structFeat["stdTime"],
+      meanDistance: structFeat["meanDistance"],
+      stdDistance: structFeat["stdDistance"],
+      meanPeaks: structFeat["meanPeaks"],
+      stdPeaks: structFeat["stdPeaks"],
+      grX: gyroFeat["grX"],
+      grY: gyroFeat["grY"],
+      grZ: gyroFeat["grZ"],
+      gmX: gyroFeat["gmX"],
+      gmY: gyroFeat["gmY"],
+      gmZ: gyroFeat["gmZ"],
+      gvX: gyroFeat["gvX"],
+      gvY: gyroFeat["gvY"],
+      gvZ: gyroFeat["gvZ"],
+      gsX: gyroFeat["gsX"],
+      gsY: gyroFeat["gsY"],
+      gsZ: gyroFeat["gsZ"],
+      gkX: gyroFeat["gkX"],
+      gkY: gyroFeat["gkY"],
+      gkZ: gyroFeat["gkZ"],
     );
   }
 }

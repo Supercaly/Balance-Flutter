@@ -1,4 +1,4 @@
 
-Future<void> frequencyDomainFeatures() {
-  return Future.value();
+Future<Map<String, double>> frequencyDomainFeatures() {
+  return Future.value(null);
 }

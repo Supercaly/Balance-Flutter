@@ -1,5 +1,5 @@
 
-import 'package:balance_app/model/measurement.dart';
+import 'package:balance_app/model/statokinesigram.dart';
 
 /// Base State of the result page
 abstract class ResultState {
@@ -11,9 +11,9 @@ class ResultLoading extends ResultState {}
 
 /// State for when the data is retrieved successfully
 class ResultSuccess extends ResultState {
-  final Measurement measurement;
+  final Statokinesigram statokinesigram;
 
-  const ResultSuccess(this.measurement);
+  const ResultSuccess(this.statokinesigram);
 }
 
 /// State for when there is an error

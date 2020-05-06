@@ -29,6 +29,7 @@ class ResultBloc extends Bloc<ResultEvents, ResultState> {
       try {
         yield ResultSuccess(await _repository.getResult(event.measurementId));
       } catch(e) {
+        print("Error $e");
         yield ResultError(e);
       }
     }
