@@ -29,4 +29,8 @@ void main() {
     expect(timeFeat["maxDist"], within(distance: 0.0001, from: 25.96297));
     expect(timeFeat["minDist"], lessThan(timeFeat["maxDist"]));
   });
+
+  test("ml and ap with different sizes throws an error", () {
+    expect(() => timeDomainFeatures([1.0], [1.0, 2.0]), throwsAssertionError);
+  });
 }
