@@ -24,7 +24,7 @@ dependencies:
 
   # Frequency Analysis dependencies
   iirjdart: ^0.0.1
-  powerdart: ^0.0.1
+  powerdart: ^0.0.2
 
   # Miscellaneous dependencies
   flutter_svg: ^0.17.3+1
@@ -68,3 +68,4 @@ flutter:
     - assets/logo.png
     - assets/icons/
     - assets/sounds/light_pop.mp3
+    - assets/a.png
