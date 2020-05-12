@@ -22,6 +22,10 @@ dependencies:
   # Provider dependencies
   provider: ^4.0.4
 
+  # Frequency Analysis dependencies
+  iirjdart: ^0.0.1
+  powerdart: ^0.0.1
+
   # Miscellaneous dependencies
   flutter_svg: ^0.17.3+1
   quiver: ^2.0.5
@@ -34,7 +38,6 @@ dependencies:
   vibration: ^1.2.4
   audioplayers: ^0.15.1
   charts_flutter: ^0.9.0
-  iirjdart: ^0.0.1
 
 dev_dependencies:
   # Test dependencies
