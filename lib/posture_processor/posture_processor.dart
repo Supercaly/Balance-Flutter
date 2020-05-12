@@ -51,13 +51,13 @@ class PostureProcessor {
     final List<double> cogvMl = droppedDataList[1];
 
     // Compute the time domain features
-    Map timeFeat = await timeDomainFeatures(cogvAp, cogvMl);
+    final timeFeat = await timeDomainFeatures(cogvAp, cogvMl);
     // Compute the frequency domain features
-    var freqFeat = await frequencyDomainFeatures();
+    final freqFeat = await frequencyDomainFeatures(cogvAp, cogvMl);
     // Compute the structural features
-    Map structFeat = await swayDensityAnalysis(cogvAp, cogvMl, 0.02);
+    final structFeat = await swayDensityAnalysis(cogvAp, cogvMl, 0.02);
     // Compute the gyroscopic features
-    var gyroFeat = await gyroscopicFeatures(data);
+    final gyroFeat = await gyroscopicFeatures(data);
 
     // Generate the CogvData from cogvAp and cogvMl
     final List<CogvData> cogv = [];
