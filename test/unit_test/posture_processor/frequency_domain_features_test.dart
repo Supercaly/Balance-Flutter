@@ -10,7 +10,7 @@ import '../../utils/resource_loader.dart';
 
 void main() {
   test("compute PSD with real data", () async {
-    Matrix testData = loadMatrixFromResource("dropped_data.txt").transpose();
+    Matrix testData = loadMatrixFromResource("cogv/dropped_data.txt").transpose();
 
     expect(testData, isNotNull);
     List<List<double>> rows = testData.extractRows();

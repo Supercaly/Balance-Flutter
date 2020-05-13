@@ -9,7 +9,7 @@ void main() {
   Matrix testData;
 
   setUpAll(() {
-    testData = loadMatrixFromResource("dropped_data.txt").transpose();
+    testData = loadMatrixFromResource("cogv/dropped_data.txt").transpose();
   });
 
   test("compute sda", () async{

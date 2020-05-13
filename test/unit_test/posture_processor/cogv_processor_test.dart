@@ -24,19 +24,19 @@ void main() {
 
     setUpAll(() {
       // Get test data from file
-      initialData = loadMatrixFromResource("test_data.txt")?.transpose();
+      initialData = loadMatrixFromResource("cogv/test_data.txt")?.transpose();
 
-      dataToRotate = loadMatrixFromResource("data_to_rotate.txt")?.transpose();
-      dataToFilter = loadMatrixFromResource("data_to_filter.txt")?.transpose();
-      dataToDownsample = loadMatrixFromResource("data_to_downsample.txt")?.transpose();
-      dataToDetrend = loadMatrixFromResource("data_to_detrend.txt")?.transpose();
-      dataToDrop = loadMatrixFromResource("data_to_drop.txt")?.transpose();
+      dataToRotate = loadMatrixFromResource("cogv/data_to_rotate.txt")?.transpose();
+      dataToFilter = loadMatrixFromResource("cogv/data_to_filter.txt")?.transpose();
+      dataToDownsample = loadMatrixFromResource("cogv/data_to_downsample.txt")?.transpose();
+      dataToDetrend = loadMatrixFromResource("cogv/data_to_detrend.txt")?.transpose();
+      dataToDrop = loadMatrixFromResource("cogv/data_to_drop.txt")?.transpose();
 
-      rotatedData = loadMatrixFromResource("rotated_data.txt")?.transpose();
-      filteredData = loadMatrixFromResource("filtered_data.txt")?.transpose();
-      downsampledData = loadMatrixFromResource("downsampled_data.txt")?.transpose();
-      detrendedData = loadMatrixFromResource("detrended_data.txt")?.transpose();
-      droppedData = loadMatrixFromResource("dropped_data.txt")?.transpose();
+      rotatedData = loadMatrixFromResource("cogv/rotated_data.txt")?.transpose();
+      filteredData = loadMatrixFromResource("cogv/filtered_data.txt")?.transpose();
+      downsampledData = loadMatrixFromResource("cogv/downsampled_data.txt")?.transpose();
+      detrendedData = loadMatrixFromResource("cogv/detrended_data.txt")?.transpose();
+      droppedData = loadMatrixFromResource("cogv/dropped_data.txt")?.transpose();
     });
 
     tearDownAll(() {
@@ -71,7 +71,7 @@ void main() {
         expect(value, within(distance: 0.02, from: droppedData.get(row, col)));
       });
 
-      writeMatrixToFile(computedMatrix.transpose(), "computed.txt");
+      writeMatrixToFile(computedMatrix.transpose(), "cogv/computed.txt");
     });
 
     test("rotate axis", () async {
@@ -82,7 +82,7 @@ void main() {
       rotatedDataMatrix.forEachIndexed((row, col, value) =>
         expect(value, within(distance: 0000000000000002, from: rotatedData.get(row, col))));
 
-      await writeMatrixToFile(rotatedDataMatrix.transpose(), "rotated_data.txt");
+      await writeMatrixToFile(rotatedDataMatrix.transpose(), "cogv/rotated_data.txt");
     });
 
     test("filter data", () async {
@@ -93,7 +93,7 @@ void main() {
       filteredMatrix.forEachIndexed((r,c,v) =>
         expect(v, within(distance: 0.000000001, from: filteredData.get(r,c))));
 
-      await writeMatrixToFile(filteredMatrix.transpose(), "filtered_data.txt");
+      await writeMatrixToFile(filteredMatrix.transpose(), "cogv/filtered_data.txt");
     });
 
     test("downsample data",() async {
@@ -104,7 +104,7 @@ void main() {
       downsampledMatrix.forEachIndexed((r, c, v) =>
         expect(v, equals(downsampledData.get(r,c))));
 
-      await writeMatrixToFile(downsampledMatrix.transpose(), "downsampled_data.txt");
+      await writeMatrixToFile(downsampledMatrix.transpose(), "cogv/downsampled_data.txt");
     });
 
     test("detrend data", () async {
@@ -115,7 +115,7 @@ void main() {
       detrendedMatrix.forEachIndexed((r, c, v) =>
         expect(v, within(distance: 0.00000000000005, from: detrendedData.get(r, c))));
 
-      await writeMatrixToFile(detrendedMatrix.transpose(), "detrended_data.txt");
+      await writeMatrixToFile(detrendedMatrix.transpose(), "cogv/detrended_data.txt");
     });
 
     test("drop first two seconds", () async {
@@ -126,7 +126,7 @@ void main() {
       expect(droppedMatrix.cols, equals(droppedData.cols));
       droppedMatrix.forEachIndexed((r, c, v) => expect(v, equals(droppedData.get(r,c))));
 
-      await writeMatrixToFile(droppedMatrix.transpose(), "dropped_data.txt");
+      await writeMatrixToFile(droppedMatrix.transpose(), "cogv/dropped_data.txt");
     });
   });
 

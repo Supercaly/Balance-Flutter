@@ -3,11 +3,14 @@ import 'dart:io';
 
 import 'package:balance_app/posture_processor/src/math/matrix.dart';
 
-/// Load a [Matrix] from the [test_resources] directory
+/// Load a [Matrix] from the [test_resources] directory.
+///
+/// [fileName]: a [String] file path to write relative to
+///   [test_resources] without initial /
 Matrix loadMatrixFromResource(String fileName) {
   File file = Directory.current.path.endsWith("test")
-    ? File("test_resources/cogv/"+fileName)
-    : File("test/test_resources/cogv/"+fileName);
+    ? File("test_resources/"+fileName)
+    : File("test/test_resources/"+fileName);
 
   final List<double> result = [];
   final testDataLines = file.readAsLinesSync();
@@ -26,10 +29,15 @@ Matrix loadMatrixFromResource(String fileName) {
   return Matrix(testDataLines.length, colNum, result);
 }
 
+/// Writes a [Matrix] to a file in [test_results] directory.
+///
+/// [matrix]: the [Matrix] data to write
+/// [fileName]: a [String] file path to write relative to
+///   [test_results] without initial /
 void writeMatrixToFile(Matrix matrix, String fileName) async{
   File file = Directory.current.path.endsWith("test")
-    ? File("test_results/cogv/"+fileName)
-    : File("test/test_results/cogv/"+fileName);
+    ? File("test_results/"+fileName)
+    : File("test/test_results/"+fileName);
   await file.create(recursive: true);
 
   final rows = matrix.extractRows();
