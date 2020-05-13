@@ -33,4 +33,22 @@ extension ListExtension on List<num> {
     double mean = this.average();
     return sqrt(this.fold(0.0, (prev, e) => prev + pow(e - mean, 2)) / (this.length - 1));
   }
+
+  /// Compute the variance of a [List] of numbers.
+  ///
+  /// var (x) = (1/(N-1) SUM_i ((x(i) - mean(x))^2)
+  /// If the list is empty it return [double.nan]
+  /// The variance of a one-element list is 0.0
+  double variance() {
+    if (this.isEmpty)
+      return double.nan;
+    if (this.length == 1)
+      return 0.0;
+    double mean = this.average();
+    return (this.fold(0.0, (prev, e) => prev + (pow(e - mean, 2)))) / (this.length - 1);
+  }
+
+  double kurtosisIndex() => null;
+
+  double skewnessIndex() => null;
 }
