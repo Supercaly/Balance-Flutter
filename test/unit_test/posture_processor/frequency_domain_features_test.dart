@@ -6,7 +6,7 @@ import 'package:balance_app/posture_processor/src/math/matrix.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:powerdart/powerdart.dart';
 
-import 'resource_loader.dart';
+import '../../utils/resource_loader.dart';
 
 void main() {
   test("compute PSD with real data", () async {

@@ -3,7 +3,7 @@ import 'package:balance_app/posture_processor/src/math/matrix.dart';
 import 'package:balance_app/posture_processor/src/sway_density_analysis.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'resource_loader.dart';
+import '../../utils/resource_loader.dart';
 
 void main() {
   Matrix testData;

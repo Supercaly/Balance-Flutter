@@ -4,7 +4,7 @@ import 'package:balance_app/widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'color_match_finder.dart';
+import '../utils/color_match_finder.dart';
 
 void main() {
   group("Check item selection", () {

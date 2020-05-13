@@ -3,7 +3,7 @@ import 'package:balance_app/widgets/custom_toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'color_match_finder.dart';
+import '../utils/color_match_finder.dart';
 
 void main() {
   testWidgets("Correct initial selected", (tester) async{
