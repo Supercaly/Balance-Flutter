@@ -24,7 +24,7 @@ void main() {
 
     setUpAll(() {
       // Get test data from file
-      initialData = loadMatrixFromResource("cogv/test_data.txt")?.transpose();
+      initialData = loadMatrixFromResource("cogv/test_data.txt");
 
       dataToRotate = loadMatrixFromResource("cogv/data_to_rotate.txt")?.transpose();
       dataToFilter = loadMatrixFromResource("cogv/data_to_filter.txt")?.transpose();
@@ -53,22 +53,19 @@ void main() {
       droppedData = null;
     });
 
-    test("compute whole cogv", () async {
-      List<RawMeasurementData> rawMeasurements = [];
-      initialData.forEachColumn((_, rowValues) =>
-        rawMeasurements.add(
-          RawMeasurementData(
-            accelerometerX: rowValues[0],
-            accelerometerY: rowValues[1],
-            accelerometerZ: rowValues[2]
-          )
+    test("compute whole cogv with height of 180", () async {
+      List<RawMeasurementData> rawMeasurements = List.generate(initialData.rows, (i) =>
+        RawMeasurementData(
+          accelerometerX: initialData.get(i, 0),
+          accelerometerY: initialData.get(i, 1),
+          accelerometerZ: initialData.get(i, 2),
         )
       );
       final computedMatrix = await computeCogv(rawMeasurements, 180.0);
       expect(computedMatrix.rows, equals(droppedData.rows));
       expect(computedMatrix.cols, equals(droppedData.cols));
       computedMatrix.forEachIndexed((row, col, value) {
-        expect(value, within(distance: 0.02, from: droppedData.get(row, col)));
+        expect(value, within(distance: 0.002, from: droppedData.get(row, col)));
       });
 
       writeMatrixToFile(computedMatrix.transpose(), "cogv/computed.txt");
@@ -80,7 +77,7 @@ void main() {
       expect(rotatedDataMatrix.rows, equals(rotatedData.rows));
       expect(rotatedDataMatrix.cols, equals(rotatedData.cols));
       rotatedDataMatrix.forEachIndexed((row, col, value) =>
-        expect(value, within(distance: 0000000000000002, from: rotatedData.get(row, col))));
+        expect(value, within(distance: 2e-15, from: rotatedData.get(row, col))));
 
       await writeMatrixToFile(rotatedDataMatrix.transpose(), "cogv/rotated_data.txt");
     });
@@ -91,7 +88,7 @@ void main() {
       expect(filteredMatrix.rows, equals(filteredData.rows));
       expect(filteredMatrix.cols, equals(filteredData.cols));
       filteredMatrix.forEachIndexed((r,c,v) =>
-        expect(v, within(distance: 0.000000001, from: filteredData.get(r,c))));
+        expect(v, within(distance: 1e-10, from: filteredData.get(r,c))));
 
       await writeMatrixToFile(filteredMatrix.transpose(), "cogv/filtered_data.txt");
     });
@@ -113,7 +110,7 @@ void main() {
       expect(detrendedMatrix.rows, equals(detrendedData.rows));
       expect(detrendedMatrix.cols, equals(detrendedData.cols));
       detrendedMatrix.forEachIndexed((r, c, v) =>
-        expect(v, within(distance: 0.00000000000005, from: detrendedData.get(r, c))));
+        expect(v, within(distance: 5e-15, from: detrendedData.get(r, c))));
 
       await writeMatrixToFile(detrendedMatrix.transpose(), "cogv/detrended_data.txt");
     });

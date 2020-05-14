@@ -17,16 +17,16 @@ void main() {
     final rows = testData.extractRows();
     Map param = await swayDensityAnalysis(rows[0], rows[1], 0.02);
 
-    expect(param["numMax"], within(distance: 0.00001, from: 0.5));
+    expect(param["numMax"], within(distance: 0.000034, from: 1.5667));
 
-    expect(param["meanDistance"], within(distance: 0.0005, from: 88.067));
-    expect(param["stdDistance"], within(distance: 0.001, from: 86.968));
+    expect(param["meanDistance"], within(distance: 0.0004, from: 29.107));
+    expect(param["stdDistance"], within(distance: 0.0004, from: 12.137));
 
-    expect(param["meanTime"], within(distance: 0.001, from: 88.067));
-    expect(param["stdTime"], within(distance: 0.001, from: 86.968));
+    expect(param["meanTime"], within(distance: 0.0004, from: 29.106));
+    expect(param["stdTime"], within(distance: 0.0004, from: 12.137));
 
-    expect(param["meanPeaks"], within(distance: 0.00001, from: 0.034280));
-    expect(param["stdPeaks"], within(distance: 0.0001, from: 0.031166));
+    expect(param["meanPeaks"], within(distance: 6e-7, from: 0.12219));
+    expect(param["stdPeaks"], within(distance: 1.1e-7, from: 0.094242));
   });
 
   test("throws error when passed wrong args", (){

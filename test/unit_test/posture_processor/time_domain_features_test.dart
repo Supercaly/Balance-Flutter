@@ -21,12 +21,12 @@ void main() {
     List<List<double>> rows = testData.extractRows();
     Map<String, double> timeFeat = await timeDomainFeatures(rows[0], rows[1]);
 
-    expect(timeFeat["swayPath"], within(distance: 0.0001, from: 7.4081));
-    expect(timeFeat["meanDisplacement"], within(distance: 0.01, from: 7.0124));
-    expect(timeFeat["stdDisplacement"], within(distance: 0.01, from: 4.1026));
+    expect(timeFeat["swayPath"], within(distance: 3e-7, from: 0.74081));
+    expect(timeFeat["meanDisplacement"], within(distance: 0.0004, from: 0.70124));
+    expect(timeFeat["stdDisplacement"], within(distance: 0.000016, from: 0.41026));
 
-    expect(timeFeat["minDist"], within(distance: 0.0001, from: 0.50359));
-    expect(timeFeat["maxDist"], within(distance: 0.0001, from: 25.96297));
+    expect(timeFeat["minDist"], within(distance: 0.000005, from: 0.050359));
+    expect(timeFeat["maxDist"], within(distance: 3e-6, from: 2.596297));
     expect(timeFeat["minDist"], lessThan(timeFeat["maxDist"]));
   });
 
