@@ -48,7 +48,33 @@ extension ListExtension on List<num> {
     return (this.fold(0.0, (prev, e) => prev + (pow(e - mean, 2)))) / (this.length - 1);
   }
 
-  double kurtosisIndex() => null;
+  /// Compute the kurtosis index of a [List] of numbers.
+  ///
+  /// Reference:
+  /// https://it.mathworks.com/help/stats/kurtosis.html
+  double kurtosis() {
+    if (this.isEmpty)
+      return double.nan;
+    double mean = this.average();
 
-  double skewnessIndex() => null;
+    double dividend = this.fold(0.0, (prev, e) => prev + pow(e - mean, 4)) / length;
+    double divisor = pow((this.fold(0.0, (prev, e) => prev + pow(e - mean, 2)) / length), 2);
+
+    return dividend / divisor;
+  }
+
+  /// Compute the skewness index of a [List] of numbers.isEmpty
+  ///
+  /// Reference:
+  /// https://it.mathworks.com/help/stats/skewness.html
+  double skewness() {
+    if (this.isEmpty)
+      return double.nan;
+    double mean = this.average();
+
+    double dividend = this.fold(0.0, (prev, e) => prev + pow(e - mean, 3)) / length;
+    double divisor = pow(sqrt(this.fold(0.0, (prev, e) => prev + pow(e - mean, 2)) / length), 3);
+
+    return dividend / divisor;
+  }
 }

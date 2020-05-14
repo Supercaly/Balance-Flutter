@@ -27,14 +27,14 @@ Future<Map<String, double>> gyroscopicFeatures(List<RawMeasurementData> data) {
   final gvZ = z.variance();
 
   // Get kurtosis index of x,y,z
-  final gkX = x.kurtosisIndex();
-  final gkY = y.kurtosisIndex();
-  final gkZ = z.kurtosisIndex();
+  final gkX = x.kurtosis();
+  final gkY = y.kurtosis();
+  final gkZ = z.kurtosis();
 
   // Get skewness index of x,y,z
-  final gsX = x.skewnessIndex();
-  final gsY = y.skewnessIndex();
-  final gsZ = z.skewnessIndex();
+  final gsX = x.skewness();
+  final gsY = y.skewness();
+  final gsZ = z.skewness();
 
   // TODO: 03/05/20 Put real code here
   return Future.value({

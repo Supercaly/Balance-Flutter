@@ -37,14 +37,14 @@ void main() {
     expect(res["gvY"], within(distance: 0.00000001, from: 0.00021093));
     expect(res["gvZ"], within(distance: 0.000000001, from: 0.000040878));
 
-    // Check the skewness
-    //expect(res["gsX"], within(distance: null, from: null));
-    //expect(res["gsY"], within(distance: null, from: null));
-    //expect(res["gsZ"], within(distance: null, from: null));
-
     // Check the kurtosis
-    //expect(res["gkX"], within(distance: null, from: null));
-    //expect(res["gkY"], within(distance: null, from: null));
-    //expect(res["gkZ"], within(distance: null, from: null));
+    expect(res["gkX"], within(distance: 0.000038, from: 7.5721));
+    expect(res["gkY"], within(distance: 0.000033, from: 6.8486));
+    expect(res["gkZ"], within(distance: 0.00036, from: 12.119));
+
+    // Check the skewness
+    expect(res["gsX"], within(distance: 0.000004, from: 0.55429));
+    expect(res["gsY"], within(distance: 0.000000304, from: -0.082814));
+    expect(res["gsZ"], within(distance: 0.000000898, from: -0.53068));
   });
 }
