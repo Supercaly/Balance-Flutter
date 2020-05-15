@@ -129,9 +129,9 @@ class CalibrateDeviceScreen extends StatelessWidget {
       zSum += data.accelerometerZ ?? 0;
     }
     return SensorBias(
-      xSum / result.length,
-      ySum / result.length,
-      zSum / result.length,
+      (xSum / result.length) - 0.0,
+      (ySum / result.length) - 0.0,
+      (zSum / result.length) - 9.806,
     );
   }
 
@@ -145,9 +145,9 @@ class CalibrateDeviceScreen extends StatelessWidget {
       zSum += data.gyroscopeZ ?? 0;
     }
     return SensorBias(
-      xSum / result.length,
-      ySum / result.length,
-      zSum / result.length,
+      (xSum / result.length) - 0.0,
+      (ySum / result.length) - 0.0,
+      (zSum / result.length) - 0.0,
     );
   }
 }

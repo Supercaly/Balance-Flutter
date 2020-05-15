@@ -1,6 +1,7 @@
 
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/floor/test_database_view.dart';
+import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/model/measurement.dart';
 import 'package:balance_app/model/raw_measurement_data.dart';
 import 'package:balance_app/model/sensor_data.dart';
@@ -24,51 +25,54 @@ class MeasureCountdownRepository {
         ),
       );
 
-      // TODO: 26/04/20 Apply the SensorBias to all SensorData
-      /*final accBias = await PreferenceManager.accelerometerBias;
-      final gyroBias = await PreferenceManager.gyroscopeBias;
-      Iterable<SensorData> sensorDataWithBias = rawSensorData.map((e) {
-        double accX;
-        double accY;
-        double accZ;
-        double gyroX;
-        double gyroY;
-        double gyroZ;
-
-        if (e.accelerometerX != null)
-          accX = e.accelerometerX + accBias.x;
-        if (e.accelerometerY != null)
-          accY = e.accelerometerY + accBias.y;
-        if (e.accelerometerZ != null)
-          accZ = e.accelerometerZ + accBias.z;
-
-        if (e.gyroscopeX != null)
-          gyroX = e.gyroscopeX + gyroBias.x;
-        if (e.gyroscopeY != null)
-          gyroY = e.gyroscopeY + gyroBias.y;
-        if (e.gyroscopeZ != null)
-          gyroZ = e.gyroscopeZ + gyroBias.z;
-
-        return SensorData(
-          e.timestamp,
-          e.accuracy,
-          accX,
-          accY,
-          accZ,
-          gyroX,
-          gyroY,
-          gyroZ,
-        );
-      });*/
-
       // Store the SensorData in database as RawMeasurementData
-      await rawMeasDataDao.insertRawMeasurements(rawSensorData.map((sd) =>
-        RawMeasurementData.fromSensorData(newMeasId, sd)).toList());
+      await rawMeasDataDao.insertRawMeasurements(
+        await _generateRawData(rawSensorData, newMeasId).toList()
+      );
 
+      // return the newly added Test
       return await measurementDao.findTestById(newMeasId);
     } catch(e) {
       print("MeasureCountdownRepository.createNewMeasurement: Error $e");
       return Future.error(e);
+    }
+  }
+
+  /// Asynchronously generate the [RawMeasurementData] from the [SensorData]
+  ///
+  /// This method will generate one-by-one each [RawMeasurementData] that will be then
+  /// stored in the database; this means that the biases are automatically applied to
+  /// every item.
+  /// [data]: list of [SensorData] to convert
+  /// [measId]: the id of the measurement each data belongs to
+  Stream<RawMeasurementData> _generateRawData(List<SensorData> data, int measId) async*{
+    final accBias = await PreferenceManager.accelerometerBias;
+    final gyroBias = await PreferenceManager.gyroscopeBias;
+
+    for(var sd in data) {
+      double aX, aY, aZ, gX, gY, gZ;
+      // Compute only non null accelerometers and gyroscopes
+      if (sd.accelerometerX != null && sd.accelerometerY != null && sd.accelerometerZ != null) {
+        aX = sd.accelerometerX - accBias.x;
+        aY = sd.accelerometerY - accBias.y;
+        aZ = sd.accelerometerZ - accBias.z;
+      }
+      if (sd.gyroscopeX != null && sd.gyroscopeY != null && sd.gyroscopeZ != null) {
+        gX = sd.gyroscopeX - gyroBias.x;
+        gY = sd.gyroscopeY - gyroBias.y;
+        gZ = sd.gyroscopeZ - gyroBias.z;
+      }
+      yield RawMeasurementData(
+        measurementId: measId,
+        timestamp: sd.timestamp,
+        accuracy: sd.accuracy,
+        accelerometerX: aX,
+        accelerometerY: aY,
+        accelerometerZ: aZ,
+        gyroscopeX: gX,
+        gyroscopeY: gY,
+        gyroscopeZ: gZ,
+      );
     }
   }
 }
