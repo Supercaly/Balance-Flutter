@@ -109,7 +109,7 @@ class _HeightScreenState extends State<HeightScreen> {
                     },
                     onSaved: (newValue) {
                       try {
-                        PreferenceManager.update(height: double.parse(newValue));
+                        PreferenceManager.updateUserInfo(height: double.parse(newValue));
                       } on FormatException catch(e) {
                         print("Some error occurred saving height data: ${e.message}");
                       }

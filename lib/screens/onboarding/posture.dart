@@ -78,7 +78,7 @@ class _PostureScreenState extends State<PostureScreen> {
                 CheckboxGroupFormField(
                   items: _postureProblems,
                   validator: (value) => null,
-                  onSaved: (newValue) => PreferenceManager.update(
+                  onSaved: (newValue) => PreferenceManager.updateUserInfo(
                     posturalProblems: newValue ?? List.filled(3, false)
                   ),
                   value: _selectedPosture,
@@ -98,7 +98,7 @@ class _PostureScreenState extends State<PostureScreen> {
                   value: _problemsInFamily,
                   onChanged: (value) => setState(() => _problemsInFamily = value),
                   validator: (value) => null,
-                  onSaved: (newValue) => PreferenceManager.update(problemsInFamily: newValue),
+                  onSaved: (newValue) => PreferenceManager.updateUserInfo(problemsInFamily: newValue),
                 ),
                 SizedBox(height: 20),
                 PlainCheckboxFormField(
@@ -112,7 +112,7 @@ class _PostureScreenState extends State<PostureScreen> {
                   value: _useOfDrugs,
                   onChanged: (value) => setState(() => _useOfDrugs = value),
                   validator: (value) => null,
-                  onSaved: (newValue) => PreferenceManager.update(useOfDrugs: newValue),
+                  onSaved: (newValue) => PreferenceManager.updateUserInfo(useOfDrugs: newValue),
                 ),
                 SizedBox(height: 105)
               ],

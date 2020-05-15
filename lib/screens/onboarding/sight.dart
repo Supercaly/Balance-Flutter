@@ -79,7 +79,7 @@ class _SightScreenState extends State<SightScreen> {
                   value: _selectedSightProblem,
                   onChanged: (value) => setState(() => _selectedSightProblem = value),
                   validator: (value) => null,
-                  onSaved: (newValue) => PreferenceManager.update(
+                  onSaved: (newValue) => PreferenceManager.updateUserInfo(
                     sightProblems: newValue?? List.filled(3, false)
                   ),
                 ),
@@ -106,7 +106,7 @@ class _SightScreenState extends State<SightScreen> {
                   elementTextColor: Color(0xFF666666),
                   enabledIconColor: BColors.colorPrimary,
                   validator: (_) => null,
-                  onSaved: (newValue) => PreferenceManager.update(hearingProblems: newValue ?? 0),
+                  onSaved: (newValue) => PreferenceManager.updateUserInfo(hearingProblems: newValue ?? 0),
                 ),
                 SizedBox(height: 105),
               ],

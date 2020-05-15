@@ -73,7 +73,7 @@ class _TraumaScreenState extends State<TraumaScreen> {
                   setState(() =>_selectedTrauma = value);
                 },
                 validator: (value) => null,
-                onSaved: (newValue) => PreferenceManager.update(
+                onSaved: (newValue) => PreferenceManager.updateUserInfo(
                   otherTrauma: newValue?? List.filled(5, false)
                 ),
               ),

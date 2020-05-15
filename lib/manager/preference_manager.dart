@@ -154,7 +154,7 @@ class PreferenceManager {
   /// Only the non-null given values will be
   /// updated so this method can be with optional
   /// parameters to update only some of the data.
-  static Future<void> update({
+  static Future<void> updateUserInfo({
     double height,
     double weight,
     int age,

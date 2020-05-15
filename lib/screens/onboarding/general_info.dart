@@ -106,7 +106,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                         onSaved: (newValue) {
                           if (newValue.isNotEmpty)
                             try {
-                              PreferenceManager.update(age: int.parse(newValue));
+                              PreferenceManager.updateUserInfo(age: int.parse(newValue));
                             } on FormatException catch(e) {
                               print("Some error occurred saving age data: ${e.message}");
                             }
@@ -126,7 +126,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                         elementTextColor: Color(0xFF666666),
                         enabledIconColor: BColors.colorPrimary,
                         validator: (_) => null,
-                        onSaved: (newValue) => PreferenceManager.update(gender: newValue ?? 0),
+                        onSaved: (newValue) => PreferenceManager.updateUserInfo(gender: newValue ?? 0),
                       ),
                       SizedBox(height: 8),
                       CustomNumberFormField(
@@ -150,7 +150,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                         onSaved: (newValue) {
                           if (newValue.isNotEmpty)
                             try {
-                              PreferenceManager.update(weight: double.parse(newValue));
+                              PreferenceManager.updateUserInfo(weight: double.parse(newValue));
                             } on FormatException catch(e) {
                               print("Some error occurred saving weight data: ${e.message}");
                             }
