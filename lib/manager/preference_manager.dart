@@ -83,7 +83,7 @@ class PreferenceManager {
   ///
   /// This method will return the accelerometer
   /// [SensorBias] stored in [SharedPreferences];
-  /// if some value is null [0.0] will be passed instead.
+  /// if the values are null [0.0] will be passed instead.
   static Future<SensorBias> get accelerometerBias async {
     var pref = await SharedPreferences.getInstance();
     double accX = pref.getDouble(_accelerometerBiasX) ?? 0.0;
@@ -96,7 +96,7 @@ class PreferenceManager {
   ///
   /// This method will return the gyroscope
   /// [SensorBias] stored in [SharedPreferences];
-  /// if some value is null [0.0] will be passed instead.
+  /// if the values are null [0.0] will be passed instead.
   static Future<SensorBias> get gyroscopeBias async {
     var pref = await SharedPreferences.getInstance();
     double gyroX = pref.getDouble(_gyroscopeBiasX) ?? 0.0;
