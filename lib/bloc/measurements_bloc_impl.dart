@@ -14,26 +14,29 @@ class MeasurementsBloc extends Bloc<MeasurementsEvents, MeasurementsState> {
   final MeasurementsRepository repository;
 
   MeasurementsBloc._(MeasurementDatabase db): repository = MeasurementsRepository(db);
-  factory MeasurementsBloc.create(MeasurementDatabase db) => MeasurementsBloc._(db)..add(MeasurementsEvents.fetch);
+  factory MeasurementsBloc.create(MeasurementDatabase db) =>
+    MeasurementsBloc._(db)..add(MeasurementsEvents.fetch);
 
   @override
   MeasurementsState get initialState => MeasurementsLoading();
 
   @override
   Stream<MeasurementsState> mapEventToState(MeasurementsEvents event) async* {
-    switch(event) {
+    if (event == MeasurementsEvents.fetch) {
       // fetch the data from the repository
-      case MeasurementsEvents.fetch:
-        try {
-          final tests = await repository.getMeasurements();
-          if (tests.isEmpty)
-            yield MeasurementsEmpty();
-          else
-            yield MeasurementsSuccess(tests);
-        } catch(e) {
-          yield MeasurementsError(e);
-        }
-        break;
+      try {
+        final tests = await repository.getMeasurements();
+        if (tests.isEmpty)
+          yield MeasurementsEmpty();
+        else
+          yield MeasurementsSuccess(tests);
+      } on Exception catch (e) {
+        print("MeasurementsBloc.mapEventToState: Unknown Exception: [$e]");
+        yield MeasurementsError(e.toString());
+      } catch (e) {
+        print("MeasurementsBloc.mapEventToState: Undefined Error: [$e]");
+        yield MeasurementsError(e.toString());
+      }
     }
   }
 }

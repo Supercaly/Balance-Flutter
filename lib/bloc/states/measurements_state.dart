@@ -20,6 +20,6 @@ class MeasurementsSuccess extends MeasurementsState {
 
 /// State for when there is an error
 class MeasurementsError extends MeasurementsState {
-  final Error error;
-  const MeasurementsError(this.error);
+  final String exceptionMsg;
+  const MeasurementsError(this.exceptionMsg);
 }

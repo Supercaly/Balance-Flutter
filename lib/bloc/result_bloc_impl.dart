@@ -27,10 +27,14 @@ class ResultBloc extends Bloc<ResultEvents, ResultState> {
     if (event is FetchResult) {
       // fetch the data from the repository
       try {
-        yield ResultSuccess(await _repository.getResult(event.measurementId));
+        final res = await _repository.getResult(event.measurementId);
+        yield ResultSuccess(res);
+      } on Exception catch(e) {
+        print("ResultBloc.mapEventToState: Unknown Exception: [$e]");
+        yield ResultError(e.toString());
       } catch(e) {
-        print("Error $e");
-        yield ResultError(e);
+        print("ResultBloc.mapEventToState: Undefined Error: [$e]");
+        yield ResultError(e.toString());
       }
     }
     else if (event is ExportResult) {
@@ -38,8 +42,12 @@ class ResultBloc extends Bloc<ResultEvents, ResultState> {
       try {
         await _repository.exportMeasurement(event.measurementId);
         yield ResultExportSuccess();
+      } on Exception catch(e) {
+        print("ResultBloc.mapEventToState: Unknown Exception: [$e]");
+        yield ResultError(e.toString());
       } catch(e) {
-        yield ResultError(e);
+        print("ResultBloc.mapEventToState: Undefined Error: [$e]");
+        yield ResultError(e.toString());
       }
     }
   }
