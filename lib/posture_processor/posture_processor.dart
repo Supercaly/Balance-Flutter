@@ -46,9 +46,10 @@ class PostureProcessor {
 
     Matrix cogvMatrix = await computeCogv(data, ((args["height"] ?? _defaultHeight) as double));
     // Convert the result from matrix to lists
-    final droppedDataList = cogvMatrix.extractRows();
-    final List<double> cogvAp = droppedDataList[0];
-    final List<double> cogvMl = droppedDataList[1];
+
+    final droppedDataList = cogvMatrix?.extractRows();
+    final List<double> cogvAp = droppedDataList != null? droppedDataList[0]: [];
+    final List<double> cogvMl = droppedDataList != null? droppedDataList[1]: [];
 
     // Compute the time domain features
     final timeFeat = await timeDomainFeatures(cogvAp, cogvMl);
@@ -82,7 +83,7 @@ class PostureProcessor {
       frequencyPeakML: freqFeat["frequencyPeakML"],
       f80AP: freqFeat["f80AP"],
       f80ML: freqFeat["f80ML"],
-      np: structFeat["numMax"],
+      numMax: structFeat["numMax"],
       meanTime: structFeat["meanTime"],
       stdTime: structFeat["stdTime"],
       meanDistance: structFeat["meanDistance"],

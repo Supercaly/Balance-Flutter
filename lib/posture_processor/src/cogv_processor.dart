@@ -20,13 +20,18 @@ const double _heightConversionFactor = 0.530;
 /// Param:
 /// * data - list of RawMeasurementData
 /// * height - height of the user
-Future<Matrix> computeCogv(List<RawMeasurementData> data, double height) {
+Future<Matrix> computeCogv(List<RawMeasurementData> data, double height) async{
   // The algorithm for computing the COGv data is divided in 4 steps:
   // Step 1. Map the data from RawMeasurementData
-  data.removeWhere((e) => e.accelerometerX == null || e.accelerometerY == null && e.accelerometerZ == null);
-  final accXWithG = data.map((e) => e.accelerometerX / _gForce).toList();
-  final accYWithG = data.map((e) => e.accelerometerY / _gForce).toList();
-  final accZWithG = data.map((e) => e.accelerometerZ / _gForce).toList();
+  final List<RawMeasurementData> accelerometerData = List.from(data);
+  accelerometerData.removeWhere((e) => e.accelerometerX == null || e.accelerometerY == null && e.accelerometerZ == null);
+  // If after removing all null data the list is empty stop and return null
+  if (accelerometerData.isEmpty)
+    return null;
+
+  final accXWithG = accelerometerData.map((e) => e.accelerometerX / _gForce).toList();
+  final accYWithG = accelerometerData.map((e) => e.accelerometerY / _gForce).toList();
+  final accZWithG = accelerometerData.map((e) => e.accelerometerZ / _gForce).toList();
   // Step 2. Rotate the axis
   final rotatedData = rotateAxis(accXWithG, accYWithG, accZWithG);
   // Step 3. Filter the data
@@ -34,7 +39,7 @@ Future<Matrix> computeCogv(List<RawMeasurementData> data, double height) {
   // Step 4. Down-sample and drop first two seconds
   final droppedData = removeFirstTwoSecond(detrend(downsample(filteredData)));
 
-  return Future.value(droppedData);
+  return droppedData;
 }
 
 /// Method that rotate the axis till the y component is parallel to the gravity

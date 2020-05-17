@@ -54,4 +54,15 @@ void main() {
   test("negative fs throws an error", () {
     expect(() => frequencyDomainFeatures([1.0], [1.0], -20), throwsAssertionError);
   });
+
+  test("frequency domain features of null data returns all nan", () async{
+    final res = await frequencyDomainFeatures([], [], 50);
+
+    expect(res["meanFrequencyAP"], isNaN);
+    expect(res["meanFrequencyML"], isNaN);
+    expect(res["frequencyPeakAP"], isNaN);
+    expect(res["frequencyPeakML"], isNaN);
+    expect(res["f80AP"], isNaN);
+    expect(res["f80ML"], isNaN);
+  });
 }

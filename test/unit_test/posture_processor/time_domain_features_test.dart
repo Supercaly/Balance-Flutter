@@ -33,4 +33,14 @@ void main() {
   test("ml and ap with different sizes throws an error", () {
     expect(() => timeDomainFeatures([1.0], [1.0, 2.0]), throwsAssertionError);
   });
+
+  test("time domain features of null data returns all nan", () async{
+    final res = await timeDomainFeatures([], []);
+
+    expect(res["swayPath"], isNaN);
+    expect(res["meanDisplacement"], isNaN);
+    expect(res["stdDisplacement"], isNaN);
+    expect(res["minDist"], isNaN);
+    expect(res["maxDist"], isNaN);
+  });
 }

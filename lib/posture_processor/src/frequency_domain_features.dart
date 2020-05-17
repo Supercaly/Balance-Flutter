@@ -23,8 +23,18 @@ import 'package:powerdart/powerdart.dart';
 /// Return:
 /// a Map with: meanFrequencyAP, meanFrequencyML,
 ///   frequencyPeakAP, frequencyPeakML, f80AP, f80ML
-Future<Map<String, double>> frequencyDomainFeatures(List<double> ap, List<double> ml, [double fs = 50]) {
+Future<Map<String, double>> frequencyDomainFeatures(List<double> ap, List<double> ml, [double fs = 50]) async{
   assert(fs > 0.0, "fs must be gather than zero!");
+
+  if (ap.isEmpty || ml.isEmpty)
+    return {
+      "meanFrequencyAP": double.nan,
+      "meanFrequencyML": double.nan,
+      "frequencyPeakAP": double.nan,
+      "frequencyPeakML": double.nan,
+      "f80AP": double.nan,
+      "f80ML": double.nan,
+    };
 
   // Compute the Frequency on AP
   final apPsd = psd(ap, fs);
@@ -49,12 +59,12 @@ Future<Map<String, double>> frequencyDomainFeatures(List<double> ap, List<double
   final f80Ml = mlPsd.f[mlArea80.first];
 
 
-  return Future.value({
+  return {
     "meanFrequencyAP": meanFrequencyAp,
     "meanFrequencyML": meanFrequencyMl,
     "frequencyPeakAP": frequencyPeakAp,
     "frequencyPeakML": frequencyPeakMl,
     "f80AP": f80Ap,
     "f80ML": f80Ml,
-  });
+  };
 }

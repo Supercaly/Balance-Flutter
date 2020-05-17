@@ -71,6 +71,17 @@ void main() {
       writeMatrixToFile(computedMatrix.transpose(), "cogv/computed.txt");
     });
 
+    test("compute with all null data", () async {
+      final data = [
+        RawMeasurementData(),
+        RawMeasurementData(),
+        RawMeasurementData(),
+      ];
+      final res = await computeCogv(data, 180.0);
+      
+      expect(res, isNull);
+    });
+
     test("rotate axis", () async {
       final extracted = dataToRotate.extractRows();
       final rotatedDataMatrix = rotateAxis(extracted[0], extracted[1], extracted[2]);

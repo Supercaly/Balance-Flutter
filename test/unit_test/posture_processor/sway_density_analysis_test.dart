@@ -36,4 +36,16 @@ void main() {
     // Throws an exception when the lists have different size?
     expect(() => swayDensityAnalysis([1.0, 2.0], [3.0, 4.0, 5.0], 0.2), throwsAssertionError);
   });
+
+  test("sda of null data returns all nan", () async{
+    final res = await swayDensityAnalysis([], [], 0.5);
+
+    expect(res["numMax"], equals(0.0));
+    expect(res["meanDistance"], isNaN);
+    expect(res["stdDistance"], isNaN);
+    expect(res["meanTime"], isNaN);
+    expect(res["stdTime"], isNaN);
+    expect(res["meanPeaks"], isNaN);
+    expect(res["stdPeaks"], isNaN);
+  });
 }

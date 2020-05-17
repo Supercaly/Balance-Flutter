@@ -6,20 +6,22 @@ import 'package:balance_app/posture_processor/src/list_extension.dart';
 
 Future<Map<String, double>> gyroscopicFeatures(List<RawMeasurementData> data) {
   // Extract x,y,z from RawMeasurementData
-  data.removeWhere((e) => e.gyroscopeX == null || e.gyroscopeY == null || e.gyroscopeZ == null);
-  final x = data.map((e) => e.gyroscopeX).toList();
-  final y = data.map((e) => e.gyroscopeY).toList();
-  final z = data.map((e) => e.gyroscopeZ).toList();
+  final List<RawMeasurementData> gyroscopeData = List.from(data);
+  gyroscopeData.removeWhere((e) => e.gyroscopeX == null || e.gyroscopeY == null || e.gyroscopeZ == null);
+
+  final x = gyroscopeData.map((e) => e.gyroscopeX).toList();
+  final y = gyroscopeData.map((e) => e.gyroscopeY).toList();
+  final z = gyroscopeData.map((e) => e.gyroscopeZ).toList();
 
   // Get max value of x,y,z
-  final gmX = x.reduce(max);
-  final gmY = y.reduce(max);
-  final gmZ = z.reduce(max);
+  final gmX = x.isNotEmpty? x.reduce(max): double.nan;
+  final gmY = y.isNotEmpty? y.reduce(max): double.nan;
+  final gmZ = z.isNotEmpty? z.reduce(max): double.nan;
 
   // Get range value of x,y,z
-  final grX = gmX - x.reduce(min);
-  final grY = gmY - y.reduce(min);
-  final grZ = gmZ - z.reduce(min);
+  final grX = x.isNotEmpty? gmX - x.reduce(min): double.nan;
+  final grY = y.isNotEmpty? gmY - y.reduce(min): double.nan;
+  final grZ = z.isNotEmpty? gmZ - z.reduce(min): double.nan;
 
   // Get variance of x,y,z
   final gvX = x.variance();
@@ -36,7 +38,6 @@ Future<Map<String, double>> gyroscopicFeatures(List<RawMeasurementData> data) {
   final gsY = y.skewness();
   final gsZ = z.skewness();
 
-  // TODO: 03/05/20 Put real code here
   return Future.value({
     "grX": grX,
     "grY": grY,
