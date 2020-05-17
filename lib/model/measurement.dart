@@ -1,4 +1,5 @@
 
+import 'package:balance_app/model/statokinesigram.dart';
 import 'package:floor/floor.dart';
 
 /// Represent one single measurement in the database
@@ -13,6 +14,8 @@ class Measurement {
   @ColumnInfo(name: "eyes_open", nullable: false)
   final bool eyesOpen;
 
+  @ColumnInfo(name: "has_features", nullable: false)
+  final bool hasFeatures;
   // Computed features
   @ColumnInfo(name: "sway_path")
   final double swayPath;
@@ -38,8 +41,8 @@ class Measurement {
   @ColumnInfo(name: "f80_ml")
   final double f80ML;
 
-  @ColumnInfo()
-  final double np;
+  @ColumnInfo(name: "num_max")
+  final double numMax;
   @ColumnInfo(name: "mean_time")
   final double meanTime;
   @ColumnInfo(name: "std_time")
@@ -73,9 +76,10 @@ class Measurement {
     this.id,
     this.creationDate,
     this.eyesOpen,
+    this.hasFeatures = false,
     this.swayPath, this.meanDisplacement, this.stdDisplacement, this.minDist, this.maxDist,
     this.frequencyPeakAP, this.frequencyPeakML, this.meanFrequencyML, this.meanFrequencyAP,
-    this.f80ML, this.f80AP, this.np, this.meanTime, this.stdTime, this.meanDistance, this.stdDistance,
+    this.f80ML, this.f80AP, this.numMax, this.meanTime, this.stdTime, this.meanDistance, this.stdDistance,
     this.meanPeaks, this.stdPeaks, this.gsX, this.gsY, this.gsZ, this.gkX, this.gkY, this.gkZ,
     this.gmX, this.gmY, this.gmZ, this.gvX, this.gvY, this.gvZ, this.grX, this.grY, this.grZ
   });
@@ -89,28 +93,61 @@ class Measurement {
   factory Measurement.simple({
     int creationDate,
     bool eyesOpen,
-  }) => Measurement(creationDate: creationDate, eyesOpen: eyesOpen);
+  }) => Measurement(creationDate: creationDate, eyesOpen: eyesOpen, hasFeatures: false);
 
-  /// Returns true if at least one feature is non-null
-  ///
-  /// Sometimes can happen that a feature si null, but if at least one
-  /// is not null is clear that the features have been set before.
-  bool get hasFeatures => this.swayPath != null || this.meanDisplacement != null ||
-    this.stdDisplacement != null || this.minDist != null || this.maxDist != null ||
-    this.frequencyPeakAP != null || this.frequencyPeakML != null || this.meanFrequencyML != null ||
-    this.meanFrequencyAP != null || this.f80ML != null || this.f80AP != null || this.np != null ||
-    this.meanTime != null || this.stdTime != null || this.meanDistance != null ||
-    this.stdDistance != null || this.meanPeaks != null || this.stdPeaks != null ||
-    this.gsX != null || this.gsY != null || this.gsZ != null || this.gkX != null ||
-    this.gkY != null || this.gkZ != null || this.gmX != null || this.gmY != null ||
-    this.gmZ != null || this.gvX != null || this.gvY != null || this.gvZ != null ||
-    this.grX != null || this.grY != null || this.grZ != null;
+  /// Factory method to create a [Measurement] from a 
+  /// [Statokinesigram] and a [Measurement].
+  /// 
+  /// This method will create a new [Measurement] form an existing one and
+  /// a [Statokinesigram].
+  /// The new [Measurement] will retain the id of the given one.
+  factory Measurement.from(Measurement m, Statokinesigram s) =>
+    Measurement(
+      id: m.id,
+      creationDate: m.creationDate,
+      eyesOpen: m.eyesOpen,
+      hasFeatures: true,
+      swayPath: s.swayPath,
+      meanDisplacement: s.meanDisplacement,
+      stdDisplacement: s.stdDisplacement,
+      minDist: s.minDist,
+      maxDist: s.maxDist,
+      frequencyPeakAP: s.frequencyPeakAP,
+      frequencyPeakML: s.frequencyPeakML,
+      meanFrequencyML: s.meanFrequencyML,
+      meanFrequencyAP: s.meanFrequencyAP,
+      f80ML: s.f80ML,
+      f80AP: s.f80AP,
+      numMax: s.numMax,
+      meanTime: s.meanTime,
+      stdTime: s.stdTime,
+      meanDistance: s.meanDistance,
+      stdDistance: s.stdDistance,
+      meanPeaks: s.meanPeaks,
+      stdPeaks: s.stdPeaks,
+      gsX: s.gsX,
+      gsY: s.gsY,
+      gsZ: s.gsZ,
+      gkX: s.gkX,
+      gkY: s.gkY,
+      gkZ: s.gkZ,
+      gmX: s.gmX,
+      gmY: s.gmY,
+      gmZ: s.gmZ,
+      gvX: s.gvX,
+      gvY: s.gvY,
+      gvZ: s.gvZ,
+      grX: s.grX,
+      grY: s.grY,
+      grZ: s.grZ,
+    );
 
   /// Maps this object to json
   Map toJson() => {
       "id": this.id,
       "creationDate": this.creationDate,
       "eyesOpen": this.eyesOpen,
+      "hasFeatures": this.hasFeatures,
       "swayPath": this.swayPath,
       "meanDisplacement": this.meanDisplacement,
       "stdDisplacement": this.stdDisplacement,
@@ -122,7 +159,7 @@ class Measurement {
       "meanFrequencyAP": this.meanFrequencyAP,
       "f80ML": this.f80ML,
       "f80AP": this.f80AP,
-      "np": this.np, "meanTime": this.meanTime,
+      "np": this.numMax, "meanTime": this.meanTime,
       "stdTime": this.stdTime, "meanDistance": this.meanDistance,
       "stdDistance": this.stdDistance, "meanPeaks": this.meanPeaks,
       "stdPeaks": this.stdPeaks,
@@ -133,74 +170,103 @@ class Measurement {
       "grX": this.grX, "grY": this.grY, "grZ": this.grZ,
     };
 
-  @override
-  bool operator ==(other) => other is Measurement &&
-    this.id == other.id &&
-    this.creationDate == other.creationDate &&
-    this.eyesOpen == other.eyesOpen &&
-    this.swayPath == other.swayPath && this.meanDisplacement == other.meanDisplacement &&
-    this.stdDisplacement == other.stdDisplacement && this.minDist == other.minDist &&
-    this.maxDist == other.maxDist && this.frequencyPeakAP == other.frequencyPeakAP &&
-    this.frequencyPeakML == other.frequencyPeakML && this.meanFrequencyML == other.meanFrequencyML &&
-    this.meanFrequencyAP == other.meanFrequencyAP && this.f80ML == other.f80ML &&
-    this.f80AP == other.f80AP && this.np == other.np && this.meanTime == other.meanTime &&
-    this.stdTime == other.stdTime && this.meanDistance == other.meanDistance &&
-    this.stdDistance == other.stdDistance && this.meanPeaks == other.meanPeaks &&
-    this.stdPeaks == other.stdPeaks && this.gsX == other.gsX && this.gsY == other.gsY &&
-    this.gsZ == other.gsZ && this.gkX == other.gkX && this.gkY == other.gkY &&
-    this.gkZ == other.gkZ && this.gmX == other.gmX && this.gmY == other.gmY &&
-    this.gmZ == other.gmZ && this.gvX == other.gvX && this.gvY == other.gvY &&
-    this.gvZ == other.gvZ && this.grX == other.grX && this.grY == other.grY &&
-    this.grZ == other.grZ;
 
   @override
-  int get hashCode => id.hashCode^creationDate.hashCode^eyesOpen.hashCode^
-    swayPath.hashCode^meanDisplacement.hashCode^stdDisplacement.hashCode^
-    minDist.hashCode^maxDist.hashCode^frequencyPeakAP.hashCode^
-    frequencyPeakML.hashCode^meanFrequencyML.hashCode^meanFrequencyAP.hashCode^
-    f80ML.hashCode^f80AP.hashCode^np.hashCode^meanTime.hashCode^stdTime.hashCode^
-    meanDistance.hashCode^stdDistance.hashCode^meanPeaks.hashCode^stdPeaks.hashCode^
-    gsX.hashCode^gsY.hashCode^gsZ.hashCode^gkX.hashCode^gkY.hashCode^gkZ.hashCode^
-    gmX.hashCode^gmY.hashCode^gmZ.hashCode^gvX.hashCode^gvY.hashCode^gvZ.hashCode^
-    grX.hashCode^grY.hashCode^grZ.hashCode;
+  bool operator ==(Object other) =>
+    identical(this, other) ||
+      other is Measurement &&
+        runtimeType == other.runtimeType &&
+        id == other.id &&
+        creationDate == other.creationDate &&
+        eyesOpen == other.eyesOpen &&
+        hasFeatures == other.hasFeatures &&
+        swayPath == other.swayPath &&
+        meanDisplacement == other.meanDisplacement &&
+        stdDisplacement == other.stdDisplacement &&
+        minDist == other.minDist &&
+        maxDist == other.maxDist &&
+        meanFrequencyAP == other.meanFrequencyAP &&
+        meanFrequencyML == other.meanFrequencyML &&
+        frequencyPeakAP == other.frequencyPeakAP &&
+        frequencyPeakML == other.frequencyPeakML &&
+        f80AP == other.f80AP &&
+        f80ML == other.f80ML &&
+        numMax == other.numMax &&
+        meanTime == other.meanTime &&
+        stdTime == other.stdTime &&
+        meanDistance == other.meanDistance &&
+        stdDistance == other.stdDistance &&
+        meanPeaks == other.meanPeaks &&
+        stdPeaks == other.stdPeaks &&
+        grX == other.grX &&
+        grY == other.grY &&
+        grZ == other.grZ &&
+        gmX == other.gmX &&
+        gmY == other.gmY &&
+        gmZ == other.gmZ &&
+        gvX == other.gvX &&
+        gvY == other.gvY &&
+        gvZ == other.gvZ &&
+        gkX == other.gkX &&
+        gkY == other.gkY &&
+        gkZ == other.gkZ &&
+        gsX == other.gsX &&
+        gsY == other.gsY &&
+        gsZ == other.gsZ;
 
   @override
-  String toString() => "Measurement("
-    "id=$id, "
-    "creationDate=$creationDate, "
-    "eyesOpen=$eyesOpen, "
-    "swayPath=$swayPath, "
-    "meanDisplacement=$meanDisplacement, "
-    "stdDisplacement=$stdDisplacement, "
-    "minDist=$minDist, "
-    "maxDist=$maxDist, "
-    "frequencyPeakAP=$frequencyPeakAP, "
-    "frequencyPeakML=$frequencyPeakML, "
-    "meanFrequencyML=$meanFrequencyML, "
-    "meanFrequencyAP=$meanFrequencyAP, "
-    "f80ML=$f80ML, "
-    "f80AP=$f80AP, "
-    "np=$np, "
-    "meanTime=$meanTime, "
-    "stdTime=$stdTime, "
-    "meanDistance=$meanDistance, "
-    "stdDistance=$stdDistance, "
-    "meanPeaks=$meanPeaks, "
-    "stdPeaks=$stdPeaks, "
-    "gsX=$gsX, "
-    "gsY=$gsY, "
-    "gsZ=$gsZ, "
-    "gkX=$gkX, "
-    "gkY=$gkY, "
-    "gkZ=$gkZ, "
-    "gmX=$gmX, "
-    "gmY=$gmY, "
-    "gmZ=$gmZ, "
-    "gvX=$gvX, "
-    "gvY=$gvY, "
-    "gvZ=$gvZ, "
-    "grX=$grX, "
-    "grY=$grY, "
-    "grZ=$grZ"
-    ")";
+  int get hashCode =>
+    id.hashCode ^
+    creationDate.hashCode ^
+    eyesOpen.hashCode ^
+    hasFeatures.hashCode ^
+    swayPath.hashCode ^
+    meanDisplacement.hashCode ^
+    stdDisplacement.hashCode ^
+    minDist.hashCode ^
+    maxDist.hashCode ^
+    meanFrequencyAP.hashCode ^
+    meanFrequencyML.hashCode ^
+    frequencyPeakAP.hashCode ^
+    frequencyPeakML.hashCode ^
+    f80AP.hashCode ^
+    f80ML.hashCode ^
+    numMax.hashCode ^
+    meanTime.hashCode ^
+    stdTime.hashCode ^
+    meanDistance.hashCode ^
+    stdDistance.hashCode ^
+    meanPeaks.hashCode ^
+    stdPeaks.hashCode ^
+    grX.hashCode ^
+    grY.hashCode ^
+    grZ.hashCode ^
+    gmX.hashCode ^
+    gmY.hashCode ^
+    gmZ.hashCode ^
+    gvX.hashCode ^
+    gvY.hashCode ^
+    gvZ.hashCode ^
+    gkX.hashCode ^
+    gkY.hashCode ^
+    gkZ.hashCode ^
+    gsX.hashCode ^
+    gsY.hashCode ^
+    gsZ.hashCode;
+
+  @override
+  String toString() {
+    return 'Measurement('
+      'id: $id, creationDate: $creationDate, eyesOpen: $eyesOpen, hasFeatures: $hasFeatures, '
+      'swayPath: $swayPath, meanDisplacement: $meanDisplacement, '
+      'stdDisplacement: $stdDisplacement, minDist: $minDist, maxDist: $maxDist, '
+      'meanFrequencyAP: $meanFrequencyAP, meanFrequencyML: $meanFrequencyML, '
+      'frequencyPeakAP: $frequencyPeakAP, frequencyPeakML: $frequencyPeakML, f80AP: $f80AP, f80ML: $f80ML, '
+      'np: $numMax, meanTime: $meanTime, stdTime: $stdTime, meanDistance: $meanDistance, '
+      'stdDistance: $stdDistance, meanPeaks: $meanPeaks, stdPeaks: $stdPeaks, '
+      'grX: $grX, grY: $grY, grZ: $grZ, gmX: $gmX, gmY: $gmY, gmZ: $gmZ, gvX: $gvX, '
+      'gvY: $gvY, gvZ: $gvZ, gkX: $gkX, gkY: $gkY, gkZ: $gkZ, gsX: $gsX, gsY: $gsY, gsZ: $gsZ}';
+  }
+
+
 }

@@ -60,7 +60,7 @@ void main() {
       expect(allMeas, isNotNull);
     });
 
-    test("ignore dupllicate data", () async{
+    test("ignore duplicate data", () async{
       await measurementDao.insertMeasurement(Measurement.simple(
         creationDate: DateTime.now().millisecondsSinceEpoch,
         eyesOpen: true,
@@ -178,7 +178,7 @@ void main() {
         stdPeaks: 1.0,
         stdDistance: 1.0,
         stdDisplacement: 1.0,
-        np: 1.0,
+        numMax: 1.0,
         minDist: 1.0,
         meanTime: 1.0,
         meanPeaks: 1.0,
