@@ -18,140 +18,67 @@ class ResultRepository {
   ///
   /// If the stored [Measurement] doesn't have any features
   /// we compute them using [PostureProcessor], store them
-  /// and then return those.
+  /// and return those.
   Future<Statokinesigram> getResult(int measurementId) async {
-    if (measurementId == null)
-      return Future.error(ArgumentError("measurementId must be non null"));
+    assert (measurementId != null, "measurementId must be non null");
 
     // 1. Get the Measurement with the given id
     final measurement = await database.measurementDao.findMeasurementById(measurementId);
     final cogv = await database.cogvDataDao.findAllCogvDataForId(measurementId);
     // 2. Check if the features and the cogv data are present and compute them if not
     if (!measurement.hasFeatures && cogv.isEmpty) {
-      print("Com $measurement");
-      final rawMeasurementData = await database.rawMeasurementDataDao.findAllRawMeasDataForId(measurementId);
-      Statokinesigram computed;
-      try {
-        computed = await PostureProcessor.computeFromData(measurementId, rawMeasurementData);
-      } catch(e) {
-        print("Error computing $e");
-      }
+      print("Try compute...");
+      final rawMeasurementData = await database.rawMeasurementDataDao.findAllRawMeasDataForId(
+        measurementId);
+
+      // Compute the statokinesigram
+      final computed = await PostureProcessor.computeFromData(measurementId, rawMeasurementData);
+
       // Update the measurement with the computed features
-      database.measurementDao.updateMeasurement(
-        Measurement(
-          id: measurement.id,
-          creationDate: measurement.creationDate,
-          eyesOpen: measurement.eyesOpen,
-          swayPath: computed.swayPath,
-          meanDisplacement: computed.meanDisplacement,
-          stdDisplacement: computed.stdDisplacement,
-          minDist: computed.minDist,
-          maxDist: computed.maxDist,
-          meanFrequencyML: computed.meanFrequencyML,
-          meanFrequencyAP: computed.meanFrequencyAP,
-          frequencyPeakML: computed.frequencyPeakML,
-          frequencyPeakAP: computed.frequencyPeakAP,
-          f80ML: computed.f80ML,
-          f80AP: computed.f80AP,
-          np: computed.np,
-          meanTime: computed.meanTime,
-          stdTime: computed.stdTime,
-          meanPeaks: computed.meanPeaks,
-          stdPeaks: computed.stdPeaks,
-          meanDistance: computed.meanDistance,
-          stdDistance: computed.stdDistance,
-          grX: computed.grX,
-          grY: computed.grY,
-          grZ: computed.grZ,
-          gmX: computed.gmX,
-          gmY: computed.gmY,
-          gmZ: computed.gmZ,
-          gvX: computed.gvX,
-          gvY: computed.gvY,
-          gvZ: computed.gvZ,
-          gsX: computed.gsX,
-          gsY: computed.gsY,
-          gsZ: computed.gsZ,
-          gkX: computed.gkX,
-          gkY: computed.gkY,
-          gkZ: computed.gkZ,
-        )
-      );
+      database.measurementDao.updateMeasurement(Measurement.from(measurement, computed));
       // Store the computed CogvData
       database.cogvDataDao.insertCogvData(computed.cogv);
       return computed;
     }
     // 3. Return a Statokinesigram with the features
-    return Statokinesigram(
-      cogv: cogv,
-      swayPath: measurement.swayPath,
-      meanDisplacement: measurement.meanDisplacement,
-      stdDisplacement: measurement.stdDisplacement,
-      minDist: measurement.minDist,
-      maxDist: measurement.maxDist,
-      meanFrequencyAP: measurement.meanFrequencyAP,
-      meanFrequencyML: measurement.meanFrequencyML,
-      frequencyPeakAP: measurement.frequencyPeakAP,
-      frequencyPeakML: measurement.frequencyPeakML,
-      f80AP: measurement.f80AP,
-      f80ML: measurement.f80ML,
-      np: measurement.np,
-      meanTime: measurement.stdTime,
-      stdTime: measurement.stdTime,
-      meanDistance: measurement.meanDistance,
-      stdDistance: measurement.stdDistance,
-      meanPeaks: measurement.meanPeaks,
-      stdPeaks: measurement.stdPeaks,
-      grX: measurement.grX,
-      grY: measurement.grY,
-      grZ: measurement.grZ,
-      gmX: measurement.gmX,
-      gmY: measurement.gmY,
-      gmZ: measurement.gmZ,
-      gvX: measurement.gvX,
-      gvY: measurement.gvY,
-      gvZ: measurement.gvZ,
-      gsX: measurement.gsX,
-      gsY: measurement.gsY,
-      gsZ: measurement.gsZ,
-      gkX: measurement.gkX,
-      gkY: measurement.gkY,
-      gkZ: measurement.gkZ,
-    );
+    return Statokinesigram.from(measurement, cogv);
   }
 
-  Future<void> exportMeasurement(int measurementId) async{
-    try {
-      if (measurementId == null)
-        throw Exception("Measurement id must not be null!");
+  /// Save all the measurement in a .json file
+  ///
+  /// This method will export all the data related to
+  /// the given measurement in a json file.
+  /// If the device is android the file will be stored in:
+  ///   /Android/data/it.uniurb.balance_app/files/Documents/
+  /// If the device is IOS the file will be stored in app documents
+  /// Otherwise it will throw an exception.
+  Future<void> exportMeasurement(int measurementId) async {
+    if (measurementId == null)
+      throw Exception("Measurement id must not be null!");
 
-      File file;
-      // Create the file based on the platform
-      if (Platform.isAndroid) {
-        final baseDirectory = await getExternalStorageDirectories(type: StorageDirectory.documents);
-        file = File('${baseDirectory[0].path}/test$measurementId.json');
-      } else if (Platform.isIOS) {
-        final baseDirectory = await getApplicationDocumentsDirectory();
-        file = File('$baseDirectory/test$measurementId.json');
-      } else
-        throw Exception("This Platform [${Platform.operatingSystem}] is not supported!");
+    File file;
+    // Create the file based on the platform
+    if (Platform.isAndroid) {
+      final baseDirectory = await getExternalStorageDirectories(type: StorageDirectory.documents);
+      file = File('${baseDirectory[0].path}/test$measurementId.json');
+    } else if (Platform.isIOS) {
+      final baseDirectory = await getApplicationDocumentsDirectory();
+      file = File('$baseDirectory/test$measurementId.json');
+    } else
+      throw Exception("This Platform [${Platform.operatingSystem}] is not supported!");
 
-      print(file.path);
+    print("Export test in: ${file.path}");
 
-      final meas = await database.measurementDao.findMeasurementById(measurementId);
-      final rawData = await database.rawMeasurementDataDao.findAllRawMeasDataForId(measurementId);
-      final cogvData = await database.cogvDataDao.findAllCogvDataForId(measurementId);
+    final meas = await database.measurementDao.findMeasurementById(measurementId);
+    final rawData = await database.rawMeasurementDataDao.findAllRawMeasDataForId(measurementId);
+    final cogvData = await database.cogvDataDao.findAllCogvDataForId(measurementId);
 
-      await file.writeAsString(
-        jsonEncode({
-          "measurement": meas?.toJson(),
-          "cogv": cogvData?.map((e) => e.toJson())?.toList(),
-          "rawMeasurement": rawData?.map((e) => e.toJson())?.toList(),
-        })
-      );
-    } catch(e) {
-      print("Erorr: $e");
-      return Future.error(e);
-    }
+    await file.writeAsString(
+      jsonEncode({
+        "measurement": meas?.toJson(),
+        "cogv": cogvData?.map((e) => e.toJson())?.toList(),
+        "rawMeasurement": rawData?.map((e) => e.toJson())?.toList(),
+      })
+    );
   }
 }

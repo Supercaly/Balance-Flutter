@@ -302,7 +302,7 @@ class ResultFeaturesItems extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          _formatFeature(statokinesigram?.np, ""),
+                          _formatFeature(statokinesigram?.numMax, ""),
                           style: valueTextStyle,
                         ),
                         SizedBox(height: 8),
