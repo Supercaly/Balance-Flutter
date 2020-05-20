@@ -17,16 +17,17 @@ class MeasurementsScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is MeasurementsEmpty)
             return _emptyScreen(context);
-          if (state is MeasurementsError)
+          else if (state is MeasurementsError)
             return _errorScreen(context);
-          if (state is MeasurementsSuccess)
+          else if (state is MeasurementsSuccess)
             return ListView.builder(
               padding: EdgeInsets.symmetric(vertical: 8),
               itemBuilder: (context, index) =>
                 _measurementItemTemplate(context, state.tests[index]),
               itemCount: state.tests.length,
             );
-          return _loadingScreen(context);
+          else
+            return _loadingScreen(context);
         }
       ),
     );
@@ -38,11 +39,12 @@ class MeasurementsScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        IconTheme(
-          data: IconThemeData(
-            size: 100
-          ),
-          child: Icon(Icons.perm_data_setting),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 32),
+          child: Image.asset(
+            "assets/images/empty.png",
+            fit: BoxFit.fitWidth,
+          )
         ),
         SizedBox(height: 42),
         Text(
@@ -61,11 +63,12 @@ class MeasurementsScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        IconTheme(
-          data: IconThemeData(
-            size: 100
-          ),
-          child: Icon(Icons.error),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 32),
+          child: Image.asset(
+            "assets/images/error.png",
+            fit: BoxFit.fitWidth,
+          )
         ),
         SizedBox(height: 42),
         Text(

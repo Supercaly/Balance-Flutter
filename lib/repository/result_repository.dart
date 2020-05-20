@@ -27,9 +27,9 @@ class ResultRepository {
     final cogv = await database.cogvDataDao.findAllCogvDataForId(measurementId);
     // 2. Check if the features and the cogv data are present and compute them if not
     if (!measurement.hasFeatures && cogv.isEmpty) {
-      print("Try compute...");
-      final rawMeasurementData = await database.rawMeasurementDataDao.findAllRawMeasDataForId(
-        measurementId);
+      print("ResultRepository.getResult: Computing Features...");
+      final rawMeasurementData = await database.rawMeasurementDataDao
+        .findAllRawMeasDataForId(measurementId);
 
       // Compute the statokinesigram
       final computed = await PostureProcessor.computeFromData(measurementId, rawMeasurementData);

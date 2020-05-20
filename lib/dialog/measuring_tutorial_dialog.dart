@@ -42,11 +42,13 @@ class _TutorialDialogState extends State<TutorialDialog> {
         children: [
           Container(
             width: double.maxFinite,
-            height: 267,
-            decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.light
-                ? Colors.grey: Colors.white,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(9.0))
+            height: 250,
+            child: ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(9.0)),
+              child: Image.asset(
+                "assets/images/tutorial.png",
+                fit: BoxFit.fitHeight,
+              ),
             ),
           ),
           Padding(

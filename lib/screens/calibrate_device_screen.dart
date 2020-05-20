@@ -5,7 +5,6 @@ import 'package:balance_app/model/sensor_data.dart';
 import 'package:balance_app/res/string.dart';
 import 'package:balance_app/sensors/sensor_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 /// This Widget represent the Calibrate Device Screen
 ///
@@ -34,34 +33,28 @@ class CalibrateDeviceScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Expanded(child: Image.asset("assets/images/phone.png")),
                   Expanded(
-                    flex: 4,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: SvgPicture.asset("assets/icons/calibration_phone.svg", height: 200)
-                    )
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _makeTextElements(context, state),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: RaisedButton(
+                            onPressed: state == SensorController.listening
+                              ? null
+                              : () => controller.listen(),
+                            child: Text(
+                              state == SensorController.complete
+                                ? "Calibrate Again"
+                                : "Start Calibration"
+                            ),
+                          ),
+                        )
+                      ]
+                    ),
                   ),
-                  Expanded(child: SizedBox(height: 24)),
-                  Flexible(
-                    flex: 2,
-                    child: _makeTextElements(context, state),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: RaisedButton(
-                        onPressed: state == SensorController.listening ?
-                        null :
-                          () => controller.listen(),
-                        child: Text(
-                          state == SensorController.complete ?
-                          "Calibrate Again" :
-                          "Start Calibration"
-                        ),
-                      ),
-                    )
-                  )
                 ],
               );
             }
@@ -82,7 +75,7 @@ class CalibrateDeviceScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SizedBox(width: 300, height: 3, child: LinearProgressIndicator()),
-              SizedBox(height: 16),
+              SizedBox(height: 32),
               Text(
                 BStrings.calibrating_txt,
                 style: Theme.of(context).textTheme.headline5,
