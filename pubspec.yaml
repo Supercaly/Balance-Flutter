@@ -58,6 +58,14 @@ flutter:
 
   # Assets paths
   assets:
+    # Logo
     - assets/logo.png
-    - assets/icons/
+    # Images
+    - assets/images/empty.png
+    - assets/images/error.png
+    - assets/images/eta.png
+    - assets/images/height.png
+    - assets/images/phone.png
+    - assets/images/tutorial.png
+    # Sounds
     - assets/sounds/light_pop.mp3
