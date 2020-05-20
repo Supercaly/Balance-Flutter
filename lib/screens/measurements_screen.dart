@@ -40,7 +40,7 @@ class MeasurementsScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: EdgeInsets.symmetric(horizontal: 48),
           child: Image.asset(
             "assets/images/empty.png",
             fit: BoxFit.fitWidth,
@@ -64,7 +64,7 @@ class MeasurementsScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32),
+          padding: EdgeInsets.symmetric(horizontal: 48),
           child: Image.asset(
             "assets/images/error.png",
             fit: BoxFit.fitWidth,
