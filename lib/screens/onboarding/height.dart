@@ -52,12 +52,7 @@ class _HeightScreenState extends State<HeightScreen> {
             children: <Widget>[
               //SizedBox(height: 50),
               Center(
-                child: IconTheme(
-                  data: IconThemeData(
-                    size: 150,
-                  ),
-                  child: Icon(Icons.accessibility)
-                ),
+                child: Image.asset("assets/images/height.png"),
               ),
               SizedBox(height: 100),
               Text(

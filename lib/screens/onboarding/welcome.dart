@@ -26,12 +26,9 @@ class WelcomeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Center(
-            child: IconTheme(
-              child: Icon(Icons.android),
-              data: IconThemeData(
-                size: 200,
-                color: Colors.white
-              ),
+            child: Image.asset(
+              "assets/logo.png",
+              width: 200,
             ),
           ),
           SizedBox(height: 100),

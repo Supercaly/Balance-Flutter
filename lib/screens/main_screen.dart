@@ -1,4 +1,5 @@
 
+import 'package:balance_app/res/b_icons.dart';
 import 'package:balance_app/res/string.dart';
 import 'package:balance_app/widgets/google_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -45,9 +46,9 @@ class _MainScreenState extends State<MainScreen> {
       bottomNavigationBar: GoogleBottomNavigationBar(
         currentIndex: _currentIndex,
         items: [
-          GoogleBottomNavigationItem(icon: Icon(Icons.home), text: Text(_titles[0])),
-          GoogleBottomNavigationItem(icon: Icon(Icons.list), text: Text(_titles[1])),
-          GoogleBottomNavigationItem(icon: Icon(Icons.settings), text: Text(_titles[2])),
+          GoogleBottomNavigationItem(icon: Icon(BIcons.home), text: Text(_titles[0])),
+          GoogleBottomNavigationItem(icon: Icon(BIcons.list), text: Text(_titles[1])),
+          GoogleBottomNavigationItem(icon: Icon(BIcons.settings), text: Text(_titles[2])),
         ],
         onTap: (newIdx) => setState(() => _currentIndex = newIdx),
       ),

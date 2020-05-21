@@ -2,6 +2,7 @@
 import 'package:balance_app/bloc/measurements_bloc.dart';
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/floor/test_database_view.dart';
+import 'package:balance_app/res/b_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -116,7 +117,7 @@ class MeasurementsScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
               Row(children: <Widget>[
-                Icon(Icons.calendar_today),
+                Icon(BIcons.calendar),
                 SizedBox(width: 16),
                 Text(
                   // TODO: 22/04/20 Fix date problem
@@ -128,8 +129,8 @@ class MeasurementsScreen extends StatelessWidget {
               Row(children: <Widget>[
                 Icon(
                   test.eyesOpen?
-                    Icons.remove_red_eye:
-                    Icons.panorama_fish_eye,
+                    BIcons.eye_open:
+                    BIcons.eye_close,
                 ),
                 SizedBox(width: 16),
                 Text(

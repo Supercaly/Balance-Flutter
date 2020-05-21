@@ -1,5 +1,6 @@
 
 import 'package:balance_app/floor/test_database_view.dart';
+import 'package:balance_app/res/b_icons.dart';
 import 'package:flutter/material.dart';
 
 /// Widget that represent a single result info item
@@ -22,7 +23,7 @@ class ResultInfoItem extends StatelessWidget {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Icon(Icons.today, color: Theme.of(context).iconTheme.color),
+                Icon(BIcons.calendar, color: Theme.of(context).iconTheme.color),
                 SizedBox(width: 16),
                 Text(
                   // TODO: 05/04/20 Fix how to display the error
@@ -37,12 +38,12 @@ class ResultInfoItem extends StatelessWidget {
               children: <Widget>[
                 Icon(
                   // TODO: 05/04/20 Fix the error icon
-                  (test != null)? test.eyesOpen? Icons.remove_red_eye: Icons.panorama_fish_eye: Icons.error,
+                  test.eyesOpen? BIcons.eye_open: BIcons.eye_close,
                 ),
                 SizedBox(width: 16),
                 Text(
                   // TODO: 05/04/20 Fix the error text
-                  (test != null)? test.eyesOpen? "Eyes Open": "Eye Closed": "null",
+                  test.eyesOpen? "Eyes Open": "Eye Closed",
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ],

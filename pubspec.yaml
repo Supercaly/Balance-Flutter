@@ -68,3 +68,9 @@ flutter:
     - assets/images/tutorial.png
     # Sounds
     - assets/sounds/light_pop.mp3
+
+  # Fonts
+  fonts:
+    - family:  BIcons
+      fonts:
+      - asset: assets/fonts/BIcons.ttf

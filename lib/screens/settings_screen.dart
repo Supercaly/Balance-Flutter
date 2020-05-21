@@ -1,7 +1,7 @@
 
+import 'package:balance_app/res/b_icons.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/settings_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -13,7 +13,7 @@ class SettingsScreen extends StatelessWidget {
           title: "Calibration",
           children: [
             SettingsElement(
-              icon: Icon(Icons.send),
+              icon: Icon(BIcons.calibration),
               text: "Calibrate your Device",
               onTap: () => Navigator.pushNamed(context, Routes.calibration),
             ),

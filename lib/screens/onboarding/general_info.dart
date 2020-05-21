@@ -64,12 +64,9 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Center(
-                child: IconTheme(
-                  data: IconThemeData(
-                    size: 200,
-                  ),
-                  child: Icon(Icons.group),
-                ),
+                child: Image.asset(
+                  "assets/images/eta.png",
+                )
               ),
               SizedBox(height: 40),
               Text(
