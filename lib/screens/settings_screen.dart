@@ -2,9 +2,20 @@
 import 'package:balance_app/res/b_icons.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/settings_widget.dart';
-import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  PackageInfo packageInfo;
+  @override
+  void initState() {
+    super.initState();
+    PackageInfo.fromPlatform().then((value) => setState(() => packageInfo = value));
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -50,7 +61,7 @@ class SettingsScreen extends StatelessWidget {
               text: "About Balance",
             ),
             SettingsElement(
-              text: "Version 0.0.1 (1)",
+              text: "${BStrings.version_txt} ${packageInfo?.version} (${packageInfo?.buildNumber})",
               onLongPress: () {
                   Scaffold.of(context)
                     .showSnackBar(
