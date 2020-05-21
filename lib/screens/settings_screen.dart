@@ -1,5 +1,10 @@
 
+import 'package:flutter/material.dart';
+
+import 'package:package_info/package_info.dart';
+
 import 'package:balance_app/res/b_icons.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/settings_widget.dart';
 
@@ -21,44 +26,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return ListView(
       children: <Widget>[
         SettingsGroup(
-          title: "Calibration",
+          title: BStrings.calibration_title,
           children: [
             SettingsElement(
               icon: Icon(BIcons.calibration),
-              text: "Calibrate your Device",
+              text: BStrings.calibrate_your_device_txt,
               onTap: () => Navigator.pushNamed(context, Routes.calibration),
             ),
           ],
         ),
         SettingsGroup(
-          title: "You Informations",
+          title: BStrings.your_information_title,
           children: [
             SettingsElement(
               icon: Icon(Icons.info_outline),
-              text: "What we know about you",
+              text: BStrings.what_we_know_about_you_txt,
               onTap: () => Navigator.pushNamed(context, Routes.personal_info_recap),
             )
           ]
         ),
         SettingsGroup(
-          title: "Legals",
+          title: BStrings.legals_title,
           children: [
             SettingsElement(
-              icon: Icon(Icons.chrome_reader_mode),
-              text: "Privacy policy",
-            ),
-            SettingsElement(
               icon: Icon(Icons.adb),
-              text: "Open Source",
+              text: BStrings.open_source_txt,
             ),
           ]
         ),
         SettingsGroup(
-          title: "About",
+          title: BStrings.about_title,
           children: [
             SettingsElement(
               icon: Icon(Icons.hotel),
-              text: "About Balance",
+              text: BStrings.about_balance_txt,
             ),
             SettingsElement(
               text: "${BStrings.version_txt} ${packageInfo?.version} (${packageInfo?.buildNumber})",
@@ -67,14 +68,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     .showSnackBar(
                       SnackBar(
                         behavior: SnackBarBehavior.floating,
-                        content: Text("This is not an Easter Egg!!!"),
+                        content: Text(BStrings.easter_egg_txt),
                         duration: Duration(seconds: 2),
                       )
                   );
               }
             ),
             SettingsElement(
-              text: "Made with ❤ from Italy",
+              text: BStrings.made_with_heart_txt,
             ),
           ]
         ),

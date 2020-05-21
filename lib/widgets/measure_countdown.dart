@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:balance_app/manager/vibration_manager.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/res/colors.dart';
@@ -125,7 +126,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
                 },
                 color: BColors.colorAccent,
                 child: Text(
-                  state is CountdownIdleState || state is CountdownCompleteState? "START TEST" : "STOP TEST",
+                  state is CountdownIdleState || state is CountdownCompleteState? BStrings.start_test_btn : BStrings.stop_test_btn,
                   style: Theme.of(context).textTheme.button.copyWith(color: Colors.white),
                 ),
               ),
@@ -133,8 +134,8 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
               CustomToggleButton(
                 onChanged: (selected) => context.bloc<CountdownBloc>()
                   .eyesOpen = (selected == 0)? true: false,
-                leftText: Text("Eyes open"),
-                rightText: Text("Eyes closed"),
+                leftText: Text(BStrings.eyes_open),
+                rightText: Text(BStrings.eyes_closed),
               )
             ],
           );

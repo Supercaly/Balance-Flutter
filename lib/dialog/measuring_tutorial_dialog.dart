@@ -1,5 +1,6 @@
 
 import 'package:balance_app/manager/preference_manager.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -54,10 +55,7 @@ class _TutorialDialogState extends State<TutorialDialog> {
           Padding(
             padding: const EdgeInsets.all(24.0),
             child: Text(
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-                "Scelerisque eu ultricies aliquet quis a fermentum, dignissim"
-                " facilisi a. Egestas mattis sem eget aliquam molestie ac. "
-                "Augue mi sit hac.",
+              BStrings.tutorial_msg,
               textScaleFactor: 1.0,
             ),
           ),
@@ -79,7 +77,7 @@ class _TutorialDialogState extends State<TutorialDialog> {
                   ),
                   SizedBox(width: 8),
                   Text(
-                    "Never show again",
+                    BStrings.never_show_again,
                     textScaleFactor: 1.0,
                   ),
                 ],
@@ -96,7 +94,7 @@ class _TutorialDialogState extends State<TutorialDialog> {
             widget.callback();
             Navigator.pop(context);
           },
-          child: Text("OK")
+          child: Text(BStrings.ok)
         ),
       ],
     );

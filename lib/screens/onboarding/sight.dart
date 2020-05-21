@@ -1,4 +1,5 @@
 
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/res/colors.dart';
 import 'package:balance_app/manager/preference_manager.dart';
@@ -31,8 +32,8 @@ class SightScreen extends StatefulWidget {
 
 class _SightScreenState extends State<SightScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _sightDefects = ["Miopia", "Presbiopia", "Ipermetropia"];
-  final _hearDefects = ["none", "light", "moderata", "severa", "profonda"];
+  final _sightDefects = [BStrings.myopia_txt, BStrings.presbyopia_txt, BStrings.farsightedness_txt];
+  final _hearDefects = [BStrings.none, BStrings.light_txt, BStrings.moderate_txt, BStrings.severe_txt, BStrings.deep_txt];
   List<bool> _selectedSightProblem;
   int _hearIndex;
 
@@ -66,7 +67,7 @@ class _SightScreenState extends State<SightScreen> {
               children: <Widget>[
                 SizedBox(height: 40),
                 Text(
-                  "Difetti visivi",
+                  BStrings.sight_defects_title,
                   style: Theme.of(context).textTheme.headline4.copyWith(
                     fontSize: 36,
                     fontWeight: FontWeight.w500,
@@ -85,7 +86,7 @@ class _SightScreenState extends State<SightScreen> {
                 ),
                 SizedBox(height: 40),
                 Text(
-                  "Difetti Uditivi",
+                  BStrings.intro_hearing_defects_title,
                   style: Theme.of(context).textTheme.headline4.copyWith(
                     fontSize: 36,
                     fontWeight: FontWeight.w500,
@@ -94,7 +95,7 @@ class _SightScreenState extends State<SightScreen> {
                 ),
                 SizedBox(height: 24),
                 CustomDropdownFormField(
-                  hint: "Ipermetropia",
+                  hint: BStrings.hearing_loss_hint,
                   value: _hearIndex,
                   onChanged: (newValue) {
                     setState(() => _hearIndex = newValue);

@@ -1,4 +1,5 @@
 
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_number_form_field.dart';
@@ -56,7 +57,7 @@ class _HeightScreenState extends State<HeightScreen> {
               ),
               SizedBox(height: 100),
               Text(
-                "Tell us your height",
+                BStrings.intro_height_title,
                 style: Theme.of(context).textTheme.headline4.copyWith(
                   fontSize: 36,
                   fontWeight: FontWeight.w500,
@@ -65,7 +66,7 @@ class _HeightScreenState extends State<HeightScreen> {
               ),
               SizedBox(height: 18),
               Text(
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Et risus metus ut vel mattis.",
+                BStrings.intro_height_msg,
                 style: Theme.of(context).textTheme.subtitle2.copyWith(
                   fontSize: 18,
                   color: Colors.white,
@@ -76,7 +77,7 @@ class _HeightScreenState extends State<HeightScreen> {
                 child: Form(
                   key: _formKey,
                   child: CustomNumberFormField(
-                    labelText: "Height",
+                    labelText: BStrings.height_txt,
                     suffix: "cm",
                     initialValue: widget.height,
                     onChanged: (isNotEmpty) {
@@ -93,13 +94,13 @@ class _HeightScreenState extends State<HeightScreen> {
                       try {
                         double height = double.parse(value);
                         if (height < 50)
-                          return "You're too short!";
+                          return BStrings.too_short_error_txt;
                         else if (height > 240)
-                          return "You're too tall!";
+                          return BStrings.too_tall_error_txt;
                         else
                           return null;
                       } on FormatException catch(_) {
-                        return "Invalid height!";
+                        return BStrings.invalid_height_error_txt;
                       }
                     },
                     onSaved: (newValue) {

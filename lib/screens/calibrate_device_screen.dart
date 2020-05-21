@@ -15,7 +15,7 @@ class CalibrateDeviceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Calibrate Device")),
+      appBar: AppBar(title: Text(BStrings.calibrate_txt)),
       body: Container(
           padding: EdgeInsets.all(16.0),
           child: SensorWidget(
@@ -47,8 +47,8 @@ class CalibrateDeviceScreen extends StatelessWidget {
                               : () => controller.listen(),
                             child: Text(
                               state == SensorController.complete
-                                ? "Calibrate Again"
-                                : "Start Calibration"
+                                ? BStrings.start_calibration_btn
+                                : BStrings.calibrate_again_btn
                             ),
                           ),
                         )

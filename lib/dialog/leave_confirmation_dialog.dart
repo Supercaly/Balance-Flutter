@@ -1,4 +1,5 @@
 
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 
 /// Show a dialog to ask the user if he wants to close the app during the test.
@@ -9,8 +10,8 @@ Future<bool> showLeaveDialog(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text("Are you sure you want to leave?"),
-      content: Text("If you leave the test will fail"),
+      title: Text(BStrings.leave_dialog_title),
+      content: Text(BStrings.leave_dialog_msg),
       actions: [
         // We don't want to leave
         FlatButton(
@@ -18,7 +19,7 @@ Future<bool> showLeaveDialog(BuildContext context) {
             // Close the dialog but not the app
             Navigator.pop(context, true);
           },
-          child: Text("No"),
+          child: Text(BStrings.no),
         ),
         // Stop the test and close the app
         FlatButton(
@@ -26,7 +27,7 @@ Future<bool> showLeaveDialog(BuildContext context) {
             // Close the dialog and the app
             Navigator.pop(context, false);
           },
-          child: Text("Yes"),
+          child: Text(BStrings.yes),
         ),
       ],
     )

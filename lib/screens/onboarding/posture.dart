@@ -1,4 +1,5 @@
 
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
@@ -33,7 +34,7 @@ class PostureScreen extends StatefulWidget {
 
 class _PostureScreenState extends State<PostureScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _postureProblems = ["Scogliosi", "Cifosi", "Lordosi"];
+  final _postureProblems = [BStrings.scoliosis_txt, BStrings.kyphosis_txt, BStrings.lordosis_txt];
   List<bool> _selectedPosture;
   bool _problemsInFamily = false;
   bool _useOfDrugs = false;
@@ -67,7 +68,7 @@ class _PostureScreenState extends State<PostureScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Hai problemi di postura?",
+                  BStrings.postural_problem_title,
                   style: Theme.of(context).textTheme.headline4.copyWith(
                     fontSize: 36,
                     fontWeight: FontWeight.w500,
@@ -89,7 +90,7 @@ class _PostureScreenState extends State<PostureScreen> {
                 SizedBox(height: 24),
                 PlainCheckboxFormField(
                   child: Text(
-                    "Sono presenti problemi posturali in famiglia?",
+                    BStrings.postural_problem_in_family_title,
                     style: Theme.of(context).textTheme.headline6.copyWith(
                       fontSize: 18,
                       color: Colors.white,
@@ -103,7 +104,7 @@ class _PostureScreenState extends State<PostureScreen> {
                 SizedBox(height: 20),
                 PlainCheckboxFormField(
                   child: Text(
-                    "Uso di medicinali che possono interferire con l'equilibrio",
+                    BStrings.use_of_drugs_title,
                     style: Theme.of(context).textTheme.headline6.copyWith(
                       fontSize: 18,
                       color: Colors.white,

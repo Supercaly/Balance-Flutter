@@ -24,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     _currentIndex = _initialPage;
     _pages = [HomeScreen(), MeasurementsScreen(), SettingsScreen()];
-    _titles = BStrings.navigation_titles;
+    _titles = [BStrings.home_txt, BStrings.tests_txt, BStrings.settings_txt];
     super.initState();
   }
 

@@ -1,6 +1,7 @@
 
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/floor/test_database_view.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,8 +29,8 @@ class ResultScreen extends StatelessWidget {
             Scaffold.of(context).showSnackBar(SnackBar(
               behavior: SnackBarBehavior.floating,
               content: state is ResultExportSuccess
-                ? Text("Export success!")
-                : Text("An unexpected error occurred!")
+                ? Text(BStrings.export_success_txt)
+                : Text(BStrings.unexpected_error_txt)
             ));
           },
           buildWhen: (previous, current) {
@@ -52,7 +53,7 @@ class ResultScreen extends StatelessWidget {
   /// Build the loading screen
   Widget _loadingScreen(BuildContext context, Test test) => Scaffold(
     appBar: AppBar(
-      title: Text("Test ${test?.id}"),
+      title: Text("${BStrings.test_txt} ${test?.id}"),
       elevation: 0,
     ),
     body: Column(
@@ -92,20 +93,20 @@ class ResultScreen extends StatelessWidget {
     ResultSuccess success
   ) => CustomScrollView(slivers: <Widget>[
     SliverAppBar(
-      title: Text("Test ${test?.id}"),
+      title: Text("${BStrings.test_txt} ${test?.id}"),
       floating: false,
       actions: [
         PopupMenuButton<String>(
           onSelected: (selected) {
             if (selected == "export") {
-              print("Esporto il test ${test?.id}");
+              print("Exporting test ${test?.id}");
               context.bloc<ResultBloc>().add(ExportResult(test?.id));
             }
           },
           itemBuilder: (context) => [
             PopupMenuItem<String>(
               value: "export",
-              child: Text("Export"),
+              child: Text(BStrings.export_txt),
             )
           ],
         ),

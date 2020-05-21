@@ -1,6 +1,7 @@
 
 import 'package:balance_app/bloc/states/countdown_state.dart';
 import 'package:balance_app/res/colors.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as Math;
 
@@ -105,8 +106,8 @@ class _CircularCounterState extends State<CircularCounter> with SingleTickerProv
             children: [
               Text(
                 widget.state is CountdownMeasureState
-                  ? "MEASURING"
-                  : "GET READY",
+                  ? BStrings.measuring_txt
+                  : BStrings.get_ready_txt,
                 style: TextStyle(
                   color: BColors.textColor,
                   fontSize: 14,

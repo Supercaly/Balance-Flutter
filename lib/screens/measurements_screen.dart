@@ -3,6 +3,7 @@ import 'package:balance_app/bloc/measurements_bloc.dart';
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/floor/test_database_view.dart';
 import 'package:balance_app/res/b_icons.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +50,7 @@ class MeasurementsScreen extends StatelessWidget {
         ),
         SizedBox(height: 42),
         Text(
-          "Nothing to show here!",
+          BStrings.empty_txt,
           style: Theme.of(context).textTheme.headline5.copyWith(
             fontWeight: FontWeight.w500,
           ),
@@ -73,7 +74,7 @@ class MeasurementsScreen extends StatelessWidget {
         ),
         SizedBox(height: 42),
         Text(
-          "Ops! Something went wrong",
+          BStrings.error_txt,
           style: Theme.of(context).textTheme.headline5.copyWith(
             fontWeight: FontWeight.w500,
           ),
@@ -109,7 +110,7 @@ class MeasurementsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
-                "Test ${test.id}",
+                "${BStrings.test_txt} ${test.id}",
                 style: Theme.of(context).textTheme.headline4.copyWith(
                   fontSize: 28,
                   fontWeight: FontWeight.w500
@@ -134,7 +135,7 @@ class MeasurementsScreen extends StatelessWidget {
                 ),
                 SizedBox(width: 16),
                 Text(
-                  test.eyesOpen? "Eyes Open": "Eyes Closed",
+                  test.eyesOpen? BStrings.eyes_open: BStrings.eyes_closed,
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ]),

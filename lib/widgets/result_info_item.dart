@@ -1,6 +1,7 @@
 
 import 'package:balance_app/floor/test_database_view.dart';
 import 'package:balance_app/res/b_icons.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 
 /// Widget that represent a single result info item
@@ -43,7 +44,7 @@ class ResultInfoItem extends StatelessWidget {
                 SizedBox(width: 16),
                 Text(
                   // TODO: 05/04/20 Fix the error text
-                  test.eyesOpen? "Eyes Open": "Eye Closed",
+                  test.eyesOpen? BStrings.eyes_open: BStrings.eyes_closed,
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ],

@@ -1,5 +1,5 @@
 
-import 'package:flutter/cupertino.dart';
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 
 /// Represent the next button of intro screens
@@ -34,7 +34,7 @@ class NextButton extends StatelessWidget {
         onPressed: isEnable? onTap: null,
         child: isDone?
           Text(
-            "Done",
+            BStrings.done_btn,
             style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white
             ),

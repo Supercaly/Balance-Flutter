@@ -1,4 +1,5 @@
 
+import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/routes.dart';
 
@@ -8,19 +9,15 @@ void showCalibrateDeviceDialog(BuildContext context) {
     context: context,
     barrierDismissible: false,
     builder: (context) => AlertDialog(
-      title: Text("You need to calibrate the device!"),
-      content: Text(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-        "Duis ipsum scelerisque ipsum, nec quam sit ac et. Dui integer lacus eu "
-        "sed nulla eu dolor nulla felis."
-      ),
+      title: Text(BStrings.need_to_calibrate_title),
+      content: Text(BStrings.need_to_calibrate_msg),
       actions: [
         FlatButton(
           onPressed: () {
             Navigator.pop(context);
             Navigator.pushNamed(context, Routes.calibration);
           },
-          child: Text("GOT IT"),
+          child: Text(BStrings.got_it_btn),
         )
       ],
     ),
