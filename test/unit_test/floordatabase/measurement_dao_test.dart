@@ -159,7 +159,7 @@ void main() {
     });
   });
 
-  group("Measuremet Tests", () {
+  group("Measurement Tests", () {
     test("hasFeatures returns false", () {
       final noFeatMeas = Measurement.simple(
         creationDate: 2,
@@ -173,6 +173,7 @@ void main() {
         id: 1,
         creationDate: 2,
         eyesOpen: true,
+        hasFeatures: true,
         swayPath: 1.0,
         stdTime: 1.0,
         stdPeaks: 1.0,
@@ -209,6 +210,5 @@ void main() {
       );
       expect(featMeas.hasFeatures, isTrue);
     });
-
   });
 }
