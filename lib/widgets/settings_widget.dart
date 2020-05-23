@@ -47,7 +47,7 @@ class SettingsGroup extends StatelessWidget {
 /// the element has an [icon], a [text] and responds to
 /// [onTap] and [onLongPress] events.
 class SettingsElement extends StatelessWidget {
-  final Icon icon;
+  final Widget icon;
   final String text;
   final VoidCallback onTap;
   final VoidCallback onLongPress;

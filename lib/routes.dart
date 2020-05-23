@@ -9,4 +9,5 @@ class Routes {
   static const String personal_info_recap = "/personal_info_recap_route";
   static const String onboarding = "/onboarding_route";
   static const String result = "/result_route";
+  static const String open_source = "/open_source";
 }

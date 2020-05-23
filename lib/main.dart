@@ -1,4 +1,5 @@
 
+import 'package:balance_app/screens/open_source_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_app/res/theme.dart';
@@ -45,7 +46,8 @@ class BalanceApp extends StatelessWidget {
 						Routes.calibration: (_) => CalibrateDeviceScreen(),
 						Routes.personal_info_recap: (_) => UserInfoRecapScreen(),
 						Routes.onboarding: (_) => OnBoardingScreen(),
-						Routes.result: (_) => ResultScreen()
+						Routes.result: (_) => ResultScreen(),
+						Routes.open_source: (_) => OpenSourceScreen(),
 					},
 				),
 			),

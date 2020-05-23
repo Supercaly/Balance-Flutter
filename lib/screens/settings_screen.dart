@@ -1,12 +1,13 @@
 
 import 'package:flutter/material.dart';
-
 import 'package:package_info/package_info.dart';
 
 import 'package:balance_app/res/b_icons.dart';
+
 import 'package:balance_app/res/string.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/settings_widget.dart';
+import 'package:balance_app/dialog/about_balance_dialog.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -51,6 +52,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SettingsElement(
               icon: Icon(Icons.adb),
               text: BStrings.open_source_txt,
+              onTap: () => Navigator.of(context).pushNamed(Routes.open_source),
             ),
           ]
         ),
@@ -58,8 +60,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           title: BStrings.about_title,
           children: [
             SettingsElement(
-              icon: Icon(Icons.hotel),
+              icon: Image.asset("assets/app_logo.png", width: 24, height: 24,),
               text: BStrings.about_balance_txt,
+              onTap: () => showAboutBalanceDialog(context),
             ),
             SettingsElement(
               text: "${BStrings.version_txt} ${packageInfo?.version} (${packageInfo?.buildNumber})",
