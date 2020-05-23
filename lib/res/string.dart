@@ -1,12 +1,5 @@
 class BStrings {
 
-  // Lorem ipsum
-  static const lorem_word = "Lorem ipsum.";
-  static const lorem_short =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-  static const lorem_long =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum interdum convallis euismod. Aliquam faucibus, lectus ut commodo pretium, leo nulla laoreet massa, eu fermentum augue nibh eget nunc. Etiam eu libero leo. Mauris congue eu felis eu sollicitudin. Fusce lorem arcu, efficitur id ullamcorper eu, consectetur vel sapien.";
-
   // Toolbar titles
   static const home_txt = "Home";
   static const tests_txt = "Tests";
@@ -187,5 +180,10 @@ class BStrings {
   static const sight_defects_title = "Sight Defects";
   static const intro_hearing_defects_title = "Hearing Defects";
   static const hearing_loss_hint = "hearing loss";
+
+  // About
+  static const about_balance_title = "About Balance";
+  static const about_balance_msg = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  static const cool_btn = "Cool!";
 
 }
