@@ -28,7 +28,7 @@ class WelcomeScreen extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Image.asset(
-              "assets/logo.png",
+              "assets/app_logo_circle.png",
               width: 200,
             ),
           ),

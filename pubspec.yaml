@@ -58,8 +58,9 @@ flutter:
 
   # Assets paths
   assets:
-    # Logo
-    - assets/logo.png
+    # App Logo
+    - assets/app_logo_circle.png
+    - assets/app_logo.png
     # Images
     - assets/images/empty.png
     - assets/images/error.png

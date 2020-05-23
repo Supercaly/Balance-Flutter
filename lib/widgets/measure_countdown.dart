@@ -155,7 +155,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
           width: 180,
           height: 180,
           child: Center(
-            child: Image.asset("assets/logo.png"),
+            child: Image.asset("assets/app_logo_circle.png"),
           ),
         );
   }
