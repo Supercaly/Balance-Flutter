@@ -1,5 +1,5 @@
 
-import 'package:balance_app/res/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +36,7 @@ class WelcomeScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              BStrings.welcome_to_balance_title,
+              'welcome_to_balance_title'.tr(),
               style: Theme.of(context).textTheme.headline4.copyWith(
                 fontSize: 36,
                 fontWeight: FontWeight.w500,
@@ -48,7 +48,7 @@ class WelcomeScreen extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 24),
             child: Text(
-              BStrings.welcome_to_balance_msg,
+              'welcome_to_balance_msg'.tr(),
               style: Theme.of(context).textTheme.subtitle2.copyWith(
                 fontSize: 18,
                 color: Colors.white,

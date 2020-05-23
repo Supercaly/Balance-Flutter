@@ -35,6 +35,7 @@ dependencies:
   vibration: ^1.2.4
   audioplayers: ^0.15.1
   charts_flutter: ^0.9.0
+  easy_localization: ^2.3.2
 
 dev_dependencies:
   # Test dependencies
@@ -70,6 +71,9 @@ flutter:
     - assets/images/tutorial.png
     # Sounds
     - assets/sounds/light_pop.mp3
+    # Translations
+    - assets/translations/en.json
+    - assets/translations/it.json
 
   # Fonts
   fonts:

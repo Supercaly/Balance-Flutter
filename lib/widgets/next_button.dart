@@ -1,6 +1,6 @@
 
-import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Represent the next button of intro screens
 ///
@@ -34,7 +34,7 @@ class NextButton extends StatelessWidget {
         onPressed: isEnable? onTap: null,
         child: isDone?
           Text(
-            BStrings.done_btn,
+            'done_btn'.tr(),
             style: Theme.of(context).textTheme.button.copyWith(
               color: Colors.white
             ),

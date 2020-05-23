@@ -1,8 +1,8 @@
 
 import 'package:balance_app/floor/test_database_view.dart';
 import 'package:balance_app/res/b_icons.dart';
-import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Widget that represent a single result info item
 ///
@@ -44,7 +44,7 @@ class ResultInfoItem extends StatelessWidget {
                 SizedBox(width: 16),
                 Text(
                   // TODO: 05/04/20 Fix the error text
-                  test.eyesOpen? BStrings.eyes_open: BStrings.eyes_closed,
+                  test.eyesOpen? 'eyes_open'.tr(): 'eyes_closed'.tr(),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ],

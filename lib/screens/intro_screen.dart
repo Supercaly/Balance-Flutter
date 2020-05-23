@@ -1,6 +1,6 @@
 
 import 'package:balance_app/manager/preference_manager.dart';
-import 'package:balance_app/res/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/next_button.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +115,7 @@ class _IntroScreenState extends State<IntroScreen> {
                               textColor: Colors.white,
                               // It's safe to skip because the button is displayed after the required data
                               onPressed: () => Navigator.pushReplacementNamed(context, Routes.main),
-                              child: Text(BStrings.skip_btn),
+                              child: Text('skip_btn'.tr()),
                             ) : SizedBox(),
                             NextButton(
                               onTap: () =>

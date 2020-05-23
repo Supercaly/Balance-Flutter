@@ -1,9 +1,9 @@
 
 import 'package:balance_app/model/cogv_data.dart';
-import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/model/statokinesigram.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:easy_localization/easy_localization.dart';
 
 /// Widget containing the all the features related
 /// elements of [ResultScreen]
@@ -35,7 +35,7 @@ class ResultFeaturesItems extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  BStrings.charts_title,
+                  'charts_title'.tr(),
                   style: titleTextStyle,
                 ),
                 SizedBox(height: 16),
@@ -86,7 +86,7 @@ class ResultFeaturesItems extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  BStrings.time_feats_title,
+                  'time_feats_title'.tr(),
                   style: titleTextStyle,
                 ),
                 SizedBox(height: 16),
@@ -96,7 +96,7 @@ class ResultFeaturesItems extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(BStrings.sway_path_txt, style: headlineTextStyle),
+                        Text('sway_path_txt'.tr(), style: headlineTextStyle),
                         Text(
                           _formatFeature(statokinesigram?.swayPath, "mm/s"),
                           style: valueTextStyle,
@@ -107,7 +107,7 @@ class ResultFeaturesItems extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(BStrings.mean_displacement_txt, style: headlineTextStyle),
+                        Text('mean_displacement_txt'.tr(), style: headlineTextStyle),
                         Text(
                           _formatFeature(statokinesigram?.meanDisplacement, "mm/s"),
                           style: valueTextStyle,
@@ -118,7 +118,7 @@ class ResultFeaturesItems extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(BStrings.std_displacement_txt, style: headlineTextStyle),
+                        Text('std_displacement_txt'.tr(), style: headlineTextStyle),
                         Text(
                           _formatFeature(statokinesigram?.stdDisplacement, "mm/s"),
                           style: valueTextStyle,
@@ -129,7 +129,7 @@ class ResultFeaturesItems extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(BStrings.range_txt, style: headlineTextStyle),
+                        Text('range_txt'.tr(), style: headlineTextStyle),
                         Flexible(
                           child: Text(
                             statokinesigram?.minDist != null && statokinesigram?.maxDist != null
@@ -156,7 +156,7 @@ class ResultFeaturesItems extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  BStrings.frequency_feat_title,
+                  'frequency_feat_title'.tr(),
                   style: titleTextStyle,
                 ),
                 SizedBox(height: 16),
@@ -165,7 +165,7 @@ class ResultFeaturesItems extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(BStrings.mean_freq_txt, style: headlineTextStyle,),
+                        Text('mean_freq_txt'.tr(), style: headlineTextStyle,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
@@ -199,7 +199,7 @@ class ResultFeaturesItems extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(BStrings.freq_peak_txt, style: headlineTextStyle,),
+                        Text('freq_peak_txt'.tr(), style: headlineTextStyle,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
@@ -233,7 +233,7 @@ class ResultFeaturesItems extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Text(BStrings.f80_txt, style: headlineTextStyle,),
+                        Text('f80_txt'.tr(), style: headlineTextStyle,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
@@ -274,7 +274,7 @@ class ResultFeaturesItems extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  BStrings.structural_feat_title,
+                  'structural_feat_title'.tr(),
                   style: titleTextStyle,
                 ),
                 SizedBox(height: 16),
@@ -284,19 +284,19 @@ class ResultFeaturesItems extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(BStrings.np_txt, style: headlineTextStyle,),
+                        Text('np_txt'.tr(), style: headlineTextStyle,),
                         SizedBox(height: 8),
-                        Text(BStrings.mean_time_txt, style: headlineTextStyle,),
+                        Text('mean_time_txt'.tr(), style: headlineTextStyle,),
                         SizedBox(height: 8),
-                        Text(BStrings.std_time_txt, style: headlineTextStyle,),
+                        Text('std_time_txt'.tr(), style: headlineTextStyle,),
                         SizedBox(height: 8),
-                        Text(BStrings.mean_distance_txt, style: headlineTextStyle,),
+                        Text('mean_distance_txt'.tr(), style: headlineTextStyle,),
                         SizedBox(height: 8),
-                        Text(BStrings.std_distance_txt, style: headlineTextStyle,),
+                        Text('std_distance_txt'.tr(), style: headlineTextStyle,),
                         SizedBox(height: 8),
-                        Text(BStrings.mean_peak_txt, style: headlineTextStyle,),
+                        Text('mean_peak_txt'.tr(), style: headlineTextStyle,),
                         SizedBox(height: 8),
-                        Text(BStrings.std_peak_txt, style: headlineTextStyle,),
+                        Text('std_peak_txt'.tr(), style: headlineTextStyle,),
                       ],
                     ),
                     Column(
@@ -352,7 +352,7 @@ class ResultFeaturesItems extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  BStrings.gyroscope_feat_title,
+                  'gyroscope_feat_title'.tr(),
                   style: titleTextStyle,
                 ),
                 SizedBox(height: 16),
@@ -360,7 +360,7 @@ class ResultFeaturesItems extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(BStrings.gr_txt, style: headlineTextStyle,),
+                    Text('gr_txt'.tr(), style: headlineTextStyle,),
                     Column(
                       children: <Widget>[
                         RichText(
@@ -399,7 +399,7 @@ class ResultFeaturesItems extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(BStrings.gm_txt, style: headlineTextStyle,),
+                    Text('gm_txt'.tr(), style: headlineTextStyle,),
                     Column(
                       children: <Widget>[
                         RichText(
@@ -438,7 +438,7 @@ class ResultFeaturesItems extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(BStrings.gv_txt, style: headlineTextStyle,),
+                    Text('gv_txt'.tr(), style: headlineTextStyle,),
                     Column(
                       children: <Widget>[
                         RichText(
@@ -477,7 +477,7 @@ class ResultFeaturesItems extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(BStrings.gk_txt, style: headlineTextStyle,),
+                    Text('gk_txt'.tr(), style: headlineTextStyle,),
                     Column(
                       children: <Widget>[
                         RichText(
@@ -516,7 +516,7 @@ class ResultFeaturesItems extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(BStrings.gs_txt, style: headlineTextStyle,),
+                    Text('gs_txt'.tr(), style: headlineTextStyle,),
                     Column(
                       children: <Widget>[
                         RichText(

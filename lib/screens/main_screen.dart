@@ -1,8 +1,9 @@
 
-import 'package:balance_app/res/b_icons.dart';
-import 'package:balance_app/res/string.dart';
-import 'package:balance_app/widgets/google_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:balance_app/res/b_icons.dart';
+import 'package:balance_app/widgets/google_bottom_navigation_bar.dart';
+
+import 'package:easy_localization/easy_localization.dart';
 
 import 'home_screen.dart';
 import 'measurements_screen.dart';
@@ -24,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     _currentIndex = _initialPage;
     _pages = [HomeScreen(), MeasurementsScreen(), SettingsScreen()];
-    _titles = [BStrings.home_txt, BStrings.tests_txt, BStrings.settings_txt];
+    _titles = ['home_txt'.tr(), 'tests_txt'.tr(), 'settings_txt'.tr()];
     super.initState();
   }
 

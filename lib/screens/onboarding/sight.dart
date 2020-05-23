@@ -1,5 +1,5 @@
 
-import 'package:balance_app/res/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/res/colors.dart';
 import 'package:balance_app/manager/preference_manager.dart';
@@ -32,8 +32,8 @@ class SightScreen extends StatefulWidget {
 
 class _SightScreenState extends State<SightScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _sightDefects = [BStrings.myopia_txt, BStrings.presbyopia_txt, BStrings.farsightedness_txt];
-  final _hearDefects = [BStrings.none, BStrings.light_txt, BStrings.moderate_txt, BStrings.severe_txt, BStrings.deep_txt];
+  final _sightDefects = ['myopia_txt'.tr(), 'presbyopia_txt'.tr(), 'farsightedness_txt'.tr()];
+  final _hearDefects = ['none'.tr(), 'light_txt'.tr(), 'moderate_txt'.tr(), 'severe_txt'.tr(), 'deep_txt'.tr()];
   List<bool> _selectedSightProblem;
   int _hearIndex;
 
@@ -67,7 +67,7 @@ class _SightScreenState extends State<SightScreen> {
               children: <Widget>[
                 SizedBox(height: 40),
                 Text(
-                  BStrings.sight_defects_title,
+                  'sight_defects_title'.tr(),
                   style: Theme.of(context).textTheme.headline4.copyWith(
                     fontSize: 36,
                     fontWeight: FontWeight.w500,
@@ -86,7 +86,7 @@ class _SightScreenState extends State<SightScreen> {
                 ),
                 SizedBox(height: 40),
                 Text(
-                  BStrings.intro_hearing_defects_title,
+                  'intro_hearing_defects_title'.tr(),
                   style: Theme.of(context).textTheme.headline4.copyWith(
                     fontSize: 36,
                     fontWeight: FontWeight.w500,
@@ -95,7 +95,7 @@ class _SightScreenState extends State<SightScreen> {
                 ),
                 SizedBox(height: 24),
                 CustomDropdownFormField(
-                  hint: BStrings.hearing_loss_hint,
+                  hint: 'hearing_loss_hint'.tr(),
                   value: _hearIndex,
                   onChanged: (newValue) {
                     setState(() => _hearIndex = newValue);

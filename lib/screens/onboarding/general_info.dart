@@ -1,5 +1,5 @@
 
-import 'package:balance_app/res/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/res/colors.dart';
 import 'package:custom_dropdown/custom_dropdown.dart';
@@ -34,7 +34,7 @@ class GeneralInfoScreen extends StatefulWidget {
 
 class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _genders = [BStrings.unknown_txt, BStrings.male_txt, BStrings.female_txt];
+  final _genders = ['unknown_txt'.tr(), 'male_txt'.tr(), 'female_txt'.tr()];
   int _genderIndex;
 
   @override
@@ -71,7 +71,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
               ),
               SizedBox(height: 40),
               Text(
-                BStrings.intro_general_title,
+                'intro_general_title'.tr(),
                 style: Theme.of(context).textTheme.headline4.copyWith(
                   fontSize: 36,
                   fontWeight: FontWeight.w500,
@@ -85,18 +85,18 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                   child: Column(
                     children: <Widget>[
                       CustomNumberFormField(
-                        labelText: BStrings.age_txt,
+                        labelText: 'age_txt'.tr(),
                         initialValue: widget.age,
                         validator: (value) {
                           if (value.isNotEmpty) {
                             try {
                               int age = int.parse(value);
                               if (age <= 0)
-                                return BStrings.invalid_age_txt;
+                                return 'invalid_age_txt'.tr();
                               else if (age > 130)
-                                return BStrings.too_old_error_txt;
+                                return 'too_old_error_txt'.tr();
                             } on FormatException catch(_) {
-                              return BStrings.invalid_age_txt;
+                              return 'invalid_age_txt'.tr();
                             }
                           }
                           return null;
@@ -112,7 +112,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                       ),
                       SizedBox(height: 8),
                       CustomDropdownFormField(
-                        hint: BStrings.gender_txt,
+                        hint: 'gender_txt'.tr(),
                         value: _genderIndex,
                         onChanged: (newValue) {
                           setState(() => _genderIndex = newValue);
@@ -128,7 +128,7 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                       ),
                       SizedBox(height: 8),
                       CustomNumberFormField(
-                        labelText: BStrings.weight_txt,
+                        labelText: 'weight_txt'.tr(),
                         decimal: true,
                         initialValue: widget.weight,
                         validator: (value) {
@@ -136,11 +136,11 @@ class _GeneralInfoScreenState extends State<GeneralInfoScreen> {
                             try {
                               double weight = double.parse(value);
                               if (weight < 25.0)
-                                return BStrings.too_light_error_txt;
+                                return 'too_light_error_txt'.tr();
                               else if (weight > 580.0)
-                                return BStrings.too_heavy_error_txt;
+                                return 'too_heavy_error_txt'.tr();
                             } on FormatException catch(_) {
-                              return BStrings.invalid_weight_txt;
+                              return 'invalid_weight_txt'.tr();
                             }
                           }
                           return null;

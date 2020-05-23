@@ -1,7 +1,6 @@
 
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/floor/test_database_view.dart';
-import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +9,8 @@ import 'package:balance_app/bloc/result_bloc.dart';
 import 'package:balance_app/widgets/result_features_items.dart';
 import 'package:balance_app/widgets/result_info_item.dart';
 import 'package:provider/provider.dart';
+
+import 'package:easy_localization/easy_localization.dart';
 
 class ResultScreen extends StatelessWidget {
   @override
@@ -29,8 +30,8 @@ class ResultScreen extends StatelessWidget {
             Scaffold.of(context).showSnackBar(SnackBar(
               behavior: SnackBarBehavior.floating,
               content: state is ResultExportSuccess
-                ? Text(BStrings.export_success_txt)
-                : Text(BStrings.unexpected_error_txt)
+                ? Text('export_success_txt'.tr())
+                : Text('unexpected_error_txt'.tr())
             ));
           },
           buildWhen: (previous, current) {
@@ -53,7 +54,7 @@ class ResultScreen extends StatelessWidget {
   /// Build the loading screen
   Widget _loadingScreen(BuildContext context, Test test) => Scaffold(
     appBar: AppBar(
-      title: Text("${BStrings.test_txt} ${test?.id}"),
+      title: Text("${'test_txt'.tr()} ${test?.id}"),
       elevation: 0,
     ),
     body: Column(
@@ -93,7 +94,7 @@ class ResultScreen extends StatelessWidget {
     ResultSuccess success
   ) => CustomScrollView(slivers: <Widget>[
     SliverAppBar(
-      title: Text("${BStrings.test_txt} ${test?.id}"),
+      title: Text("${'test_txt'.tr()} ${test?.id}"),
       floating: false,
       actions: [
         PopupMenuButton<String>(
@@ -106,7 +107,7 @@ class ResultScreen extends StatelessWidget {
           itemBuilder: (context) => [
             PopupMenuItem<String>(
               value: "export",
-              child: Text(BStrings.export_txt),
+              child: Text('export_txt'.tr()),
             )
           ],
         ),

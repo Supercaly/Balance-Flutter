@@ -1,5 +1,5 @@
 
-import 'package:balance_app/res/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
@@ -34,7 +34,7 @@ class PostureScreen extends StatefulWidget {
 
 class _PostureScreenState extends State<PostureScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _postureProblems = [BStrings.scoliosis_txt, BStrings.kyphosis_txt, BStrings.lordosis_txt];
+  final _postureProblems = ['scoliosis_txt'.tr(), 'kyphosis_txt'.tr(), 'lordosis_txt'.tr()];
   List<bool> _selectedPosture;
   bool _problemsInFamily = false;
   bool _useOfDrugs = false;
@@ -68,7 +68,7 @@ class _PostureScreenState extends State<PostureScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  BStrings.postural_problem_title,
+                  'postural_problem_title'.tr(),
                   style: Theme.of(context).textTheme.headline4.copyWith(
                     fontSize: 36,
                     fontWeight: FontWeight.w500,
@@ -90,7 +90,7 @@ class _PostureScreenState extends State<PostureScreen> {
                 SizedBox(height: 24),
                 PlainCheckboxFormField(
                   child: Text(
-                    BStrings.postural_problem_in_family_title,
+                    'postural_problem_in_family_title'.tr(),
                     style: Theme.of(context).textTheme.headline6.copyWith(
                       fontSize: 18,
                       color: Colors.white,
@@ -104,7 +104,7 @@ class _PostureScreenState extends State<PostureScreen> {
                 SizedBox(height: 20),
                 PlainCheckboxFormField(
                   child: Text(
-                    BStrings.use_of_drugs_title,
+                    'use_of_drugs_title'.tr(),
                     style: Theme.of(context).textTheme.headline6.copyWith(
                       fontSize: 18,
                       color: Colors.white,

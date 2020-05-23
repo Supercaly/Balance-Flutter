@@ -1,7 +1,7 @@
 
 import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/model/user_info.dart';
-import 'package:balance_app/res/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:balance_app/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -20,47 +20,47 @@ class UserInfoRecapScreen extends StatelessWidget {
   /// Get the String of gender
   static String _getGenderString(int gender) {
     if (gender == null)
-      return BStrings.unknown_txt;
+      return 'unknown_txt'.tr();
 
     switch(gender) {
       case 1:
-        return BStrings.male_txt;
+        return 'male_txt'.tr();
       case 2:
-        return BStrings.female_txt;
+        return 'female_txt'.tr();
       default:
-        return BStrings.unknown_txt;
+        return 'unknown_txt'.tr();
     }
   }
   /// Get the String of posture problems
   static String _getPostureString(List<bool> list) {
     if (list == null || list.where((element) => element).isEmpty)
-      return BStrings.none;
+      return 'none'.tr();
 
-    final problems = [BStrings.scoliosis_txt, BStrings.kyphosis_txt, BStrings.lordosis_txt];
+    final problems = ['scoliosis_txt'.tr(), 'kyphosis_txt'.tr(), 'lordosis_txt'.tr()];
     return "[${list.whereIndexed().map((e) => problems[e]).join(", ")}]";
   }
   /// Get the String of other trauma
   static String _getTraumaString(List<bool> list) {
     if (list == null || list.where((element) => element).isEmpty)
-      return BStrings.none;
+      return 'none'.tr();
 
-    final problems = [BStrings.fractures_txt, BStrings.limb_operations_txt, BStrings.falls_txt, BStrings.distortions_txt, BStrings.head_trauma];
+    final problems = ['fractures_txt'.tr(), 'limb_operations_txt'.tr(), 'falls_txt'.tr(), 'distortions_txt'.tr(), 'head_trauma'.tr()];
     return "[${list.whereIndexed().map((e) => problems[e]).join(", ")}]";
   }
   /// Get the String of sight problems
   static String _getSightString(List<bool> list) {
     if (list == null || list.where((element) => element).isEmpty)
-      return BStrings.none;
+      return 'none'.tr();
 
-    final problems = [BStrings.myopia_txt, BStrings.presbyopia_txt, BStrings.farsightedness_txt];
+    final problems = ['myopia_txt'.tr(), 'presbyopia_txt'.tr(), 'farsightedness_txt'.tr()];
     return "[${list.whereIndexed().map((e) => problems[e]).join(", ")}]";
   }
   /// Get the String of hearing problems
   static String _getHearingString(int value) {
     if (value == null || value < 0 || value > 5)
-      return BStrings.none;
+      return 'none'.tr();
 
-    final problems = [BStrings.none, BStrings.light_txt, BStrings.moderate_txt, BStrings.severe_txt, BStrings.deep_txt];
+    final problems = ['none'.tr(), 'light_txt'.tr(), 'moderate_txt'.tr(), 'severe_txt'.tr(), 'deep_txt'.tr()];
     return problems[value];
   }
 
@@ -75,7 +75,7 @@ class UserInfoRecapScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(BStrings.your_personal_info_txt),
+        title: Text('your_personal_info_txt'.tr()),
       ),
       body: FutureBuilder(
         future: PreferenceManager.userInfo,
@@ -95,7 +95,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        BStrings.general_title,
+                        'general_title'.tr(),
                         style: titleTextStyle,
                       ),
                       SizedBox(height: 16),
@@ -103,7 +103,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            BStrings.age_txt,
+                            'age_txt'.tr(),
                             style: headlineTextStyle,
                           ),
                           Text(
@@ -117,7 +117,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            BStrings.gender_txt,
+                            'gender_txt'.tr(),
                             style: headlineTextStyle,
                           ),
                           Text(
@@ -131,7 +131,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            BStrings.height_txt,
+                            'height_txt'.tr(),
                             style: headlineTextStyle,
                           ),
                           Text(
@@ -147,7 +147,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            BStrings.weight_txt,
+                            'weight_txt'.tr(),
                             style: headlineTextStyle,
                           ),
                           Text(
@@ -171,7 +171,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        BStrings.health_title,
+                        'health_title'.tr(),
                         style: titleTextStyle,
                       ),
                       SizedBox(height: 16),
@@ -179,7 +179,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            BStrings.postural_problems_txt,
+                            'postural_problems_txt'.tr(),
                             style: headlineTextStyle,
                           ),
                           Flexible(
@@ -196,11 +196,11 @@ class UserInfoRecapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            BStrings.postural_problems_in_family_txt,
+                            'postural_problems_in_family_txt'.tr(),
                             style: headlineTextStyle,
                           ),
                           Text(
-                            userInfo != null && userInfo.problemsInFamily ? BStrings.yes : BStrings.no,
+                            userInfo != null && userInfo.problemsInFamily ? 'yes'.tr() : 'no'.tr(),
                             style: valueTextStyle,
                           ),
                         ],
@@ -212,12 +212,12 @@ class UserInfoRecapScreen extends StatelessWidget {
                         children: <Widget>[
                           Flexible(
                             child: Text(
-                              BStrings.use_of_drugs_txt,
+                              'use_of_drugs_txt'.tr(),
                               style: headlineTextStyle,
                             )
                           ),
                           Text(
-                            userInfo != null && userInfo.useOfDrugs ? BStrings.yes : BStrings.no,
+                            userInfo != null && userInfo.useOfDrugs ? 'yes'.tr() : 'no'.tr(),
                             style: valueTextStyle,
                           ),
                         ],
@@ -235,7 +235,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        BStrings.trauma_title,
+                        'trauma_title'.tr(),
                         style: titleTextStyle,
                       ),
                       SizedBox(height: 16),
@@ -244,7 +244,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            BStrings.other_trauma_txt,
+                            'other_trauma_txt'.tr(),
                             style: headlineTextStyle,
                           ),
                           SizedBox(width: 16),
@@ -270,7 +270,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        BStrings.hearing_defects_title,
+                        'hearing_defects_title'.tr(),
                         style: titleTextStyle,
                       ),
                       SizedBox(height: 16),
@@ -278,7 +278,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            BStrings.sight_defects_txt,
+                            'sight_defects_txt'.tr(),
                             style: headlineTextStyle,
                           ),
                           Flexible(
@@ -295,7 +295,7 @@ class UserInfoRecapScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Text(
-                            BStrings.hearing_defects_txt,
+                            'hearing_defects_txt'.tr(),
                             style: headlineTextStyle,
                           ),
                           Text(

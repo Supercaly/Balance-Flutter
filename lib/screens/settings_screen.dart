@@ -4,10 +4,10 @@ import 'package:package_info/package_info.dart';
 
 import 'package:balance_app/res/b_icons.dart';
 
-import 'package:balance_app/res/string.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/widgets/settings_widget.dart';
 import 'package:balance_app/dialog/about_balance_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -27,58 +27,58 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return ListView(
       children: <Widget>[
         SettingsGroup(
-          title: BStrings.calibration_title,
+          title: 'calibration_title'.tr(),
           children: [
             SettingsElement(
               icon: Icon(BIcons.calibration),
-              text: BStrings.calibrate_your_device_txt,
+              text: 'calibrate_your_device_txt'.tr(),
               onTap: () => Navigator.pushNamed(context, Routes.calibration),
             ),
           ],
         ),
         SettingsGroup(
-          title: BStrings.your_information_title,
+          title: 'your_information_title'.tr(),
           children: [
             SettingsElement(
               icon: Icon(Icons.info_outline),
-              text: BStrings.what_we_know_about_you_txt,
+              text: 'what_we_know_about_you_txt'.tr(),
               onTap: () => Navigator.pushNamed(context, Routes.personal_info_recap),
             )
           ]
         ),
         SettingsGroup(
-          title: BStrings.legals_title,
+          title: 'legals_title'.tr(),
           children: [
             SettingsElement(
               icon: Icon(Icons.adb),
-              text: BStrings.open_source_txt,
+              text: 'open_source_txt'.tr(),
               onTap: () => Navigator.of(context).pushNamed(Routes.open_source),
             ),
           ]
         ),
         SettingsGroup(
-          title: BStrings.about_title,
+          title: 'about_title'.tr(),
           children: [
             SettingsElement(
               icon: Image.asset("assets/app_logo.png", width: 24, height: 24,),
-              text: BStrings.about_balance_txt,
+              text: 'about_balance_txt'.tr(),
               onTap: () => showAboutBalanceDialog(context),
             ),
             SettingsElement(
-              text: "${BStrings.version_txt} ${packageInfo?.version} (${packageInfo?.buildNumber})",
+              text: "${'version_txt'.tr()} ${packageInfo?.version} (${packageInfo?.buildNumber})",
               onLongPress: () {
                   Scaffold.of(context)
                     .showSnackBar(
                       SnackBar(
                         behavior: SnackBarBehavior.floating,
-                        content: Text(BStrings.easter_egg_txt),
+                        content: Text('easter_egg_txt'.tr()),
                         duration: Duration(seconds: 2),
                       )
                   );
               }
             ),
             SettingsElement(
-              text: BStrings.made_with_heart_txt,
+              text: 'made_with_heart_txt'.tr(),
             ),
           ]
         ),

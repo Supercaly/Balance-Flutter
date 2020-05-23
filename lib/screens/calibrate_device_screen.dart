@@ -2,9 +2,9 @@
 import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/model/sensor_bias.dart';
 import 'package:balance_app/model/sensor_data.dart';
-import 'package:balance_app/res/string.dart';
 import 'package:balance_app/sensors/sensor_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// This Widget represent the Calibrate Device Screen
 ///
@@ -15,7 +15,7 @@ class CalibrateDeviceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(BStrings.calibrate_txt)),
+      appBar: AppBar(title: Text('calibrate_txt'.tr())),
       body: Container(
           padding: EdgeInsets.all(16.0),
           child: SensorWidget(
@@ -47,8 +47,8 @@ class CalibrateDeviceScreen extends StatelessWidget {
                               : () => controller.listen(),
                             child: Text(
                               state == SensorController.complete
-                                ? BStrings.start_calibration_btn
-                                : BStrings.calibrate_again_btn
+                                ? 'start_calibration_btn'.tr()
+                                : 'calibrate_again_btn'.tr()
                             ),
                           ),
                         )
@@ -77,12 +77,12 @@ class CalibrateDeviceScreen extends StatelessWidget {
               SizedBox(width: 300, height: 3, child: LinearProgressIndicator()),
               SizedBox(height: 32),
               Text(
-                BStrings.calibrating_txt,
+                'calibrating_txt'.tr(),
                 style: Theme.of(context).textTheme.headline5,
               ),
               SizedBox(height: 8),
               Text(
-                BStrings.do_not_move_the_device_txt,
+                'do_not_move_the_device_txt'.tr(),
                 style: Theme.of(context).textTheme.bodyText1,
                 textAlign: TextAlign.center,
               ),
@@ -94,7 +94,7 @@ class CalibrateDeviceScreen extends StatelessWidget {
       case SensorController.complete:
         return Container(
           child: Text(
-            BStrings.calibration_completed_txt,
+            'calibration_completed_txt'.tr(),
             style: Theme.of(context).textTheme.headline5,
           ),
         );
@@ -103,7 +103,7 @@ class CalibrateDeviceScreen extends StatelessWidget {
       default:
         return Container(
           child: Text(
-            BStrings.calibration_message_txt,
+            'calibration_message_txt'.tr(),
             style: Theme.of(context).textTheme.subtitle1,
             textAlign: TextAlign.center,
           ),

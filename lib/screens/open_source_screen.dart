@@ -1,5 +1,5 @@
 
-import 'package:balance_app/res/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Widget for displaying informations about open source dependencies
@@ -76,7 +76,7 @@ class OpenSourceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(BStrings.open_source_txt),
+        title: Text('open_source_txt'.tr()),
       ),
       body: ListView(
         children: dependenciesMap.map((e) => Card(

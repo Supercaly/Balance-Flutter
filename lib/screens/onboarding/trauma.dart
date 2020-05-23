@@ -1,5 +1,5 @@
 
-import 'package:balance_app/res/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/manager/preference_manager.dart';
 import 'package:balance_app/widgets/custom_checkbox.dart';
@@ -29,7 +29,7 @@ class TraumaScreen extends StatefulWidget {
 
 class _TraumaScreenState extends State<TraumaScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _otherTrauma = [BStrings.fractures_txt, BStrings.limb_operations_txt, BStrings.falls_txt, BStrings.distortions_txt, BStrings.head_trauma];
+  final _otherTrauma = ['fractures_txt'.tr(), 'limb_operations_txt'.tr(), 'falls_txt'.tr(), 'distortions_txt'.tr(), 'head_trauma'.tr()];
   List<bool> _selectedTrauma;
 
   @override
@@ -58,7 +58,7 @@ class _TraumaScreenState extends State<TraumaScreen> {
           children: <Widget>[
             SizedBox(height: 40),
             Text(
-              BStrings.other_trauma_title,
+              'other_trauma_title'.tr(),
               style: Theme.of(context).textTheme.headline4.copyWith(
                 fontSize: 36,
                 fontWeight: FontWeight.w500,

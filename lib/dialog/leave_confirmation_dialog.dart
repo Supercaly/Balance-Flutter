@@ -1,5 +1,5 @@
 
-import 'package:balance_app/res/string.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// Show a dialog to ask the user if he wants to close the app during the test.
@@ -10,8 +10,8 @@ Future<bool> showLeaveDialog(BuildContext context) {
   return showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text(BStrings.leave_dialog_title),
-      content: Text(BStrings.leave_dialog_msg),
+      title: Text('leave_dialog_title'.tr()),
+      content: Text('leave_dialog_msg'.tr()),
       actions: [
         // We don't want to leave
         FlatButton(
@@ -19,7 +19,7 @@ Future<bool> showLeaveDialog(BuildContext context) {
             // Close the dialog but not the app
             Navigator.pop(context, true);
           },
-          child: Text(BStrings.no),
+          child: Text('no'.tr()),
         ),
         // Stop the test and close the app
         FlatButton(
@@ -27,7 +27,7 @@ Future<bool> showLeaveDialog(BuildContext context) {
             // Close the dialog and the app
             Navigator.pop(context, false);
           },
-          child: Text(BStrings.yes),
+          child: Text('yes'.tr()),
         ),
       ],
     )

@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:balance_app/manager/vibration_manager.dart';
-import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:balance_app/routes.dart';
 import 'package:balance_app/res/colors.dart';
@@ -19,6 +18,7 @@ import 'package:balance_app/dialog/measuring_tutorial_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/countdown_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 /// Widget that manage the entire measuring process
 ///
@@ -126,7 +126,7 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
                 },
                 color: BColors.colorAccent,
                 child: Text(
-                  state is CountdownIdleState || state is CountdownCompleteState? BStrings.start_test_btn : BStrings.stop_test_btn,
+                  state is CountdownIdleState || state is CountdownCompleteState? 'start_test_btn'.tr() : 'stop_test_btn'.tr(),
                   style: Theme.of(context).textTheme.button.copyWith(color: Colors.white),
                 ),
               ),
@@ -134,8 +134,8 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
               CustomToggleButton(
                 onChanged: (selected) => context.bloc<CountdownBloc>()
                   .eyesOpen = (selected == 0)? true: false,
-                leftText: Text(BStrings.eyes_open),
-                rightText: Text(BStrings.eyes_closed),
+                leftText: Text('eyes_open'.tr()),
+                rightText: Text('eyes_closed').tr(),
               )
             ],
           );

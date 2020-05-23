@@ -3,12 +3,12 @@ import 'package:balance_app/bloc/measurements_bloc.dart';
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/floor/test_database_view.dart';
 import 'package:balance_app/res/b_icons.dart';
-import 'package:balance_app/res/string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_app/routes.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MeasurementsScreen extends StatelessWidget {
   @override
@@ -50,7 +50,7 @@ class MeasurementsScreen extends StatelessWidget {
         ),
         SizedBox(height: 42),
         Text(
-          BStrings.empty_txt,
+          'empty_txt'.tr(),
           style: Theme.of(context).textTheme.headline5.copyWith(
             fontWeight: FontWeight.w500,
           ),
@@ -74,7 +74,7 @@ class MeasurementsScreen extends StatelessWidget {
         ),
         SizedBox(height: 42),
         Text(
-          BStrings.error_txt,
+          'error_txt'.tr(),
           style: Theme.of(context).textTheme.headline5.copyWith(
             fontWeight: FontWeight.w500,
           ),
@@ -110,7 +110,7 @@ class MeasurementsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
-                "${BStrings.test_txt} ${test.id}",
+                "${'test_txt'.tr()} ${test.id}",
                 style: Theme.of(context).textTheme.headline4.copyWith(
                   fontSize: 28,
                   fontWeight: FontWeight.w500
@@ -135,7 +135,7 @@ class MeasurementsScreen extends StatelessWidget {
                 ),
                 SizedBox(width: 16),
                 Text(
-                  test.eyesOpen? BStrings.eyes_open: BStrings.eyes_closed,
+                  test.eyesOpen? 'eyes_open'.tr(): 'eyes_closed'.tr(),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ]),
