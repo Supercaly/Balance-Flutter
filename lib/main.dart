@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:balance_app/res/theme.dart';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:balance_app/generated/codegen_loader.g.dart';
 
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/manager/preference_manager.dart';
@@ -24,10 +25,11 @@ Future<void> main() async {
 	final dbInstance = await MeasurementDatabase.getDatabase();
 	runApp(
 		EasyLocalization(
+			child: BalanceApp(isFirstTimeLaunch, dbInstance),
 			supportedLocales: [Locale("en"), Locale("it")],
 			fallbackLocale: Locale("en"),
 			path: "assets/translations",
-			child: BalanceApp(isFirstTimeLaunch, dbInstance)
+			assetLoader: CodegenLoader(),
 		)
 	);
 }
