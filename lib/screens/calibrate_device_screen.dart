@@ -47,8 +47,8 @@ class CalibrateDeviceScreen extends StatelessWidget {
                               : () => controller.listen(),
                             child: Text(
                               state == SensorController.complete
-                                ? 'start_calibration_btn'.tr()
-                                : 'calibrate_again_btn'.tr()
+                                ? 'calibrate_again_btn'.tr()
+                                : 'start_calibration_btn'.tr()
                             ),
                           ),
                         )

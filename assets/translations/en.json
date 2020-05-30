@@ -3,7 +3,7 @@
   "tests_txt": "Tests",
   "settings_txt": "Settings",
   "calibrate_txt": "Calibrate Device",
-  "calibration_message_txt": "Metti il dispositivo su una superficie piana, come un tavolo, poi premi il tasto inizia calibrazione. Ci vorranno circa 10 secondi, per favore non toccare il dispositivo durante questo periodo.",
+  "calibration_message_txt": "Place the device on a flat surface, such as a table, then press the Start calibration button. It will take about 10 seconds, please don't touch the device during this time.",
   "calibrating_txt": "Calibrating...",
   "do_not_move_the_device_txt": "Don't move the device until the calibration is completed",
   "calibration_completed_txt": "Calibration completed!",
