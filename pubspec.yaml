@@ -51,8 +51,11 @@ dev_dependencies:
       ref: dart2
       path: sqflite_ffi_test
 
-  # Build Runner dependencies
+  # Build Runner dev dependencies
   build_runner: ^1.7.4
+
+  # About Dependencies dev dependencies
+  about_dependencies: ^0.0.1
 
 flutter:
   uses-material-design: true

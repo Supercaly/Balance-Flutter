@@ -1,4 +1,5 @@
 
+import 'package:balance_app/res/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_app/res/theme.dart';
@@ -30,6 +31,7 @@ Future<void> main() async {
 			fallbackLocale: Locale("en"),
 			path: "assets/translations",
 			assetLoader: CodegenLoader(),
+			preloaderColor: BColors.colorPrimary,
 		)
 	);
 }
