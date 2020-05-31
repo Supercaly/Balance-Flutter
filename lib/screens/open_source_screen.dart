@@ -20,18 +20,18 @@ class OpenSourceScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  e["name"],
+                  e["name"] ?? "",
                   style: Theme.of(context).textTheme.headline5,
                 ),
                 Divider(),
                 SizedBox(height: 4.0),
                 Text(
-                  e["description"],
+                  e["description"] ?? "",
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
                 SizedBox(height: 16.0),
                 Text(
-                  e["version"],
+                  e["version"] ?? "",
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
               ],
