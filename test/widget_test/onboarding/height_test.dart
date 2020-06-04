@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:balance_app/screens/onboarding/height.dart';
@@ -7,19 +8,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:balance_app/bloc/onboarding_bloc.dart';
 
 void main() {
-
   testWidgets("No initial value", (tester) async{
     await tester.pumpWidget(
-      MaterialApp(
-        home: BlocProvider(
-          create: (context) => OnBoardingBloc.create(),
-          child: HeightScreen(
-            0,
-            (_) {},
+      EasyLocalization(
+        child: MaterialApp(
+          home: BlocProvider(
+            create: (context) => OnBoardingBloc.create(),
+            child: HeightScreen(
+              0,
+              (_) {},
+            ),
           ),
         ),
+        supportedLocales: [Locale("en")],
+        saveLocale: false,
+        path: "assets/translations",
       )
     );
+    await tester.idle();
+    await tester.pumpAndSettle();
 
     final heightEditTextFinder = find.text("Height");
     expect(heightEditTextFinder, findsOneWidget);
@@ -27,17 +34,24 @@ void main() {
 
   testWidgets("Initial value", (tester) async{
     await tester.pumpWidget(
-      MaterialApp(
-        home: BlocProvider(
-          create: (context) => OnBoardingBloc.create(),
-          child: HeightScreen(
-            0,
-            (_) {},
-            height: "123.4",
+      EasyLocalization(
+        child: MaterialApp(
+          home: BlocProvider(
+            create: (context) => OnBoardingBloc.create(),
+            child: HeightScreen(
+              0,
+              (_) {},
+              height: "123.4",
+            ),
           ),
         ),
+        supportedLocales: [Locale("en")],
+        saveLocale: false,
+        path: "assets/translations",
       )
     );
+    await tester.idle();
+    await tester.pumpAndSettle();
 
     final heightEditTextFinder = find.text("123.4");
     expect(heightEditTextFinder, findsOneWidget);
@@ -45,18 +59,24 @@ void main() {
 
   testWidgets("Write some value", (tester) async{
     await tester.pumpWidget(
-      MaterialApp(
-        home: BlocProvider(
-          create: (context) => OnBoardingBloc.create(),
-          child: HeightScreen(
-            0,
-            (e) {
-              prints(e);
-            },
+      EasyLocalization(
+        child: MaterialApp(
+          home: BlocProvider(
+            create: (context) => OnBoardingBloc.create(),
+            child: HeightScreen(
+              0,
+              (_) => {},
+            ),
           ),
         ),
+        supportedLocales: [Locale("en")],
+        saveLocale: false,
+        path: "assets/translations",
       )
     );
+    await tester.idle();
+    await tester.pumpAndSettle();
+
 
     await tester.enterText(find.byType(CustomNumberFormField), "105.0");
     expect(find.text("105.0"), findsOneWidget);
