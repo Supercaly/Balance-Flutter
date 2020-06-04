@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:balance_app/res/theme.dart';
 
+import 'package:intl/date_symbol_data_local.dart' as intl;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:balance_app/generated/codegen_loader.g.dart';
 
@@ -24,6 +25,7 @@ Future<void> main() async {
 	// Create an app-wide instance of the database
 	final isFirstTimeLaunch = await PreferenceManager.isFirstTimeLaunch;
 	final dbInstance = await MeasurementDatabase.getDatabase();
+	await intl.initializeDateFormatting("en");
 	runApp(
 		EasyLocalization(
 			child: BalanceApp(isFirstTimeLaunch, dbInstance),

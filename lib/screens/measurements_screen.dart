@@ -21,13 +21,15 @@ class MeasurementsScreen extends StatelessWidget {
             return _emptyScreen(context);
           else if (state is MeasurementsError)
             return _errorScreen(context);
-          else if (state is MeasurementsSuccess)
+          else if (state is MeasurementsSuccess) {
+            state.tests.sort((a, b) => b.creationDate.compareTo(a.creationDate));
             return ListView.builder(
               padding: EdgeInsets.symmetric(vertical: 8),
               itemBuilder: (context, index) =>
                 _measurementItemTemplate(context, state.tests[index]),
               itemCount: state.tests.length,
             );
+          }
           else
             return _loadingScreen(context);
         }
@@ -121,8 +123,7 @@ class MeasurementsScreen extends StatelessWidget {
                 Icon(BIcons.calendar),
                 SizedBox(width: 16),
                 Text(
-                  // TODO: 22/04/20 Fix date problem
-                  DateTime.fromMillisecondsSinceEpoch(test.creationDate).toString(),
+                  DateFormat("yyyy-MM-dd HH:mm:ss").format(DateTime.fromMillisecondsSinceEpoch(test.creationDate)),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ]),
