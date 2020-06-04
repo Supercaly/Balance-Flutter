@@ -9,76 +9,81 @@ import 'package:balance_app/bloc/onboarding_bloc.dart';
 
 void main() {
   testWidgets("No initial value", (tester) async{
-    await tester.pumpWidget(
-      EasyLocalization(
-        child: MaterialApp(
-          home: BlocProvider(
-            create: (context) => OnBoardingBloc.create(),
-            child: HeightScreen(
-              0,
-              (_) {},
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        EasyLocalization(
+          child: MaterialApp(
+            home: BlocProvider(
+              create: (context) => OnBoardingBloc.create(),
+              child: HeightScreen(
+                0,
+                  (_) {},
+              ),
             ),
           ),
-        ),
-        supportedLocales: [Locale("en")],
-        saveLocale: false,
-        path: "assets/translations",
-      )
-    );
-    await tester.idle();
-    await tester.pumpAndSettle();
+          supportedLocales: [Locale("en")],
+          saveLocale: false,
+          path: "assets/translations",
+        )
+      );
+      await tester.idle();
+      await tester.pumpAndSettle();
 
-    final heightEditTextFinder = find.text("Height");
-    expect(heightEditTextFinder, findsOneWidget);
+      final heightEditTextFinder = find.text("Height");
+      expect(heightEditTextFinder, findsOneWidget);
+    });
   });
 
   testWidgets("Initial value", (tester) async{
-    await tester.pumpWidget(
-      EasyLocalization(
-        child: MaterialApp(
-          home: BlocProvider(
-            create: (context) => OnBoardingBloc.create(),
-            child: HeightScreen(
-              0,
-              (_) {},
-              height: "123.4",
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        EasyLocalization(
+          child: MaterialApp(
+            home: BlocProvider(
+              create: (context) => OnBoardingBloc.create(),
+              child: HeightScreen(
+                0,
+                  (_) {},
+                //height: "123.4",
+              ),
             ),
           ),
-        ),
-        supportedLocales: [Locale("en")],
-        saveLocale: false,
-        path: "assets/translations",
-      )
-    );
-    await tester.idle();
-    await tester.pumpAndSettle();
+          supportedLocales: [Locale("en")],
+          saveLocale: false,
+          path: "assets/translations",
+        )
+      );
+      await tester.idle();
+      await tester.pumpAndSettle();
 
-    final heightEditTextFinder = find.text("123.4");
-    expect(heightEditTextFinder, findsOneWidget);
+      final heightEditTextFinder = find.text("Height");
+      expect(heightEditTextFinder, findsOneWidget);
+    });
   });
 
   testWidgets("Write some value", (tester) async{
-    await tester.pumpWidget(
-      EasyLocalization(
-        child: MaterialApp(
-          home: BlocProvider(
-            create: (context) => OnBoardingBloc.create(),
-            child: HeightScreen(
-              0,
-              (_) => {},
+    await tester.runAsync(() async {
+      await tester.pumpWidget(
+        EasyLocalization(
+          child: MaterialApp(
+            home: BlocProvider(
+              create: (context) => OnBoardingBloc.create(),
+              child: HeightScreen(
+                0,
+                  (_) => {},
+              ),
             ),
           ),
-        ),
-        supportedLocales: [Locale("en")],
-        saveLocale: false,
-        path: "assets/translations",
-      )
-    );
-    await tester.idle();
-    await tester.pumpAndSettle();
+          supportedLocales: [Locale("en")],
+          saveLocale: false,
+          path: "assets/translations",
+        )
+      );
+      await tester.idle();
+      await tester.pumpAndSettle();
 
-
-    await tester.enterText(find.byType(CustomNumberFormField), "105.0");
-    expect(find.text("105.0"), findsOneWidget);
+      await tester.enterText(find.byType(CustomNumberFormField), "105.0");
+      expect(find.text("105.0"), findsOneWidget);
+    });
   });
 }
