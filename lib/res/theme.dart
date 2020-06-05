@@ -11,7 +11,6 @@ final ThemeData lightTheme = ThemeData.light().copyWith(
   primaryColorDark: BColors.colorPrimaryDark,
   accentColor: BColors.colorAccent,
   accentColorBrightness: Brightness.dark,
-  // TODO: 02/03/20 Sostituire con il colore migliore
   hintColor: Color( 0x8a000000 ),
   errorColor: Color( 0xffd32f2f ),
   scaffoldBackgroundColor: Color(0xFFFBFBFF),
@@ -133,7 +132,6 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
   // Theme colors
   accentColor: BColors.colorAccent,
   accentColorBrightness: Brightness.dark,
-  // TODO: 02/03/20 Sostituire con il colore migliore
   hintColor: Color( 0x8a000000 ),
   errorColor: Color( 0xffd32f2f ),
   scaffoldBackgroundColor: Color(0xFF121212),
@@ -224,7 +222,7 @@ final ThemeData darkTheme = ThemeData.dark().copyWith(
     ),
   ),
   floatingActionButtonTheme: FloatingActionButtonThemeData(
-    foregroundColor: BColors.colorAccent,
+    backgroundColor: BColors.colorAccent,
   ),
   cardTheme: CardTheme(
     elevation: 4,

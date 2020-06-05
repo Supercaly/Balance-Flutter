@@ -37,12 +37,10 @@ class ResultInfoItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Icon(
-                  // TODO: 05/04/20 Fix the error icon
                   test.eyesOpen? BIcons.eye_open: BIcons.eye_close,
                 ),
                 SizedBox(width: 16),
                 Text(
-                  // TODO: 05/04/20 Fix the error text
                   test.eyesOpen? 'eyes_open'.tr(): 'eyes_closed'.tr(),
                   style: Theme.of(context).textTheme.bodyText1,
                 )

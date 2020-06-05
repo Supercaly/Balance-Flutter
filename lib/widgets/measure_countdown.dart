@@ -117,12 +117,16 @@ class _MeasureCountdownState extends State<MeasureCountdown> with WidgetsBinding
                     else
                       context.bloc<CountdownBloc>().add(CountdownEvents.startPreMeasure);
                   }
-                  else if (state is CountdownPreMeasureState)
+                  else if (state is CountdownPreMeasureState) {
                     // Stop the pre measure countdown
+                    vibrationManager.cancel();
                     context.bloc<CountdownBloc>().add(CountdownEvents.stopPreMeasure);
-                  else if (state is CountdownMeasureState)
+                  }
+                  else if (state is CountdownMeasureState) {
                     // Stop the measurement
+                    vibrationManager.cancel();
                     context.bloc<CountdownBloc>().add(CountdownEvents.stopMeasure);
+                  }
                 },
                 color: BColors.colorAccent,
                 child: Text(

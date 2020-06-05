@@ -44,9 +44,7 @@ class _SensorWidgetState extends State<SensorWidget> with WidgetsBindingObserver
 
   @override
   Future<bool> didPopRoute() {
-    // TODO: 16/03/20 Display a dialog asking the user if he wants to cancel
     // Cancel the SensorController when the back button is pressed
-    // TODO: 31/03/20 Cancel the sensor controller only if it's measuring
     _controller.cancel();
     return Future.value(false);
   }
