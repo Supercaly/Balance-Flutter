@@ -10,7 +10,8 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="balance_app"
         android:icon="@mipmap/ic_launcher_full_b"
-        android:roundIcon="@mipmap/ic_launcher_full_b_round">
+        android:roundIcon="@mipmap/ic_launcher_full_b_round"
+        android:allowBackup="false">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
