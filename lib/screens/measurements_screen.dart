@@ -3,6 +3,7 @@ import 'package:balance_app/bloc/measurements_bloc.dart';
 import 'package:balance_app/floor/measurement_database.dart';
 import 'package:balance_app/floor/test_database_view.dart';
 import 'package:balance_app/res/b_icons.dart';
+import 'package:balance_app/utils/boolean_quaternary_operator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -112,7 +113,7 @@ class MeasurementsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Text(
-                "${'test_txt'.tr()} ${test.id}",
+                "${'test_txt'.tr()} ${test?.id ?? ""}",
                 style: Theme.of(context).textTheme.headline4.copyWith(
                   fontSize: 28,
                   fontWeight: FontWeight.w500
@@ -130,13 +131,11 @@ class MeasurementsScreen extends StatelessWidget {
               SizedBox(height: 8),
               Row(children: <Widget>[
                 Icon(
-                  test.eyesOpen?
-                    BIcons.eye_open:
-                    BIcons.eye_close,
+                  bqtop(test?.eyesOpen, BIcons.eye_open, BIcons.eye_close),
                 ),
                 SizedBox(width: 16),
                 Text(
-                  test.eyesOpen? 'eyes_open'.tr(): 'eyes_closed'.tr(),
+                  bqtop(test?.eyesOpen, 'eyes_open'.tr(), 'eyes_closed'.tr(), "-"),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ]),

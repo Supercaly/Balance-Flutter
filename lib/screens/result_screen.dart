@@ -94,7 +94,7 @@ class ResultScreen extends StatelessWidget {
     ResultSuccess success
   ) => CustomScrollView(slivers: <Widget>[
     SliverAppBar(
-      title: Text("${'test_txt'.tr()} ${test?.id}"),
+      title: Text("${'test_txt'.tr()} ${test?.id ?? ""}"),
       floating: false,
       actions: [
         PopupMenuButton<String>(

@@ -1,6 +1,7 @@
 
 import 'package:balance_app/floor/test_database_view.dart';
 import 'package:balance_app/res/b_icons.dart';
+import 'package:balance_app/utils/boolean_quaternary_operator.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -37,11 +38,11 @@ class ResultInfoItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Icon(
-                  test.eyesOpen? BIcons.eye_open: BIcons.eye_close,
+                  bqtop(test?.eyesOpen, BIcons.eye_open, BIcons.eye_close),
                 ),
                 SizedBox(width: 16),
                 Text(
-                  test.eyesOpen? 'eyes_open'.tr(): 'eyes_closed'.tr(),
+                  bqtop(test?.eyesOpen, 'eyes_open'.tr(), 'eyes_closed'.tr(), "-"),
                   style: Theme.of(context).textTheme.bodyText1,
                 )
               ],
