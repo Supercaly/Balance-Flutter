@@ -1,4 +1,4 @@
-package it.uniurb.balance_app.model
+package srl.digit.balance.model
 
 /**
  * Class representing the data collected by the sensors
