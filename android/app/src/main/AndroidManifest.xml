@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="balance_app"
+        android:label="Balance"
         android:icon="@mipmap/ic_launcher_full_b"
         android:roundIcon="@mipmap/ic_launcher_full_b_round"
         android:allowBackup="false">
