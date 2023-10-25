@@ -1,0 +1,72 @@
+\documentclass[a4paper,singleside,11pt]{report}
+
+\usepackage{ia_urb_thesis}
+\usepackage[italian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,
+	    amsfonts,
+	    amstext,
+		amssymb,
+	    mathrsfs,
+	    stmaryrd,
+	    latexsym,
+		listings,
+	    proof,
+	    graphicx,
+	    epsfig,
+	    color,
+		comment,
+		subcaption,
+		url
+}
+\usepackage{minted}
+\usemintedstyle{paraiso-light}
+\setminted{
+	breakbytoken,
+	breaklines,
+	autogobble,
+	linenos,
+	frame=leftline,
+	stripall,
+}
+
+\graphicspath{figures}
+
+\begin{document}
+
+\titolo{Progettazione e Sviluppo
+		di un'applicazione per analisi stabilometrica
+		tramite Smartphone}
+\candidato{Lorenzo Calisti}
+\relatore{Chiar.mo Prof.~Emanuele Lattanzi}
+\annoaccademico{2019-2020}
+
+\copertinatesi 
+\dedica{Ai miei genitori Terenzio e Marisa,\\ a mio zio Roberto \\  e alle nonne Censa e Zina.}
+\indice
+\indicefigure
+\iniziatesto
+
+\include{sources/cap_1}
+\include{sources/cap_2}
+\include{sources/cap_3}
+\include{sources/cap_4}
+\include{sources/cap_5}
+\include{sources/cap_6}
+
+\include{sources/biblio}
+
+\ringraziamenti
+Vorrei ringraziare di cuore tutte le persone che mi hanno permesso di arrivare fin qui e di portare a termine questo lavoro di tesi.
+
+Un ringraziamento speciale va al Prof. Lattanzi per i suoi indispensabili consigli, per le conoscenze trasmesse e per la sua infinita disponibilità in ogni passo della realizzazione dell'elaborato, fin dalla scelta dell'argomento.
+
+Ringrazio infinitamente la mia famiglia, senza i loro insegnamenti e senza il loro supporto, questo lavoro di tesi non esisterebbe nemmeno.
+
+Ringrazio tutti i miei amici per essere stati sempre presenti anche durante quest'ultima fase del mio percorso di studi.
+
+Infine, dedico questa tesi a me stesso, ai miei sacrifici e alla mia tenacia che mi hanno permesso di arrivare fin qui.
+
+\end{document}

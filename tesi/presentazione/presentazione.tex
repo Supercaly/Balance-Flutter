@@ -1,0 +1,230 @@
+\documentclass{beamer}
+\usepackage{subfig}
+\usepackage{multicol}
+
+\usetheme[subsectionpage=progressbar]{metropolis}
+
+\titlegraphic{%
+    \hfill
+    \includegraphics[width=.4\textwidth]{../logo-uniurb-2016.jpg}
+}
+
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}[subsections numbered]
+
+\makeatletter
+\setbeamertemplate{title page}{
+  \begin{minipage}[b][\paperheight]{\textwidth}
+    \vfill%
+    \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
+    \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
+    \usebeamertemplate*{title separator}
+    \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+    \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+    \vspace*{.3cm}
+    \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+    \vfill
+    \ifx\inserttitlegraphic\@empty\else\inserttitlegraphic\fi
+    \vspace*{1cm}
+  \end{minipage}
+}
+
+\makeatother
+%-----------------------------------------------
+%--------------- Copertina ---------------------
+%-----------------------------------------------
+\title{Progettazione e sviluppo di un'applicazione per analisi stabilometrica tramite smartphone}
+\author{Lorenzo Calisti}
+\institute{Corso di Laurea in Informatica Applicata \\ Anno accademico 2019-2020}
+\date{26-06-2020}
+
+%-----------------------------------------------
+%---------------- Slides -----------------------
+%-----------------------------------------------
+\begin{document}
+    \begin{frame}
+        \maketitle
+    \end{frame}
+    
+    \begin{frame}{Indice}
+        \begin{multicols}{2}
+        %\tableofcontents[hideallsubsections]   
+        \tableofcontents
+        \end{multicols}
+    \end{frame}
+
+    \begin{frame}{Download}
+        \centering
+        \includegraphics[scale=.6]{../figures/qrcode.png}
+        \vspace{1em}
+        \\
+        {\itshape https://play.google.com/store/apps/details?id=srl.digit.balance}
+    \end{frame}
+
+    \section{L'analisi dell'equilibrio}
+    %\section{Le pedane di forza}
+    \begin{frame}{Le pedane di forza}
+        \centering
+        \includegraphics[scale=0.45]{../figures/pedana.png}
+    \end{frame}
+    \begin{frame}{Le pedane di forza}
+        \centering
+        \includegraphics[scale=0.3]{../figures/statokinesigramma.jpg}
+    \end{frame}
+
+    \subsection{Il pendolo inverso}
+    \begin{frame}{Il pendolo inverso}
+        \centering
+        \includegraphics[scale=.35]{../figures/single_inverted_pendulum.png}
+    \end{frame}
+
+    \subsection{Le features}
+    \begin{frame}{Le features}
+        \begin{itemize}
+            \item Features nel dominio del tempo
+            \pause
+            \item Features nel dominio della frequenza
+            \pause
+            \item Features strutturali
+            \pause
+            \item Features giroscopiche
+        \end{itemize}
+    \end{frame}
+
+    \section{I sensori negli smartphone}
+    \begin{frame}{I sensori negli smartphone}
+        \begin{itemize}
+            \item accelerometro
+            \pause
+            \item giroscopio
+            \pause
+            \item gps
+            \pause
+            \item sensori di prossimità
+            \pause
+            \item lettore di impronte digitali
+            \pause
+            \item sensore d'umidità
+            \pause
+            \item termometro
+            \pause
+            \item cardiofrequenzimetro
+        \end{itemize}
+    \end{frame}
+    
+    \begin{frame}{Accelerometro e Giroscopio}
+        \begin{figure}
+            \centering
+            \subfloat{\includegraphics[scale=0.266]{../figures/accelerometer.jpg}}
+            \subfloat{\includegraphics[scale=0.2]{../figures/gyroscope.jpg}}
+        \end{figure}
+    \end{frame}
+
+    \section{Precedente sviluppo in Android}
+    \begin{frame}{Precedente sviluppo in Android}
+        \centering
+        \includegraphics[scale=0.08]{../figures/android_kotlin.png}
+    \end{frame}
+
+    \section{Mockup con Figma}
+    \begin{frame}
+        \begin{figure}
+            \centering
+            \includegraphics[width=\textwidth]{../figures/figma.png}
+        \end{figure}
+    \end{frame}
+    
+    \section{L'applicazione}
+    \begin{frame}
+        \centering
+        \includegraphics[scale=0.17]{../figures/flutter_dart.png}
+    \end{frame}
+
+    \subsection{Il Test della postura}
+    \begin{frame}{Il test della postura}
+        \centering
+        \includegraphics[scale=0.09]{../figures/screenshot/redmi_note_8t/home.png}
+    \end{frame}
+    \begin{frame}{Il test della postura}
+        \centering
+        \includegraphics[scale=0.09]{../figures/screenshot/redmi_note_8t/home_measure.png}
+    \end{frame}
+    \begin{frame}{Il test della postura}
+        \centering
+        \includegraphics[scale=0.09]{../figures/screenshot/redmi_note_8t/home_measuring.png}
+    \end{frame}
+
+    \subsection{Plugin per la lettura dei sensori}
+    \begin{frame}{Plugin per la lettura dei sensori}
+        Una libreria di codice in grado di chiamare API specifiche della piattaforma per {\bfseries ottenere più prestazioni} e {\bfseries utilizzare funzionalità specifiche della piattaforma}.
+    \end{frame}
+    \begin{frame}{Plugin per la lettura dei sensori}
+        \begin{enumerate}
+            \item configurare il tempo di lettura a priori
+            \pause
+            \item annullare la lettura prima del termine
+            \pause
+            \item ottenere una sequenza con frequenza di 100Hz
+        \end{enumerate}
+    \end{frame}
+
+    \subsection{Il Flutter Isolate}
+    \begin{frame}{Il Flutter Isolate}
+        \centering
+        \includegraphics[scale=0.5]{../figures/isolate.png}
+    \end{frame}
+
+    \subsection{Dati ottenuti dall'analisi}
+    \begin{frame}{Dati ottenuti dall'analisi}
+        \begin{figure}
+            \subfloat{\includegraphics[scale=0.09]{../figures/screenshot/redmi_note_8t/result.png}}
+            \hspace{3em}
+            \subfloat{\includegraphics[scale=0.09]{../figures/screenshot/redmi_note_8t/result_bottom.png}}
+        \end{figure}
+    \end{frame}
+
+    \subsection{Dati d'anamnesi}
+    \begin{frame}{Dati d'anamnesi}
+        \begin{itemize}
+            \item altezza
+            \pause
+            \item età
+            \pause
+            \item genere
+            \pause
+            \item peso
+            \pause
+            \item problemi di postura
+            \pause
+            \item problemi di postura in famiglia
+            \pause
+            \item uso di farmaci che interferiscono con la postura
+            \pause
+            \item altri traumi
+            \pause
+            \item difetti visivi/uditivi
+        \end{itemize}
+    \end{frame}
+    \begin{frame}{Dati d'anamnesi}
+        \begin{figure}
+            \subfloat{\includegraphics[scale=0.09]{../figures/screenshot/redmi_note_8t/height.png}}
+            \hspace{0.3em}
+            \subfloat{\includegraphics[scale=0.09]{../figures/screenshot/redmi_note_8t/general_info.png}}
+            \hspace{0.3em}
+            \subfloat{\includegraphics[scale=0.09]{../figures/screenshot/redmi_note_8t/posture.jpg}}
+        \end{figure}
+    \end{frame}
+
+    \section{Sviluppi futuri}
+    \begin{frame}{Sviluppi futuri}
+        \begin{itemize}
+            \item implementazione e il testing in IOS
+            \pause
+            \item implementazione di un database remoto
+            \pause
+            \item miglioramento dei dati d'anamnesi
+        \end{itemize}
+    \end{frame}
+
+    \section{Domande?}
+\end{document}

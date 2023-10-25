@@ -1,0 +1,60 @@
+# Test e risultati
+
+L'applicazione è stata testata su molti dispositivi Android di diverse marche e con differenti versioni del sistema operativo; i due smartphone utilizzati principalmente durante lo sviluppo sono: Huawei Nova Plus con Android 7 e Xiaomi Redmi Note 8T con Android 9. Come detto anche nel precedente capitolo il testing su IOS è oggetto di sviluppi futuri dunque d'ora in avanti la tesi farà riferimento solo alla versione Android dell'applicazione.
+
+## Casi d'uso
+
+Di seguito sono riportati i diversi casi d'uso dell'applicazione [Figura ]
+
+<img src="../../figures/use_case_diagram.png" width=800/>
+
+### primo avvio
+Durante il primo avvio l'utente è portato in una schermata di onboarding dove passa attraverso diverse pagine [Figura ]. Inizialmente si da il benvenuto all'utente nell'applicazione, in seguito sono chiesti i suoi dati d'anamnesi impiegando una differente schermata per ogni categoria. I dati d'anamnesi sono divisi in:
+* Altezza
+* Informazioni generali
+* Problemi posturali
+* Precedenti traumatici
+* Difetti visivi/uditivi
+
+<img src="../../figures/screenshot/redmi_note_8t/welcome.png" width=200>
+<img src="../../figures/screenshot/redmi_note_8t/height.png" width=200>
+<img src="../../figures/screenshot/redmi_note_8t/general_info.png" width=200>
+
+### home e misurazione della postura
+Dopo il primo avvio, ogni volta che l'utente aprirà l'applicazione vedrà questa pagina per prima [Figura ]; questo per dare rapido accesso alla funzionalità principale: eseguire un nuovo test. Per iniziare la misurazione l'utente deve premere il bottone **inizia test**, immediatamente apparirà un timer della durata di 5 secondi [Figura ], dopo questo tempo, utile per mettersi in posizione, inizierà la misurazione vera e propria dei sensori [Figura ]
+
+<img src="../../figures/screenshot/redmi_note_8t/home.png" width=200>
+<img src="../../figures/screenshot/redmi_note_8t/home_measure.png" width=200>
+<img src="../../figures/screenshot/redmi_note_8t/home_measuring.png" width=200>
+
+### test eseguiti in precedenza
+L'utente può consultare lo storico di tutti i test eseguiti nell'apposita pagina [Figura ], qui ogni test è elencato sotto forma di lista ordinata per data di creazione.
+
+<img src="../../figures/screenshot/redmi_note_8t/measurtements.png" width=200>
+
+### impostazioni
+Qui l'utente può accedere a diverse pagine tra le quali: la calibrazione del dispositivo, il riepilogo dei dati personali, le informazioni riguardo le dipendenze utilizzate e maggiori informazioni sull'applicazione [Figura ].
+
+<img src="../../figures/screenshot/redmi_note_8t/settings.png" width=200>
+
+### calibrazione del dispositivo
+Per regolare l'accuratezza dei sensori, rimuovendo eventuali errori nella taratura di fabbrica o difetti di produzione, l'utente è tenuto almeno una volta ad eseguire la calibrazione del proprio smartphone ed è proprio in questa schermata [Figura ] viene eseguita. Premendo il bottone **Inizia Calibrazione** si da inizio al processo di calibrazione della durata di 10 secondi [Figura ].
+
+<img src="../../figures/screenshot/redmi_note_8t/calibrate.png" width=200>
+<img src="../../figures/screenshot/redmi_note_8t/calibrating.png" width=200>
+
+### riepilogo dei dati personali
+In questa schermata è possibile vedere il riepilogo di tutti i dati d'anamnesi inseriti durante il primo avvio [Figura ], inoltre è possibile modificarli, premendo sul bottone con l'icona a forma di matita posto in basso, così facendo si verrà riportati nelle schermate di onboarding solo che questa volta i campi saranno precompilati con i dati inseriti in precedenza e sarà quindi possibile modificarli [Figura ].
+
+<img src="../../figures/screenshot/redmi_note_8t/your_info.png" width=200>
+<img src="../../figures/screenshot/redmi_note_8t/height_precompiled.png" width=200>
+
+### risultati di un test
+Lo scopo di questa schermata è mostrare all'utente i risultati prodotti da un determinato test; l'intera pagina è raggruppata in diverse sezioni [Figura ] e [Figura ]: la prima card contiene le informazioni generali sul test (data in cui è stato effettuato e se era ad occhi aperti oppure chiusi); nella seconda sono inseriti i grafici di statokinesigramma e stabilogramma, nelle restanti sono elencati i valori delle features viste nel [capitolo 2].
+
+<img src="../../figures/screenshot/redmi_note_8t/result.png" width=200>
+<img src="../../figures/screenshot/redmi_note_8t/result_bottom.png" width=200>
+
+## Il database
+
+Internamente l'applicazione utilizza diversi metodi per salvare i dati a seconda del loro tipo. I valori dei sensori non elaborati, le features e le misure di stabilogramma sono contenuti in un database di tipo SQLite utilizzando le query SQL per manipolarli. I dati d'anamnesi, i bias dei sensori e diversi flag (flag per il primo avvio, flag per la calibrazione dei sensori, ecc) sono invece salvati come stringhe in coppie chiave-valore utilizzando le SharedPreferences in Android e NSUserDefaults in IOS. Questo meccanismo in futuro può essere facilmente esteso integrando un database ospitato su un server remoto che fa uso di un API Rest per gestire i dati e rappresenta ogni utente come un id univoco. Dal lato dell'applicazione l'integrazione è piuttosto semplice, la struttura interna rappresenta le basi di dati come delle repository astraendo la vera origine che può essere sia interna al dispositivo che remota.
